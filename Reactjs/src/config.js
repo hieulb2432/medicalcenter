@@ -1,4 +1,4 @@
-export default {
+const config = {
     api: {
         API_BASE_URL: "http://localhost:8080/",
         ROUTER_BASE_NAME: null,
@@ -11,3 +11,5 @@ export default {
         ROUTER_BASE_NAME: null,
     }
 };
+
+export default config;
