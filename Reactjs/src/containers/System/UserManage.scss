@@ -46,3 +46,14 @@
     color           : red;
   }
 }
+
+.modal-user-container {
+  .modal-header {
+    button {
+      background-color: transparent;
+      border          : none;
+      color           : white;
+      font-size       : 27px;
+    }
+  }
+}
