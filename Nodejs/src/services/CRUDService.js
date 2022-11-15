@@ -74,7 +74,8 @@ let updateUserData = (data) => {
     return new Promise(async(resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: { id: data.id }
+                where: { id: data.id },
+                raw: false
             })
             if (user) {
                 user.firstName = data.firstName;
@@ -96,7 +97,8 @@ let deleteUserById = (userId) => {
     return new Promise(async(resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: { id: userId }
+                where: { id: userId },
+                raw: false,
             })
             if (user) {
                 await user.destroy();
