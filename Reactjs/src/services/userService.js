@@ -1,7 +1,8 @@
 import axios from '../axios';
 
 const handleLoginApi = (email, password) => {
-  return axios.post('/api/login', { email, password });
+  console.log('acc')
+  return axios.post('/api/login', {email, password});
 };
 
 export const getAllUsers = (id) => {
@@ -21,4 +22,6 @@ export const editUserService = (id) => {
   return axios.put('/api/edit-user', id);
 }
 
-export default {handleLoginApi};
+export { 
+  handleLoginApi,
+}

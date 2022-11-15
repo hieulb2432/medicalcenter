@@ -5,7 +5,7 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
-import handleLoginApi from '../../services/userService';
+import {handleLoginApi} from '../../services/userService';
 
 class Login extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class Login extends Component {
         }
     }
 
-    handleOnChangeUsername = (event) => {
+    handleOnChangeUsername = async (event) => {
         this.setState({ 
             username: event.target.value
         })
@@ -31,27 +31,33 @@ class Login extends Component {
     }
 
     handleLogin = async () => {
-        this.setState({ errMessage: '' });
+        console.log('abc')
+        this.setState({
+            errMessage: ''
+        })
+        let data = {}
         try {
-          let data = await handleLoginApi(this.state.username, this.state.password);
-    
-          if (data && data.errCode !== 0) {
-            this.setState({
-              errMessage: data.message,
-            });
-          }
-    
-          if (data && data.errCode === 0) {
-            this.props.userLoginSuccess(data.user);
-          }
-        } catch (error) {
-          if (error.response) {
-            if (error.response.data) {
-              this.setState({ errMessage: error.response.data.message });
+            data = await handleLoginApi(this.state.username, this.state.password);
+            console.log('check data', data)
+            if(data && data.errCode !== 0) {
+                this.setState({
+                    errMessage: data.message
+                })
             }
-          }
+            if(data && data.errCode === 0) {
+                this.props.userLoginSuccess(data.user)
+            }
+        } catch (err) {
+            console.log(err)
+            if(err.response) {
+                if(err.response.data) {
+                    this.setState({
+                        errMessage: err.response.data.message
+                    })
+                }
+            }
         }
-      };
+    }
 
     handleShowHidePassword = () => {
         this.setState({
