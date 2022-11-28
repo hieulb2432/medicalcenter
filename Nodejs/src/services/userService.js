@@ -124,6 +124,7 @@ let getAllUsers = (userId) => {
             gender: data.gender,
             roleId: data.roleId,
             positionId: data.positionId,
+            image: data.avatar,
           });
           resolve({
             errCode: 0,
@@ -183,6 +184,9 @@ let getAllUsers = (userId) => {
           user.gender = data.gender;
           user.positionId = data.positionId;
           user.phoneNumber = data.phoneNumber
+          if (data.avatar) {
+            user.image = data.avatar
+          }
           await user.save();
           resolve({
             errCode: 0,
