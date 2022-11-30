@@ -32,6 +32,10 @@
   .slick-next {
     right: -15px;
   }
+
+  .slick-disabled {
+    display: none !important;
+  }
   
   .section-share {
     &.section-specialty {
