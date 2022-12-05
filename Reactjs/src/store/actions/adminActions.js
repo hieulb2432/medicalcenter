@@ -1,7 +1,8 @@
 import actionTypes from './actionTypes';
 import {getAllCodeService, createNewUserService, 
   getAllUsers, deleteUserService, editUserService,
-  getTopDoctorHomeService,} from '../../services/userService';
+  getTopDoctorHomeService, getAllDoctorsService,
+  saveDetailDoctorService} from '../../services/userService';
 import { toast } from 'react-toastify';
 
 // export const fetchGenderStart = () => ({
@@ -189,7 +190,7 @@ export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_SUCCESS,
   });
 
-  export const fetchTopDoctor = () => {
+export const fetchTopDoctor = () => {
     return async (dispatch) => {
       try {
         let res = await getTopDoctorHomeService('');
@@ -212,4 +213,50 @@ export const editUserFailed = () => ({
     };
   };
 
-  // let res1 = await getTopDoctorHomeService(3)
+export const fetchAllDoctors = () => {
+    return async (dispatch) => {
+      try {
+        let res = await getAllDoctorsService();
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+            dataDr: res.data,
+          });
+        } else {
+          dispatch({
+            type: actionTypes.FETCH_ALL_DOCTORS_FAILED,
+          });
+        }
+      } catch (e) {
+        console.log('Fetch All Doctors Failed', e);
+        dispatch({
+          type: actionTypes.FETCH_ALL_DOCTORS_FAILED,
+        });
+      }
+    };
+  };
+
+export const saveDetailDoctor = (data) => {
+    return async (dispatch) => {
+      try {
+        let res = await saveDetailDoctorService(data);
+        if (res && res.errCode === 0) {
+          toast.success('Update user succeed!');
+          dispatch({
+            type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
+          });
+        } else {
+          toast.error('Update user failed!');
+          dispatch({
+            type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+          });
+        }
+      } catch (e) {
+        console.log('Save Doctors Failed', e);
+        toast.error('Update user failed!');
+        dispatch({
+          type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+        });
+      }
+    };
+  };

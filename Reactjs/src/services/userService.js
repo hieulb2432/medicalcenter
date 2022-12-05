@@ -10,7 +10,6 @@ export const getAllUsers = (id) => {
 }
 
 export const createNewUserService = (data) => {
-  console.log('check data from service', data);
   return axios.post('/api/create-new-user', data);
 }
 
@@ -28,6 +27,18 @@ export const getAllCodeService = (inputType) => {
 
 export const getTopDoctorHomeService = (limit) => {
   return axios.get(`/api/top-doctor-home?limit=${limit}`);
+};
+
+export const getAllDoctorsService = () => {
+  return axios.get(`/api/get-all-doctors`);
+};
+
+export const saveDetailDoctorService = (data) => {
+  return axios.post('/api/save-infor-doctor', data);
+};
+
+export const getDetailInforDoctorService = (id) => {
+  return axios.get(`/api/get-detail-doctor-by-id?id=${id}`);
 };
 
 export { 

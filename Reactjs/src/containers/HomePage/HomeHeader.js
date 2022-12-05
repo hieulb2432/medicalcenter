@@ -4,7 +4,7 @@ import './HomeHeader.scss';
 import logo from '../../assets/images/logo.svg';
 import { FormattedMessage } from 'react-intl';
 import {LANGUAGES} from '../../utils'
-
+import {withRouter} from 'react-router';
 import {changeLanguageApp} from '../../store/actions'
 
 
@@ -14,16 +14,22 @@ class HomeHeader extends Component {
     this.props.changeLanguageAppRedux(language)
   }
 
+  returnToHome = () => {
+    if(this.props.history) {
+      this.props.history.push(`/home`)
+    }
+  }
+
     render() {
         let language = this.props.language;
         return (
             <React.Fragment>
             <div className="home-header-container container">
-            <div className="home-header-content">
+              <div className="home-header-content">
               <div className="left-content">
                 <i className="fas fa-bars"></i>
                 <div className="header-logo">
-                  <img src={logo} alt="" />
+                  <img src={logo} onClick={()=>this.returnToHome()} />
                 </div>
               </div>
               <div className="center-content">
@@ -84,9 +90,11 @@ class HomeHeader extends Component {
                   <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
                 </div>
               </div>
+              </div>
             </div>
-            </div>
-            <div className='home-header-banner'>
+            
+            {this.props.isShowBanner === true &&
+              <div className='home-header-banner'>
                 <div className='content-up'>
                     <div className="title1">
                         <FormattedMessage id="home-header-banner.title1" />
@@ -152,6 +160,7 @@ class HomeHeader extends Component {
                     </div>
                 </div>
             </div>
+            }
             </React.Fragment>
         );
     }
@@ -172,4 +181,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

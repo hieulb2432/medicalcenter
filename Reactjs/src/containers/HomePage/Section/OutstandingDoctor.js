@@ -5,6 +5,7 @@ import './OutstandingDoctor.scss';
 import * as actions from '../../../store/actions'
 import {LANGUAGES} from '../../../utils'
 import { FormattedMessage } from 'react-intl';
+import {withRouter} from 'react-router';
 
 class OutstandingDoctor extends Component {
 
@@ -25,6 +26,12 @@ class OutstandingDoctor extends Component {
 
   componentDidMount() {
     this.props.loadTopDoctors();
+  }
+
+  handleViewDetailDoctor = (doctor) => {
+    if(this.props.history) {
+      this.props.history.push(`/detail-doctor/${doctor.id}`)
+    }
   }
 
     render() {
@@ -51,7 +58,7 @@ class OutstandingDoctor extends Component {
                     let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
                     let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
                     return (
-                      <div className="section-item" key={index}>
+                      <div className="section-item" key={index} onClick={()=> this.handleViewDetailDoctor(item)}>
                         <div className="outer-bg">
                             <div className="bg-img section-outstanding-doctor" 
                               style={{backgroundImage: `url(${imageBase64})`}}
@@ -86,4 +93,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor));
