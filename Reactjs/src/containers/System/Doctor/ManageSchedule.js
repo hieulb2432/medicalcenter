@@ -134,12 +134,20 @@ class ManageSchedule extends Component {
             doctorId: selectedDoctor.value,
             date: formatedDate
         })
-        console.log('check res',res)
+
+        if(res && res.errCode === 0) {
+            toast.success('Save info successfully');
+        } else {
+            toast.error('Error saving');
+            console.log('Error res',res)
+        }
+
     }
     
     render() {
         const { listDoctors, selectedDoctor, currentDate, rangeTime } = this.state;
         const { language } = this.props;
+        let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
         return (
             <div className='manage-schedule-container'>
                 <div className='m-s-title'>
@@ -162,7 +170,7 @@ class ManageSchedule extends Component {
                                 className='form-control'
                                 // value = {this.state.currentDate}
                                 value={currentDate}
-                                minDate={new Date()}
+                                minDate={yesterday}
 
                             />
                         </div>
