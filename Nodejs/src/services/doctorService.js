@@ -184,7 +184,6 @@ let getDetailDoctorById = (inputId) => {
 
         if(!data) data ={};
 
-
         resolve({
           errCode: 0,
           data: data
@@ -266,7 +265,8 @@ let getScheduleByDate = (doctorId, date) => {
           raw: false,
           nest: true,
         })
-        if (!dataSchedule) {
+      
+      if (!dataSchedule) {
           dataSchedule = [];
         }
         resolve({
@@ -280,6 +280,56 @@ let getScheduleByDate = (doctorId, date) => {
   })
 }
 
+let getExtraInforDoctorById = (doctorId) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!doctorId){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let data = await db.Doctor_Infor.findOne({
+          where: {
+            doctorId:doctorId,
+          },
+          attributes: {
+            exclude: ['doctorId', 'id']
+          },
+          include: [
+            {
+              model: db.Allcode,
+              as: 'priceTypeData',
+              attributes: ['valueEn', 'valueVi'],
+            },
+            {
+              model: db.Allcode,
+              as: 'provinceTypeData',
+              attributes: ['valueEn', 'valueVi'],
+            },
+            {
+              model: db.Allcode,
+              as: 'paymentTypeData',
+              attributes: ['valueEn', 'valueVi'],
+            }
+          ],
+          raw: false,
+          nest: true,
+        })
+
+      if (!data) data = {};
+      
+      resolve({
+          errCode: 0,
+          data: data,
+        });
+      }
+    } catch(e){
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -287,4 +337,5 @@ module.exports = {
     getDetailDoctorById: getDetailDoctorById,
     bulkCreateSchedule: bulkCreateSchedule,
     getScheduleByDate: getScheduleByDate,
+    getExtraInforDoctorById: getExtraInforDoctorById,
 }
