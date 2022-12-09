@@ -24,6 +24,7 @@
       }
     }
     .schedule-doctor {
+      display: flex;
       padding-block: 10px;
       min-height: 200px;
       .content-left {
@@ -35,7 +36,7 @@
       border-top: 1px solid#ddd;
       border-bottom: 1px solid#ddd;
       background-color: #f9f9f9;
-      padding: 10px 0;
+      padding: 10px 20px;
       h3 {
         font-size: 17px;
       }
