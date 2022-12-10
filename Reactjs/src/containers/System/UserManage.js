@@ -27,13 +27,11 @@ class UserManage extends Component {
     
     getAllUsersFromReact = async () => {
         let response = await getAllUsers('ALL');
-        console.log('check res', response);
         if (response && response.errCode ===0) {
             this.setState({
                 arrUsers: response.users
             })
         }
-        console.log('get user', response);
     }
 
     handleAddNewUser = () => {
