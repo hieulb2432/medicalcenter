@@ -19,6 +19,7 @@ import HomePage from './HomePage/HomePage.js'
 
 import CustomScrollbars from '../components/CustomScrollbars';
 import VerifyEmail from './Patient/VerifyEmail';
+import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 
 class App extends Component {
 
@@ -57,18 +58,12 @@ class App extends Component {
                                 <Route path={path.HOMEPAGE} component={HomePage} />
                                 {/* <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} /> */}
                                 <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                                <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
                                 <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                 
                             </Switch>
                             </CustomScrollbars>
                         </div>
-
-                        {/* <ToastContainer
-                            className="toast-container" toastClassName="toast-item" bodyClassName="toast-item-body"
-                            autoClose={false} hideProgressBar={true} pauseOnHover={false}
-                            pauseOnFocusLoss={true} closeOnClick={false} draggable={false}
-                            closeButton={<CustomToastCloseButton />}
-                        /> */}
 
                         <ToastContainer
                             position="bottom-right"
