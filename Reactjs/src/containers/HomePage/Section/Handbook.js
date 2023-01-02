@@ -18,27 +18,27 @@ class Handbook extends Component {
                 <Slider {...this.props.settings}>
                   <div className="section-item">
                     <div className="bg-img section-handbook" />
-                    <h3>Cơ xương khớp 1</h3>
+                    <h3>Cẩm nang 1</h3>
                   </div>
                   <div className="section-item">
                     <div className="bg-img section-handbook" />
-                    <h3>Cơ xương khớp 2</h3>
+                    <h3>Cẩm nang 2</h3>
                   </div>
                   <div className="section-item">
                     <div className="bg-img section-handbook" />
-                    <h3>Cơ xương khớp 3</h3>
+                    <h3>Cẩm nang 3</h3>
                   </div>
                   <div className="section-item">
                     <div className="bg-img section-handbook" />
-                    <h3>Cơ xương khớp 4</h3>
+                    <h3>Cẩm nang 4</h3>
                   </div>
                   <div className="section-item">
                     <div className="bg-img section-handbook" />
-                    <h3>Cơ xương khớp 5</h3>
+                    <h3>Cẩm nang 5</h3>
                   </div>
                   <div className="section-item">
                     <div className="bg-img section-handbook" />
-                    <h3>Cơ xương khớp 6</h3>
+                    <h3>Cẩm nang 6</h3>
                   </div>
                 </Slider>
               </div>

@@ -4,7 +4,10 @@
       margin: 0 100px;
       display: flex;
       .content-left {
-        background: center center no-repeat;
+        width: 20%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
         width: 120px;
         height: 120px;
         border-radius: 50%;
@@ -12,6 +15,8 @@
       }
       .content-right {
         width: 80%;
+        display: flex;
+        flex-direction: column;
         padding-left: 10px;
         .up {
           font-size: 20px;
@@ -20,6 +25,9 @@
         }
         .down {
           padding-top: 10px;
+          .like-share-plugin {
+            margin: 10px 0 20px 0;
+          }
         }
       }
     }
@@ -28,8 +36,10 @@
       padding-block: 10px;
       min-height: 200px;
       .content-left {
+        width: 50%;
       }
       .content-right {
+        width: 50%;
       }
     }
     .detail-infor-doctor {
@@ -37,7 +47,8 @@
       border-bottom: 1px solid#ddd;
       background-color: #f9f9f9;
       padding: 10px 20px;
-      h3 {
+
+      h1, h2, h3 {
         font-size: 17px;
       }
       img {
@@ -45,6 +56,6 @@
       }
     }
     .comment-doctor {
-      height: 50px;
+      padding: 10px 100px;
     }
   }

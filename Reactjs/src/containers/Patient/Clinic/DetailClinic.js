@@ -7,6 +7,7 @@ import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
+import HomeFooter from '../../HomePage/HomeFooter';
 import { getDetailClinicByIdService, getAllCodeService } from '../../../services/userService';
 import _ from 'lodash';
 class DetailClinic extends Component {
@@ -55,7 +56,7 @@ class DetailClinic extends Component {
         let {language} = this.props
         return (
             <div className='detail-clinic-container'>
-            <HomeHeader />
+            <HomeHeader isShowBanner={false}/>
             <div className='detail-clinic-body'>
                 <div className='description-clinic'>
                     {dataDetailClinic && !_.isEmpty(dataDetailClinic) 
@@ -106,7 +107,7 @@ class DetailClinic extends Component {
                 })
                 }
             </div>
-            
+            <HomeFooter />
             </div>
         );
     }

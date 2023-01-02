@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './About.scss';
 
-
 class About extends Component {
 
     render() {

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-
 import HomeHeader from '../../HomePage/HomeHeader';
 import './DetailDoctor.scss';
 import {getDetailInforDoctorService} from '../../../services/userService'
 import { LANGUAGES } from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfor from './DoctorExtraInfor';
+import Comment from '../SocialPlugin/Comment'
+import HomeFooter from '../../HomePage/HomeFooter';
+import LikeAndShare from '../SocialPlugin/LikeAndShare'
 
 class DetailDoctor extends Component {
     constructor(props) {
@@ -45,8 +47,11 @@ class DetailDoctor extends Component {
             nameEn = `${detailDoctor.positionData?.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
 
+        let currentURL = +process.env.REACT_APP_IS_LOCALHOST === 1 ?
+            "https://heroku.com...." : window.location.href;
+
         return (
-            <>
+            <>                
                 <HomeHeader isShowBanner={false}/>
                 <div className='doctor-detail-container'>
                     <div className='intro-doctor'>
@@ -64,6 +69,11 @@ class DetailDoctor extends Component {
                                         {detailDoctor.Markdown.description}
                                     </span>    
                                 }
+                                <div className='like-share-plugin'>
+                                    <LikeAndShare
+                                        dataHref={currentURL}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -83,19 +93,26 @@ class DetailDoctor extends Component {
                     </div>
 
                     <div className='detail-infor-doctor'>
-                                {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML
-                                    && <div
-                                        dangerouslySetInnerHTML={{
-                                            __html: detailDoctor.Markdown.contentHTML,
-                                        }}
-                                        >
-                                    </div>
-                                }
+                        {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML
+                            && <div
+                                dangerouslySetInnerHTML={{
+                                    __html: detailDoctor.Markdown.contentHTML,
+                                }}
+                                >
+                            </div>
+                        }
+
+                        <div className='comment-doctor'>
+                            <Comment
+                                dataHref={currentURL}
+                                width={"100%"}
+                            />
+                        </div>
                     </div>
 
                     <div className='comment-doctor'>
-
                     </div>
+                    <HomeFooter />
                 </div>
             </>
         );

@@ -13,6 +13,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import {postPatientBookingService} from '../../../../services/userService'
+import LoadingOverlay from 'react-loading-overlay'
 
 class BookingModal extends Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class BookingModal extends Component {
             doctorId: '',
             selectedGender: '',
             timeType: '',
+            isShowLoading: false,
         }
     }
 
@@ -124,6 +126,9 @@ class BookingModal extends Component {
     }
 
     handleConfirmBooking = async () => {
+        this.setState({
+            isShowLoading: true
+        })
         //validate input
         let date = new Date(this.state.birthday).getTime();
         let timeString = this.buildTimeBooking(this.props.dataTime)
@@ -143,6 +148,9 @@ class BookingModal extends Component {
             language: this.props.language,
             timeString: timeString,
             doctorName: doctorName
+        })
+        this.setState({
+            isShowLoading: false
         })
         if(res && res.errCode === 0) {
             toast.success('Booking a new appointment succeed!');
@@ -170,6 +178,11 @@ class BookingModal extends Component {
         }
 
         return (
+            <LoadingOverlay
+                active={this.state.isShowLoading}
+                spinner
+                text='Loading...'
+                >
             <Modal 
                 isOpen={isOpenModal} 
                 className={'booking-modal-container'}
@@ -297,6 +310,7 @@ class BookingModal extends Component {
                     </div>
                 </div>
             </Modal>
+            </LoadingOverlay>
         );
     }
 }

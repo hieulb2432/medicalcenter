@@ -7,7 +7,6 @@ import {LANGUAGES} from '../../utils'
 import {withRouter} from 'react-router';
 import {changeLanguageApp} from '../../store/actions'
 
-
 class HomeHeader extends Component {
 
   changeLanguage = (language) => {
@@ -19,7 +18,7 @@ class HomeHeader extends Component {
       this.props.history.push(`/home`)
     }
   }
-
+  
     render() {
         let language = this.props.language;
         return (
@@ -159,7 +158,7 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+              </div>
             }
             </React.Fragment>
         );
