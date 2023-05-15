@@ -16,7 +16,7 @@ let sendSimpleEmail = async (dataSend) => {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <hieu.lb2432@gmail.com>', // sender address
+    from: '"Hieu" <hieu.lb2432@gmail.com>', // sender address
     to: dataSend.receiverEmail, // list of receivers
     subject: "Thong tin dat lich kham benh", // Subject line
     html: getBodyHTMLEmail(dataSend), // html body
@@ -27,7 +27,7 @@ let getBodyHTMLEmail = (dataSend) => {
     let result = '';
     if (dataSend.language === 'en') {
       result = `<h3>Dear ${dataSend.patientName}!</h3>
-      <p>You received this email because you booked an online medical appointment on Bookingcare</p>
+      <p>You received this email because you booked an online medical appointment on Healthcare</p>
       <p>Information to schedule an appointment:</p>
       <div><b>Time: ${dataSend.time}</b></div>
       <div><b>Doctor: ${dataSend.doctorName}</b></div>
@@ -38,7 +38,7 @@ let getBodyHTMLEmail = (dataSend) => {
     }
     if (dataSend.language === 'vi') {
       result = `<h3>Xin chào ${dataSend.patientName}!</h3>
-      <p>Bạn nhận được email này vì đã đặt lịch khám bệnh online trên Bookingcare</p>
+      <p>Bạn nhận được email này vì đã đặt lịch khám bệnh online trên Healthcare</p>
       <p>Thông tin đặt lịch khám bệnh:</p>
       <div><b>Thời gian: ${dataSend.time}</b></div>
       <div><b>Bác sĩ: ${dataSend.doctorName}</b></div>
@@ -54,14 +54,14 @@ let getBodyHTMLEmail = (dataSend) => {
     let result = '';
     if (dataSend.language === 'en') {
       result = `<h3>Dear ${dataSend.patientName}!</h3>
-      <p>You received this email because you booked an online medical appointment on Bookingcare</p>
+      <p>You received this email because you booked an online medical appointment on Healthcare</p>
       <p>appointment:</p>
       <div>Sincerely thank!</div>
     `;
     }
     if (dataSend.language === 'vi') {
       result = `<h3>Xin chào ${dataSend.patientName}!</h3>
-      <p>Bạn nhận được email này vì đã đặt lịch khám bệnh online trên Bookingcare</p>
+      <p>Bạn nhận được email này vì đã đặt lịch khám bệnh online trên Healthcare</p>
       <p>Thông tin hoa don:</p>
       <div>Xin chân thành cảm ơn!</div>
     `;

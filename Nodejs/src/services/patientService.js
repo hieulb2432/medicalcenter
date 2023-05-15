@@ -46,18 +46,18 @@ let postBookAppointment = (data) => {
           });
 
           if (user && user[0]) {
-            await db.Booking.findOrCreate({
-              where: { patientId: user[0].id },
-              defaults: {
+            await db.Booking.create({
+
                 statusId: 'S1',
                 doctorId: data.doctorId,
                 patientId: user[0].id,
                 date: data.date,
                 timeType: data.timeType,
                 token: token,
-              },
+              
             });
           }
+
 
           resolve({
             errCode: 0,
@@ -68,6 +68,22 @@ let postBookAppointment = (data) => {
       reject(e)
     }
   })
+}
+let checkTimeToVerify = (appointment) => {
+  let createDate = new Date(appointment.createdAt).getTime()
+  const now = +new Date().getTime();
+  const diffInMilliseconds = Math.abs(now - createDate);
+  console.log(diffInMilliseconds)
+  console.log(createDate, now, typeof(createDate), typeof(now))
+  // Tính toán khoảng cách tương ứng với 15 phút trong mili giây
+  const fifteenMinutesInMilliseconds = 1 * 60 * 1000;
+
+  // So sánh khoảng cách giữa 2 timestamp với khoảng cách tương ứng với 15 phút
+  if (diffInMilliseconds >= fifteenMinutesInMilliseconds) {
+    return false
+  } else if (diffInMilliseconds < fifteenMinutesInMilliseconds) {
+    return true
+  }
 }
 
 let postVerifyBookAppointment = (data) => {
@@ -87,14 +103,25 @@ let postVerifyBookAppointment = (data) => {
           }, 
           raw: false
         })
-
+        
         if(appointment){
-          appointment.statusId = 'S2';
-          await appointment.save()
-          resolve({
-            errCode: 0,
-            errMessage: 'Update Appoinment succeed!',
-          })
+          let checkTime = checkTimeToVerify(appointment)
+          console.log(checkTime)
+          if(checkTime) {
+            appointment.statusId = 'S2';
+            await appointment.save()
+            resolve({
+              errCode: 0,
+              errMessage: 'Update Appoinment succeed!',
+            })
+          } else {
+            appointment.statusId = 'S4';
+            await appointment.save()
+            resolve({
+              errCode: 4,
+              errMessage: 'Quá thời gian nên không thể cập nhật',
+            })
+          }
         } else {
           resolve({
             errCode: 2,

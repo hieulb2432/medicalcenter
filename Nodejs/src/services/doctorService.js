@@ -2,6 +2,7 @@ import db from '../models/index';
 require('dotenv').config();
 import _ from 'lodash';
 import emailService from '../services/emailService'
+const { Op } = require("sequelize");
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
@@ -246,7 +247,15 @@ let bulkCreateSchedule = (data) => {
 
         //get all existed schedule
         let existing = await db.Schedule.findAll({
-          where: { doctorId: data.doctorId, date: data.date },
+          where: { doctorId: data.doctorId, date: data.date,
+            // [Op.not]: [
+            //   {
+            //     createdAt: {
+            //       [Op.lt]: (new Date)
+            //     }
+            //   }
+            // ]
+          },
           attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
           raw: true,
         });
@@ -281,10 +290,33 @@ let getScheduleByDate = (doctorId, date) => {
           errMessage: 'Missing required parameters'
         })
       } else {
-        let dataSchedule = await db.Schedule.findAll({
+        const quaterHour = 60 * 60 * 250
+        let dataBooking = await db.Booking.findAll({
           where: {
-            doctorId:doctorId,
-            date: date
+            doctorId: doctorId,
+            date: date,
+            statusId: ['S2','S3','S1'],
+            [Op.not]: [
+              { statusId: 'S1' },
+              {
+                createdAt: {
+                  [Op.lt]: (new Date - quaterHour)
+                }
+              }
+            ]
+          },
+          attributes:  ['timeType'],
+        }) 
+        let listTimeBooking = dataBooking.map(function(item) {
+          return item['timeType'];
+        });
+        let dataScheduleAvailable = await db.Schedule.findAll({
+          where: {
+            doctorId: doctorId,
+            date: date,
+            timeType: {
+              [Op.notIn]: listTimeBooking,
+            }
           },
           include: [
             { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] },
@@ -293,13 +325,30 @@ let getScheduleByDate = (doctorId, date) => {
           raw: false,
           nest: true,
         })
-      
-      if (!dataSchedule) {
-          dataSchedule = [];
+
+        let dataScheduleFreeze = await db.Schedule.findAll({
+          where: {
+            doctorId: doctorId,
+            date: date,
+            timeType: listTimeBooking,
+          },
+          include: [
+            { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] },
+            { model: db.User, as: 'doctorData', attributes: ['firstName', 'lastName'] },
+          ],
+          raw: false,
+          nest: true,
+        })
+        
+        // console.log('check', dataSchedule)
+      if (!dataScheduleAvailable && !dataScheduleFreeze) {
+          dataScheduleAvailable = [];
+          dataScheduleFreeze = [];
         }
         resolve({
           errCode: 0,
-          data: dataSchedule
+          dataAvailable: dataScheduleAvailable,
+          dataFreeze: dataScheduleFreeze
         })
       }
     } catch (e) {
