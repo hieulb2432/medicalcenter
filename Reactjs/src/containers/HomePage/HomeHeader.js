@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomeHeader.scss';
-import logo from '../../assets/images/logo.svg';
+// import logo from '../../assets/images/logo.svg';
+import logo from '../../assets/images/logo-new-ver.png';
 import { FormattedMessage } from 'react-intl';
 import {LANGUAGES} from '../../utils'
 import {withRouter} from 'react-router';
@@ -26,7 +27,7 @@ class HomeHeader extends Component {
             <div className="home-header-container container">
               <div className="home-header-content">
               <div className="left-content">
-                <i className="fas fa-bars"></i>
+                {/* <i className="fas fa-bars"></i> */}
                 <div className="header-logo">
                   <img src={logo} onClick={()=>this.returnToHome()} />
                 </div>
@@ -94,7 +95,7 @@ class HomeHeader extends Component {
             
             {this.props.isShowBanner === true &&
               <div className='home-header-banner'>
-                <div className='content-up'>
+                {/* <div className='content-up'>
                     <div className="title1">
                         <FormattedMessage id="home-header-banner.title1" />
                     </div>
@@ -157,7 +158,7 @@ class HomeHeader extends Component {
                         </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
               </div>
             }
             </React.Fragment>

@@ -8,7 +8,7 @@ import * as actions from '../../../store/actions';
 import DatePicker from '../../../components/Input/DatePicker'
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import _, { result } from 'lodash';
+import _, { range, result } from 'lodash';
 import {saveBulkSchecduleDoctorService} from '../../../services/userService'
 
 class ManageSchedule extends Component {
@@ -18,7 +18,8 @@ class ManageSchedule extends Component {
             listDoctors: [],
             selectedDoctor: {},
             currentDate: '',
-            rangeTime: []
+            rangeTime: [],
+            inDay: true
         }
     }
 
@@ -27,6 +28,27 @@ class ManageSchedule extends Component {
         this.props.fetchAllScheduleTime();
     }
 
+    checkTime = (data) => {
+        let currentTime = new Date()
+        let hours = currentTime.getHours()
+        if(hours < 9 ) {
+            return data?.slice(1,data.length)
+        } else if(hours < 10) {
+            return data?.slice(2,data.length)
+        } else if(hours < 11) {
+            return data?.slice(3,data.length)
+        } else if (hours < 12) {
+            return data?.slice(4,data.length)
+        } else if (hours < 14) {
+            return data?.slice(5,data.length)
+        } else if (hours < 15) {
+            return data?.slice(6,data.length)
+        } else if (hours < 16) {
+            return data?.slice(7,data.length)
+        } else if (hours < 17) {
+            return []
+        }
+    }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.allDoctors !== this.props.allDoctors){
             let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
@@ -48,12 +70,32 @@ class ManageSchedule extends Component {
             })
         }
 
-        // if (prevProps.language !== this.props.language) {
-        //     let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
-        //     this.setState({
-        //         listDoctors: dataSelect,
-        //     });
-        // }
+        if(prevState.currentDate !== this.state.currentDate) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Đặt giá trị giờ, phút, giây và mili giây về 0
+            const todayTimestamp = today.getTime();
+
+            // Kiểm tra xem timestamp có phải là ngày hôm nay hay không
+            const timestamp = new Date(this.state.currentDate).getTime() // 2022-05-07
+            if (timestamp >= todayTimestamp && timestamp < todayTimestamp + 86400000) {
+                let data = this.props.allScheduleTime;
+                if(data && data.length > 0) {
+                    data = data.map(item => ({
+                        ...item,
+                        isSelected: false
+                    }))
+                }
+                this.setState({
+                    rangeTime: this.checkTime(data)
+                })
+            } else {
+                let data = this.props.allScheduleTime;
+                this.setState({
+                    rangeTime: data
+                })
+            }
+        }
+
     }
 
     buildDataInputSelect = (inputData) => {
@@ -79,7 +121,7 @@ class ManageSchedule extends Component {
     handleOnChangeDatePicker = (date) => {
         this.setState({ 
             currentDate: date[0]
-        })
+        }) 
     }
 
     handleClickBtnTime = (time) => {
@@ -114,6 +156,8 @@ class ManageSchedule extends Component {
         let formatedDate = new Date(currentDate).getTime();
         // let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
         if(rangeTime && rangeTime.length > 0) {
+            // let currentTime = new Date()
+            // let hours = currentTime.getHours()
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
                 selectedTime.map(schedule => {
@@ -127,7 +171,9 @@ class ManageSchedule extends Component {
                 toast.error('Invalid selected time!');
                 return;
             }
+            console.log('check range time', rangeTime);
         }
+
 
         let res = await saveBulkSchecduleDoctorService({
             arrSchedule: result,

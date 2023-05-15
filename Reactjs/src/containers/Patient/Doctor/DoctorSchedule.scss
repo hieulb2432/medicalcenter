@@ -24,6 +24,9 @@
         }
       }
       .time-content {
+        display: flex;
+          gap: 15px;
+          flex-wrap: wrap;
         .time-content-btns {
           display: flex;
           gap: 15px;
@@ -40,6 +43,37 @@
             &:hover {
               background-color: #45c3d2;
               color: white;
+            }
+          }
+          .btn-vi {
+            min-width: 120px;
+          }
+          .btn-en {
+            min-width: 160px;
+          }
+          .no-schedule {
+            font-style: italic;
+            font-size: 14px;
+          }
+        }
+        .time-content-freeze-btns {
+          display: flex;
+          gap: 15px;
+          flex-wrap: wrap;
+          button {
+            padding: 8px 10px;
+            border: none;
+            outline: none;
+            background-color: #cccccc;
+  
+            border-radius: 3px;
+            font-weight: 600;
+            color: #333;
+            &:hover {
+              // background-color: #45c3d2;
+              color: white;
+              opacity: 0.6;
+              cursor: default;
             }
           }
           .btn-vi {

@@ -10,7 +10,8 @@ class VerifyEmail extends Component {
         super(props);
         this.state = {
             stateVerify: false,
-            errCode: 0
+            errCode: 0,
+            message: ''
         }
     }
 
@@ -27,12 +28,20 @@ class VerifyEmail extends Component {
             if (res && res.errCode === 0){
                 this.setState({
                     stateVerify: true,
-                    errCode: res.errCode
+                    errCode: res.errCode,
+                    message: "Xác nhận lịch hẹn thành công"
                 })
-            } else {
+            } else if (res && res.errCode === 4){
                 this.setState({
                     stateVerify: true,
-                    errCode: res && res.errCode ? res.errCode : -1
+                    errCode: res.errCode,
+                    message: "Quá thời gian xác nhận lịch hẹn"
+                })
+            } else{
+                this.setState({
+                    stateVerify: true,
+                    errCode: res && res.errCode ? res.errCode : -1,
+                    message: "Lịch hẹn không tồn tại hoặc đã được xác nhận"
                 })
             }
         }
@@ -54,11 +63,7 @@ class VerifyEmail extends Component {
                         </div>
                         :
                         <div>
-                            {+errCode == 0 ? 
-                                <div className='infor-booking'>Xac nhan lich hen thanh cong</div>
-                                :
-                                <div className='infor-booking'>Lich hen khong ton tai hoac da duoc xac nhan</div>
-                            }
+                            <div className='infor-booking'>{this.state.message}</div>
                         </div>
                     }
                 </div>

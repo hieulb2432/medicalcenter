@@ -5,7 +5,7 @@ import './DoctorSchedule.scss';
 import { LANGUAGES } from '../../../utils';
 import moment from 'moment';
 import localization from 'moment/locale/vi';
-import {getScheduleDoctorByDateService} from '../../../services/userService'
+import {getScheduleDoctorByDateService, postPatientBookingService} from '../../../services/userService'
 import BookingModal from './Modal/BookingModal';
 
 class DoctorSchedule extends Component {
@@ -14,6 +14,7 @@ class DoctorSchedule extends Component {
         this.state = {
             allDays: [],
             allAvailableTime: [],
+            allFreezeTime: [],
             isOpenModalBooking: false,
             dataScheduleTimeModal: {},
         }
@@ -25,7 +26,9 @@ class DoctorSchedule extends Component {
         if(this.props.doctorIdFromParent){
             let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
             this.setState({
-                allAvailableTime: res.data ? res.data : []
+                // allAvailableTime: res.data ? res.data : []
+                allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
+                allFreezeTime: res.dataFreeze ? res.dataFreeze : []
             })
         }
         this.setState({
@@ -44,7 +47,9 @@ class DoctorSchedule extends Component {
             let allDays = this.getArrDays(this.props.language)
             let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
             this.setState({
-                allAvailableTime: res.data ? res.data : []
+                // allAvailableTime: res.data ? res.data : []
+                allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
+                allFreezeTime: res.dataFreeze ? res.dataFreeze : []
             })
         }
     }
@@ -94,17 +99,19 @@ class DoctorSchedule extends Component {
             
             if(res && res.errCode === 0) {
                 this.setState({
-                    allAvailableTime: res.data ? res.data : []
+                    // allAvailableTime: res.data ? res.data : []
+                    allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
+                    allFreezeTime: res.dataFreeze ? res.dataFreeze : []
                 })
             } 
         }
     }
 
-    handleClickScheduleTime = (time) => {
-        this.setState({
-            isOpenModalBooking: true,
-            dataScheduleTimeModal: time
-        })
+    handleClickScheduleTime = async (time) => {
+            this.setState({
+                isOpenModalBooking: true,
+                dataScheduleTimeModal: time
+            })
     }
 
     closeBookingModal = () => {
@@ -114,7 +121,7 @@ class DoctorSchedule extends Component {
     }
 
     render() {
-        let {allDays, allAvailableTime, isOpenModalBooking, dataScheduleTimeModal} = this.state;
+        let {allDays, allAvailableTime, allFreezeTime, isOpenModalBooking, dataScheduleTimeModal} = this.state;
         let {language} = this.props
         return (
             <>
@@ -143,7 +150,7 @@ class DoctorSchedule extends Component {
                                 </span>
                             </div>
                             <div className='time-content'>
-                                {allAvailableTime && allAvailableTime.length > 0 ?
+                                {allFreezeTime && allFreezeTime.length > 0 || allAvailableTime && allAvailableTime.length > 0 ?
                                 <>
                                     <div className='time-content-btns'>
                                         {allAvailableTime.map((item, index) =>{
@@ -161,6 +168,24 @@ class DoctorSchedule extends Component {
                                         })
                                     }
                                     </div>
+
+                                    <div className='time-content-freeze-btns'>
+                                        {allFreezeTime.map((item, index) =>{
+                                            let timeDisplay = language === LANGUAGES.VI ? 
+                                            item.timeTypeData.valueVi : item.timeTypeData.valueEn
+                                            return (
+                                                <button 
+                                                    className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'} 
+                                                    key={index}
+                                                    // onClick={() =>this.handleClickScheduleTime(item)}
+                                                >
+                                                    {timeDisplay}
+                                                </button>
+                                            )
+                                        })
+                                    }
+                                    </div>
+
                                     <div className="book-free">
                                         <span>
                                             <FormattedMessage id="patient.detail-doctor.choose" />

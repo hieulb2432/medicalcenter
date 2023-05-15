@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import logo from '../../assets/images/logo.svg';
+import logo from '../../assets/images/logo-new-ver.png';
 import './HomeFooter.scss';
 import {withRouter} from 'react-router';
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"></link>
@@ -19,12 +19,12 @@ class HomeFooter extends Component {
                 <div className='home-footer-content'>
                     <div className='home-footer-intro col-5'>
                         <div className='home-footer-intro-infor'>
-                            <div className="home-footer-logo">
-                                <img src={logo} onClick={()=>this.returnToHome()} />
-                            </div>
-                            <div className='home-footer-title'>
-                                <span>Công ty Cổ phần Công nghệ BookingCare</span>
-                            </div>
+                                <div className="home-footer-logo">
+                                    <img src={logo} onClick={()=>this.returnToHome()} />
+                                </div>
+                                <div className='home-footer-title'>
+                                    <span>Công ty Cổ phần Công nghệ HealthCare</span>
+                                </div>
                             <div className='home-footer-address'>
                                 <i class="address-logo fas fa-map-marker-alt"></i>
                                 28 Thành Thái, Dịch Vọng, Cầu Giấy, Hà Nội
@@ -63,13 +63,13 @@ class HomeFooter extends Component {
                         </div>
                         <div className='brach-x'>
                             <div className='brach-title'>Hỗ trợ khách hàng</div>
-                            <div className='brach-title-description'>support@bookingcare.vn</div>
+                            <div className='brach-title-description'>support@healthcare.vn</div>
                         </div>
                     </div>
                 </div>
                 <div className='copyright col-12'>
                     <span>
-                        &copy; 2022 Cong ty co phan Booking Care
+                        &copy; 2022 Cong ty co phan Health Care
                     </span>
                     <a
                         target="_blank"
