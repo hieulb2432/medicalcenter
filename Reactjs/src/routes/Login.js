@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 
 import * as actions from "../store/actions";
-import { KeyCodeUtils, LanguageUtils } from "../utils";
+import { KeyCodeUtils, LanguageUtils, USER_ROLE } from "../utils";
 
 import userIcon from '../../src/assets/images/user.svg';
 import passIcon from '../../src/assets/images/pass.svg';
@@ -21,7 +21,7 @@ class Login extends Component {
     initialState = {
         username: '',
         password: '',
-        loginError: ''
+        loginError: '',
     }
 
     state = {
@@ -44,11 +44,26 @@ class Login extends Component {
 
     redirectToSystemPage = () => {
         const { navigate } = this.props;
-        const redirectPath = '/system/user-manage';
+        // const redirectPath = '/system/user-manage';
+        const redirectPath = '/system/user-redux';
         navigate(`${redirectPath}`);
+
+        // let {userInfo, navigate} = this.props;
+        // let redirectPath = '';
+        // if (userInfo && !_.isEmpty(userInfo)){
+        //     let role = userInfo.roleId;
+        //     if(role === USER_ROLE.ADMIN) {
+        //         redirectPath = '/system/user-redux';
+        //         navigate(`${redirectPath}`)
+        //     }
+        //     if(role === USER_ROLE.DOCTOR) {
+        //         redirectPath = '/doctor/manage-schedule';
+        //         navigate(`${redirectPath}`)
+        //     }
+        // }
     }
 
-    processLogin = () => {
+    processLogin = async() => {
         const { username, password } = this.state;
 
         const { adminLoginSuccess, adminLoginFail } = this.props;
@@ -64,11 +79,13 @@ class Login extends Component {
             "accessToken": "eyJhbGciOiJIU"
         }
 
-        adminLoginSuccess(adminInfo);
+        LoginSuccess(adminInfo);
         this.refresh();
+        
         this.redirectToSystemPage();
         try {
-            adminService.login(loginBody)
+            const res= await adminService.login(loginBody);
+            console.log(res);
         } catch (e) {
             console.log('error login : ', e)
         }
@@ -86,7 +103,27 @@ class Login extends Component {
 
     componentDidMount() {
         document.addEventListener('keydown', this.handlerKeyDown);
+        
     }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.userInfo!== this.props.userInfo){
+            let {userInfo, navigate} = this.props;
+            let redirectPath = '';
+            if (userInfo && !_.isEmpty(userInfo)){
+                console.log(userInfo)
+                let role = userInfo.roleId;
+                if(role === USER_ROLE.ADMIN) {
+                    redirectPath = '/system/user-redux';
+                    navigate(`${redirectPath}`)
+                }
+                if(role === USER_ROLE.DOCTOR) {
+                    redirectPath = '/system/user-redux';
+                    navigate(`${redirectPath}`)
+                }
+            } 
+        }
+      }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handlerKeyDown);
@@ -158,7 +195,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        lang: state.app.language
+        lang: state.app.language,
+        userInfo: state.user.userInfo
     };
 };
 

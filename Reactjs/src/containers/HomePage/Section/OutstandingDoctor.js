@@ -38,13 +38,12 @@ class OutstandingDoctor extends Component {
     render() {
       let arrDoctors = this.state.arrDoctors
       let language = this.props.language;
-      // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors);
         return (
             <div className="section-share section-outstanding-doctor">
             <div className="section-container container">
               <div className="section-header">
                 <h2 className="title-section"><FormattedMessage id="homepage.outstanding-doctor"/></h2>
-                <button className="btn-section"><FormattedMessage id="homepage.more-info"/></button>
+                {/* <button className="btn-section"><FormattedMessage id="homepage.more-info"/></button> */}
               </div>
               <div className="section-content">
                 <Slider {...this.props.settings}>
@@ -53,7 +52,6 @@ class OutstandingDoctor extends Component {
                   arrDoctors.map((item, index) => {
                     let imageBase64 = '';
                     if (item.image) {
-                      // imageBase64 = new Buffer(item.image, 'base64').toString('binary');
                       imageBase64 = Buffer.from(item.image, 'base64').toString('binary');
                     }
 
@@ -68,7 +66,7 @@ class OutstandingDoctor extends Component {
                         </div>
                         <div className="position text-center">
                             <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
-                            <p>Cơ xương khớp</p>
+                            {/* <p>Cơ xương khớp</p> */}
                         </div>
                       </div>
                     )

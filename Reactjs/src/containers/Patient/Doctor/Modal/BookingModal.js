@@ -182,7 +182,7 @@ class BookingModal extends Component {
                 active={this.state.isShowLoading}
                 spinner
                 text='Loading...'
-                >
+            >
             <Modal 
                 isOpen={isOpenModal} 
                 className={'booking-modal-container'}

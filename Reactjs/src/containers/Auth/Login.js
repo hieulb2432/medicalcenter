@@ -6,6 +6,9 @@ import * as actions from "../../store/actions";
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
 import {handleLoginApi} from '../../services/userService';
+import login_image from '../../assets/Login/login_image.png';
+import _ from 'lodash';
+import { KeyCodeUtils, LanguageUtils, USER_ROLE } from "../../utils";
 
 class Login extends Component {
     constructor(props) {
@@ -31,20 +34,31 @@ class Login extends Component {
     }
 
     handleLogin = async () => {
-        console.log('abc')
         this.setState({
             errMessage: ''
         })
         let data = {}
         try {
             data = await handleLoginApi(this.state.username, this.state.password);
-            console.log('check data', data)
             if(data && data.errCode !== 0) {
+                console.log(data)
                 this.setState({
                     errMessage: data.message
                 })
             }
             if(data && data.errCode === 0) {
+                console.log(data.user)
+                let {userInfo, navigate} = this.props;
+            let redirectPath = '';
+                let role = data.user.roleId;
+                if(role === USER_ROLE.ADMIN) {
+                    redirectPath = '/system/user-redux';
+                    navigate(`${redirectPath}`)
+                }
+                if(role === USER_ROLE.DOCTOR) {
+                    redirectPath = '/system/user-redux';
+                    navigate(`${redirectPath}`)
+                }
                 this.props.userLoginSuccess(data.user)
             }
         } catch (err) {
@@ -58,6 +72,25 @@ class Login extends Component {
             }
         }
     }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.userInfo!== this.props.userInfo){
+            let {userInfo, navigate} = this.props;
+            let redirectPath = '';
+            if (userInfo && !_.isEmpty(userInfo)){
+                console.log(userInfo)
+                let role = userInfo.roleId;
+                if(role === USER_ROLE.ADMIN) {
+                    redirectPath = '/system/user-redux';
+                    navigate(`${redirectPath}`)
+                }
+                if(role === USER_ROLE.DOCTOR) {
+                    redirectPath = '/system/user-redux';
+                    navigate(`${redirectPath}`)
+                }
+            } 
+        }
+      }
 
     handleShowHidePassword = () => {
         this.setState({
@@ -75,22 +108,22 @@ class Login extends Component {
         const { username, password, isShowPassword, errMessage } = this.state;
         return (
             <div className="login-background">
-                <div className='login-container'>
+                <div className='content-left'>
                     <div className='login-content row'>
-                        <div className='col-12 text-login'>Login</div>
+                        <div className='col-12 text-login'>Đăng nhập</div>
                         <div className='col-12 form-group login-input'>
-                            <label>Username</label>
-                            <input type='text' className='form-control' placeholder='Enter your username' value={this.state.username}
+                            <label>Email</label>
+                            <input type='text' className='form-control' placeholder='Nhập email' value={this.state.username}
                                 onChange={(event) => this.handleOnChangeUsername(event)}
                             ></input>
                         </div>
                         <div className='col-12 form-group login-input'>
-                            <label>Password</label>
+                            <label>Mật khẩu</label>
                             <div className='custom-input-password'>
                                 <input
                                     className='form-control'
                                     type={this.state.isShowPassword ? 'text' : 'password'}
-                                    placeholder='Enter your password'
+                                    placeholder='Nhập mật khẩu'
                                     onChange={(event) => this.handleOnChangePassword(event)}
                                     onKeyDown={(e) => {
                                         this.handleKeyDown(e);
@@ -105,18 +138,18 @@ class Login extends Component {
                             {errMessage}
                         </div>
                         <div className='col-12'>
-                            <button className='btn-login' onClick={() => {this.handleLogin()}}>Login</button>
+                            <button className='btn-login' onClick={() => {this.handleLogin()}}>Đăng nhập</button>
                         </div>
-                        <div className='col-12'>
-                            <span className='forgot-password'>Forgot your password</span>
+                    </div>
+                </div>
+                <div className='content-right'>
+                    <div className='content-container'>
+                        <div className='title'>
+                            <div className='title1'>Hệ thống quản lý</div>
+                            <div className='title2'>lịch khám và bệnh nhân</div>
                         </div>
-                        <div className='col-12 text-center mt-3'>
-                            <span className='text-other-login'>Or Login with:</span>
-                        </div>
-
-                        <div className='col-12 social-login'>
-                            <i class="fab fa-google google"></i>
-                            <i class="fab fa-facebook-f facebook"></i>
+                        <div className="login-image" >
+                            <img src={login_image} style={{ height: "341.656px", width: "466px" }}/>
                         </div>
                     </div>
                 </div>
@@ -127,7 +160,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        language: state.app.language
+        lang: state.app.language,
+        userInfo: state.user.userInfo
     };
 };
 

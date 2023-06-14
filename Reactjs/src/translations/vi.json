@@ -39,7 +39,7 @@
             "manage-doctor": "Quản lý bác sĩ",
             "manage-admin": "Quản lý admin",
             "crud": "CRUD user",
-            "crud-redux": "CRUD Redux",
+            "crud-redux": "Quản lý người dùng",
             "clinic": "Phòng khám",
             "manage-clinic": "Quản lý phòng khám",
             "specialty": "Chuyên khoa",
@@ -74,7 +74,7 @@
   },
 "manage-schedule": {
     "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
-    "choose-doctor": "Chọn bác sĩ",
+    "choose-doctor": "Bác sĩ",
     "choose-date": "Chọn ngày",
     "save": "Lưu thông tin"
   },
@@ -109,7 +109,7 @@
     },
 "admin": {
     "manage-doctor": {
-        "title": "Tạo thêm thông tin bác sĩ",
+        "title": "Thông tin chi tiết bác sĩ",
         "select-doctor": "Chọn bác sĩ",
         "intro": "Thông tin giới thiệu:",
         "add": "Tạo thông tin",
@@ -121,7 +121,7 @@
         "addressClinic": "Địa chỉ phòng khám",
         "note": "Ghi chú",
         "specialty": "Chọn chuyên khoa",
-        "select-clinic": "Chọn phòng khám"
+        "select-clinic": "Chọn cơ sở y tế"
         }
     }
 }

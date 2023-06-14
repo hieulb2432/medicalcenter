@@ -117,18 +117,17 @@ class ManagePatient extends Component {
                 text='Loading...'
                 >
                 <div className='manage-patient-container'>
-                    <div className='m-p-title'>
-                        Quan ly benh nhan kham benh
+                    <div className='m-s-title'>
+                        Quan ly benh nhan da dat lịch kham
                     </div>
-                    <div className='manage-patient-body row'>
+                    <div className='container'>
+                        <div className='row'>
                         <div className='col-4 form-group'>
                             <label>Chon ngay kham</label>
                             <DatePicker
                                     onChange={this.handleOnChangeDatePicker}
                                     className='form-control'
-                                    // value = {this.state.currentDate}
                                     value={currentDate}
-                                    // minDate={yesterday}
 
                                 />
                         </div>
@@ -138,10 +137,10 @@ class ManagePatient extends Component {
                                 <tr>
                                     <th>STT</th>
                                     <th>Thoi gian</th>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th>Address</th>
-                                    <th>Action</th>
+                                    <th>Tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Thao tác</th>
                                 </tr>
                                 {dataPatient && dataPatient.length > 0 ? 
                                     dataPatient.map((item, index) => {
@@ -157,7 +156,7 @@ class ManagePatient extends Component {
                                         <td>{gender}</td>
                                         <td>{item.patientData.address}</td>
                                         <td>
-                                            <button className='mp-btn-confirm'
+                                            <button className='btn btn-primary'
                                                 onClick={() => this.handleBtnConfirm(item)}
                                             >Xac nhan
                                             </button>
@@ -168,7 +167,7 @@ class ManagePatient extends Component {
                                 :
                                 <tr>
                                     <td colSpan='6' style={{textAlign: "center"}}>
-                                        No data
+                                        Không có dữ liệu
                                     </td>
                                 </tr>
                             }
@@ -176,6 +175,7 @@ class ManagePatient extends Component {
                             </tbody>
                         </table>
                         </div>
+                    </div>
                     </div>
                 </div>
                 <RemedyModal 

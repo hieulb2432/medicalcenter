@@ -25,11 +25,20 @@ class DoctorSchedule extends Component {
         let allDays = this.getArrDays(language);
         if(this.props.doctorIdFromParent){
             let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
-            this.setState({
-                // allAvailableTime: res.data ? res.data : []
-                allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
-                allFreezeTime: res.dataFreeze ? res.dataFreeze : []
-            })
+            console.log('res', res, this.props.doctorIdFromParent,  allDays[0].value)
+            if(res && res.errCode === 0) {
+                let dataAvailable = this.checkAvailableTime(res)
+                this.setState({
+                    // allAvailableTime: res.data ? res.data : []
+                    allAvailableTime: dataAvailable,
+                    allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
+                })
+            } 
+            // this.setState({
+            //     // allAvailableTime: res.data ? res.data : []
+            //     allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
+            //     allFreezeTime: res.dataFreeze ? res.dataFreeze : []
+            // })
         }
         this.setState({
             allDays: allDays,
@@ -46,11 +55,17 @@ class DoctorSchedule extends Component {
         if(this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
             let allDays = this.getArrDays(this.props.language)
             let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
-            this.setState({
-                // allAvailableTime: res.data ? res.data : []
-                allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
-                allFreezeTime: res.dataFreeze ? res.dataFreeze : []
-            })
+            let dataAvailable = this.checkAvailableTime(res)
+                this.setState({
+                    // allAvailableTime: res.data ? res.data : []
+                    allAvailableTime: dataAvailable,
+                    allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
+                })
+            // this.setState({
+            //     // allAvailableTime: res.data ? res.data : []
+            //     allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
+            //     allFreezeTime: res.dataFreeze ? res.dataFreeze : []
+            // })
         }
     }
 
@@ -91,19 +106,64 @@ class DoctorSchedule extends Component {
         return allDays;
       };
 
+    checkAvailableTime = (res) => {
+        let currentTime = new Date()
+            let hours = currentTime.getHours()
+            let newArr = []
+            if(hours >= 8 ) {
+                newArr = res.dataAvailable.filter(item => item.timeType !== 'T1')
+                if(hours >= 9) {
+                    newArr = newArr.filter(item => item.timeType !== 'T2')
+                    if(hours >= 10) {
+                        newArr = newArr.filter(item => item.timeType !== 'T3')
+                        if(hours >= 11) {
+                            newArr = newArr.filter(item => item.timeType !== 'T4')
+                            if(hours >= 13) {
+                                newArr = newArr.filter(item => item.timeType !== 'T5')
+                                if(hours >= 14) {
+                                    newArr = newArr.filter(item => item.timeType !== 'T6')
+                                    if(hours >= 15) {
+                                        newArr = newArr.filter(item => item.timeType !== 'T7')
+                                        if(hours >= 16) {
+                                            newArr = newArr.filter(item => item.timeType !== 'T8')
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return newArr;
+    }
     handleOnChangeSelect = async (event) => {
         if(this.props.doctorIdFromParent && this.props.doctorIdFromParent !== -1){
             let doctorId = this.props.doctorIdFromParent
             let date = event.target.value;
             let res = await getScheduleDoctorByDateService(doctorId, date)
-            
-            if(res && res.errCode === 0) {
+            console.log('date', res, doctorId, date)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Đặt giá trị giờ, phút, giây và mili giây về 0
+            const todayTimestamp = today.getTime();
+
+            // Kiểm tra xem timestamp có phải là ngày hôm nay hay không
+            if (date >= todayTimestamp && date < todayTimestamp + 86400000) {
+                if(res && res.errCode === 0) {
+                    let dataAvailable = this.checkAvailableTime(res)
+                    this.setState({
+                        // allAvailableTime: res.data ? res.data : []
+                        allAvailableTime: dataAvailable,
+                        allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
+                    })
+                } 
+            } else {
                 this.setState({
                     // allAvailableTime: res.data ? res.data : []
                     allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
                     allFreezeTime: res.dataFreeze ? res.dataFreeze : []
                 })
-            } 
+            }
+            
         }
     }
 

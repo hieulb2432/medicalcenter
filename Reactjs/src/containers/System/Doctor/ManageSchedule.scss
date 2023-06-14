@@ -7,6 +7,11 @@
       font-size: 17px;
       text-align: center;
     }
+    .container .row .doctor-infor {
+      font-size: 20px;
+      font-weight: 600;
+      padding-top: 15px;
+    }
     .pick-hour-container {
       padding-top: 20px;
       padding-bottom: 20px;
@@ -25,3 +30,28 @@
       margin-top: 20px;
     }
   }
+
+.manage-patient-container {
+  .container {
+    .row {
+      .table-manage-patient {
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even){background-color: #f2f2f2}
+        
+        th {
+          background-color: #04AA6D;
+          color: white;
+        }
+
+        .btn-primary {
+          background-color: orange!important;
+          border-color: orange !important;
+        }
+      }
+    }
+  }
+}

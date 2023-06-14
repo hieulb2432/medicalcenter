@@ -157,11 +157,11 @@ export const deleteUser = (id) => {
   };
 
 export const deleteUserSuccess = () => ({
-    type: actionTypes.DELETE_USER_FAILED,
+    type: actionTypes.DELETE_USER_SUCCESS,
   });
   
 export const deleteUserFailed = () => ({
-    type: actionTypes.DELETE_USER_SUCCESS,
+    type: actionTypes.DELETE_USER_FAILED,
   });
 
 export const editUser = (id) => {
@@ -184,11 +184,11 @@ export const editUser = (id) => {
   };
 
 export const editUserSuccess = () => ({
-    type: actionTypes.EDIT_USER_FAILED,
+    type: actionTypes.EDIT_USER_SUCCESS,
   });
   
 export const editUserFailed = () => ({
-    type: actionTypes.EDIT_USER_SUCCESS,
+    type: actionTypes.EDIT_USER_FAILED,
   });
 
 export const fetchTopDoctor = () => {

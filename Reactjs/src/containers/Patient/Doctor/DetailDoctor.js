@@ -15,7 +15,7 @@ class DetailDoctor extends Component {
         super(props);
         this.state = {
             detailDoctor: {},
-            currentDoctorId: -1,
+            currentDoctorId: this.props.match.params.id,
         }
     }
 
@@ -69,11 +69,11 @@ class DetailDoctor extends Component {
                                         {detailDoctor.Markdown.description}
                                     </span>    
                                 }
-                                <div className='like-share-plugin'>
+                                {/* <div className='like-share-plugin'>
                                     <LikeAndShare
                                         dataHref={currentURL}
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -102,16 +102,16 @@ class DetailDoctor extends Component {
                             </div>
                         }
 
-                        <div className='comment-doctor'>
+                        {/* <div className='comment-doctor'>
                             <Comment
                                 dataHref={currentURL}
                                 width={"100%"}
                             />
-                        </div>
+                        </div> */}
                     </div>
 
-                    <div className='comment-doctor'>
-                    </div>
+                    {/* <div className='comment-doctor'>
+                    </div> */}
                     <HomeFooter />
                 </div>
             </>

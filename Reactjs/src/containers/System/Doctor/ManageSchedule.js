@@ -9,22 +9,26 @@ import DatePicker from '../../../components/Input/DatePicker'
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import _, { range, result } from 'lodash';
-import {saveBulkSchecduleDoctorService} from '../../../services/userService'
+import {saveBulkSchecduleDoctorService, getListPatientForOneDoctorService, getDetailInforDoctorService, getInforUserBooking} from '../../../services/userService'
+import ModalBookingInfo from './ModalBookingInfo';
 
 class ManageSchedule extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentDateConvert: moment(new Date()).startOf('day').valueOf(),
             listDoctors: [],
-            selectedDoctor: {},
+            // selectedDoctor: {},
             currentDate: '',
             rangeTime: [],
-            inDay: true
+            inDay: true,
+            bookingData: {},
+            isOpenModal: false
         }
     }
 
-    componentDidMount() {
-        this.props.fetchAllDoctors();
+    async componentDidMount() {
+        // this.props.fetchAllDoctors();
         this.props.fetchAllScheduleTime();
     }
 
@@ -50,12 +54,12 @@ class ManageSchedule extends Component {
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.allDoctors !== this.props.allDoctors){
-            let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
-            this.setState({
-                listDoctors: dataSelect,
-            });
-        }
+        // if(prevProps.allDoctors !== this.props.allDoctors){
+        //     let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
+        //     this.setState({
+        //         listDoctors: dataSelect,
+        //     });
+        // }
 
         if(prevProps.allScheduleTime!== this.props.allScheduleTime){
             let data = this.props.allScheduleTime;
@@ -98,30 +102,56 @@ class ManageSchedule extends Component {
 
     }
 
-    buildDataInputSelect = (inputData) => {
-        let result = []
-        let {language} = this.props;
-        if(inputData && inputData.length > 0){
-            inputData.map((item, index) => {
-                let object = {};
-                let labelVi = `${item.lastName} ${item.firstName}`
-                let labelEn = `${item.firstName} ${item.lastName}`
-                object.label = language === LANGUAGES.VI ? labelVi : labelEn 
-                object.value = item.id;
-                result.push(object);        
-            });
+    
+    toggleUserModal = () => {
+        this.setState({
+            isOpenModal: !this.state.isOpenModal,
+        })
+    }
+    getDataPatient = async () => {
+        let {user} = this.props
+        let {currentDate} = this.state
+        let formatedDate = new Date(currentDate).getTime()
+
+        let res = await getListPatientForOneDoctorService({
+            doctorId: user.id,
+            date: formatedDate
+        })
+        if(res && res.errCode === 0){
+            this.setState({
+                dataPatient: res.data
+            })
         }
-        return result
     }
 
-    handleChangeSelect = async (selectedDoctor) => {
-        this.setState({ selectedDoctor })
-    };
+    // buildDataInputSelect = (inputData) => {
+    //     let result = []
+    //     let {language} = this.props;
+    //     if(inputData && inputData.length > 0){
+    //         inputData.map((item, index) => {
+    //             let object = {};
+    //             let labelVi = `${item.lastName} ${item.firstName}`
+    //             let labelEn = `${item.firstName} ${item.lastName}`
+    //             object.label = language === LANGUAGES.VI ? labelVi : labelEn 
+    //             object.value = item.id;
+    //             result.push(object);        
+    //         });
+    //     }
+    //     return result
+    // }
+
+    // handleChangeSelect = async (selectedDoctor) => {
+    //     this.setState({ selectedDoctor })
+    // };
 
     handleOnChangeDatePicker = (date) => {
         this.setState({ 
             currentDate: date[0]
-        }) 
+        }
+        , async () => {
+            await this.getDataPatient()
+        })
+
     }
 
     handleClickBtnTime = (time) => {
@@ -142,16 +172,17 @@ class ManageSchedule extends Component {
 
     handleSaveSchedule = async () => {
         let {rangeTime, currentDate, selectedDoctor} = this.state;
+        let { user } = this.props;
         let result = [];
         if(!currentDate) {
             toast.error('Invalid date!');
             return;
         }
         
-        if(selectedDoctor && _.isEmpty(selectedDoctor)){
-            toast.error('Invalid selected doctor!');
-            return;
-        }
+        // if(selectedDoctor && _.isEmpty(selectedDoctor)){
+        //     toast.error('Invalid selected doctor!');
+        //     return;
+        // }
 
         let formatedDate = new Date(currentDate).getTime();
         // let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
@@ -162,7 +193,8 @@ class ManageSchedule extends Component {
             if (selectedTime && selectedTime.length > 0) {
                 selectedTime.map(schedule => {
                     let object = {}
-                    object.doctorId = selectedDoctor.value;
+                    // object.doctorId = selectedDoctor.value;
+                    object.doctorId = user.id;
                     object.date = formatedDate;
                     object.timeType = schedule.keyMap;
                     result.push(object);
@@ -171,13 +203,12 @@ class ManageSchedule extends Component {
                 toast.error('Invalid selected time!');
                 return;
             }
-            console.log('check range time', rangeTime);
         }
-
 
         let res = await saveBulkSchecduleDoctorService({
             arrSchedule: result,
-            doctorId: selectedDoctor.value,
+            // doctorId: selectedDoctor.value,
+            doctorId: user.id,
             date: formatedDate
         })
 
@@ -185,14 +216,29 @@ class ManageSchedule extends Component {
             toast.success('Save info successfully');
         } else {
             toast.error('Error saving');
-            console.log('Error res',res)
         }
 
     }
     
+    handleOpenModal = async (item) => {
+        this.setState({
+            isOpenModal: true,
+            bookingData: item
+        })
+        // const data = await getInforUserBooking(item.doctorId, item.date, item.timeType)
+        // this.setState({
+        //     patientInfor: data.data
+        // })
+    }
+
     render() {
-        const { listDoctors, selectedDoctor, currentDate, rangeTime } = this.state;
-        const { language } = this.props;
+        const { listDoctors, selectedDoctor, currentDate, rangeTime, dataPatient, patientInfor} = this.state;
+        const { language, user} = this.props;
+        let nameVi, nameEn
+        if(user) {
+            nameVi = `${user.lastName} ${user.firstName}`;
+            nameEn = `${user.firstName} ${user.lastName}`;
+        }
         let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
         return (
             <div className='manage-schedule-container'>
@@ -201,13 +247,17 @@ class ManageSchedule extends Component {
                 </div>
                 <div className='container'>
                     <div className='row'>
-                        <div className='col-6 form-group'>
-                            <label><FormattedMessage id="manage-schedule.choose-doctor"/></label>
-                            <Select
+                        <div className='col-6'>
+                            <div><FormattedMessage id="manage-schedule.choose-doctor"/></div>
+                            <div className='doctor-infor'>
+                                {language=== LANGUAGES.VI ? nameVi : nameEn}
+                            </div>
+                            
+                            {/* <Select
                                 value={this.state.selectedDoctor}
                                 onChange={this.handleChangeSelect}
                                 options={this.state.listDoctors}
-                            />
+                            /> */}
                         </div>
                         <div className='col-6 form-group'>
                             <label><FormattedMessage id="manage-schedule.choose-date"/></label>
@@ -246,7 +296,69 @@ class ManageSchedule extends Component {
                         </div>
                     </div>
                 </div>
+
+                <div className='manage-patient-container'>
+                    
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-12 m-p-title' style={{margin: '10px 0 10px 0'}}>
+                                Quản lý lịch khám bệnh nhân
+                            </div>
+                            <div className='col-4 form-group'>
+                                <label>Chọn ngày</label>
+                                <DatePicker
+                                        onChange={this.handleOnChangeDatePicker}
+                                        className='form-control'
+                                        value={currentDate}
+
+                                    />
+                            </div>
+                            <div className='col-12 table-manage-patient'>
+                            <table style={{width:'100%', borderCollapse: 'collapse'}}>
+                                <tbody>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Thời gian</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                    {dataPatient && dataPatient.length > 0 ? 
+                                        dataPatient.map((item, index) => {
+                                            let time = language === LANGUAGES.VI ? 
+                                            item['timeTypeData.valueVi'] : item['timeTypeData.valueEn']
+                                            return(
+                                            <tr key={index}>
+                                            <td>{index+1}</td>
+                                            <td>{time}</td>
+                                            <td><button className='btn btn-primary'
+                                                    onClick={() => this.handleOpenModal(item)}
+                                                >Xem chi tiet
+                                            </button>
+                                            </td>
+                                        </tr>
+                                        )
+                                    })
+                                    :
+                                    <tr>
+                                        <td colSpan='6' style={{textAlign: "center"}}>
+                                            Không có dữ liệu
+                                        </td>
+                                    </tr>
+                                }
+                                    
+                                </tbody>
+                            </table>
+                            <ModalBookingInfo
+                                isOpen = {this.state.isOpenModal}
+                                toggle = {this.toggleUserModal}
+                                bookingData = {this.state.bookingData}
+                            />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            
         );
     }
 }
@@ -255,14 +367,13 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
-        allDoctors: state.admin.allDoctors,
-        allScheduleTime: state.admin.allScheduleTime
+        allScheduleTime: state.admin.allScheduleTime,
+        user: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
         fetchAllScheduleTime: () => dispatch(actions.fetchAllScheduleTime()),
     };
 };

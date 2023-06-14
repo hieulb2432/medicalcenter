@@ -34,6 +34,7 @@ class Header extends Component {
                 menu = doctorMenu;
             }
         }
+        console.log('check userInffo', userInfo)
         this.setState({
             menuApp: menu
         });

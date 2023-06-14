@@ -1,7 +1,6 @@
 import axios from '../axios';
 
 const handleLoginApi = (email, password) => {
-  console.log('acc')
   return axios.post('/api/login', {email, password});
 };
 
@@ -31,6 +30,10 @@ export const getTopDoctorHomeService = (limit) => {
 
 export const getAllDoctorsService = () => {
   return axios.get(`/api/get-all-doctors`);
+};
+
+export const getOneDoctorService = (id) => {
+  return axios.get(`/api/get-one-doctor?id=${id}`);
 };
 
 export const saveDetailDoctorService = (data) => {
@@ -93,8 +96,21 @@ export const getAllPatientForDoctorService = (data) => {
   return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`);
 };
 
+export const getListPatientForOneDoctorService = (data) => {
+  return axios.get(`/api/get-list-patient-for-one-doctor?doctorId=${data.doctorId}&date=${data.date}`);
+};
+
 export const postSendRemedyService = (data) => {
   return axios.post('/api/send-remedy', data);
+};
+
+export const getInforUserBooking = (doctorId, date, timeType) => {
+  return axios.get(`/api/get-infor-user-booking?doctorId=${doctorId}&date=${date}&timeType=${timeType}`);
+};
+
+export const getScheduleCancelService = (data) => {
+  console.log('a', data)
+  return axios.get(`/api/get-schedule-cancel?doctorId=${data.doctorId}&date=${data.date}&timeType=${data.timeType}`);
 };
 
 export { 
