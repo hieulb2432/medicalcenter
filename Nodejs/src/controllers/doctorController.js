@@ -30,6 +30,19 @@ let getAllDoctors = async (req, res) => {
     }
 }
 
+let getOneDoctor = async (req, res) => {
+    try{
+        let doctor = await doctorService.getOneDoctor(req.query.id);
+        return res.status(200).json(doctor);
+    } catch(e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
 let postInforDoctor = async (req, res) => {
     try{
         let response = await doctorService.saveDetailInforDoctor(req.body);
@@ -123,6 +136,46 @@ let getListPatientForDoctor = async (req, res) => {
     }
 }
 
+let getListPatientForOneDoctor = async (req, res) => {
+    try{
+        let infor = await doctorService.getListPatientForOneDoctor(req.query.doctorId, req.query.date);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
+let getInforUserBooking = async (req, res) => {
+    try{
+        let infor = await doctorService.getInforUserBooking(req.query.doctorId, req.query.date, req.query.timeType);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
+let getScheduleCancel = async (req, res) => {
+    try{
+        console.log('a',req.query)
+        let infor = await doctorService.getScheduleCancel(req.query.doctorId, req.query.date, req.query.timeType);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
 let sendRemedy = async (req, res) => {
     try{
         let infor = await doctorService.sendRemedy(req.body);
@@ -140,6 +193,7 @@ let sendRemedy = async (req, res) => {
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
+    getOneDoctor: getOneDoctor,
     postInforDoctor: postInforDoctor,
     getDetailDoctorById: getDetailDoctorById,
     bulkCreateSchedule: bulkCreateSchedule,
@@ -147,5 +201,8 @@ module.exports = {
     getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
     getListPatientForDoctor: getListPatientForDoctor,
+    getListPatientForOneDoctor: getListPatientForOneDoctor,
+    getInforUserBooking: getInforUserBooking,
+    getScheduleCancel: getScheduleCancel,
     sendRemedy: sendRemedy
 }

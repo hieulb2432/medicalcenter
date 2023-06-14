@@ -42,7 +42,7 @@ let getTopDoctorHome = (limitInput) => {
 }
 
 let getAllDoctors = () => {
-  return new Promise (async(resole, reject) => {
+  return new Promise (async(resolve, reject) => {
     try {
       let doctors = await db.User.findAll({
         where: {roleId: 'R2'},
@@ -51,10 +51,39 @@ let getAllDoctors = () => {
         },
         
       })
-      resole({
+      resolve({
         errCode: 0,
         data: doctors
       })
+    } catch (e) {
+        reject(e);
+    }
+  })
+}
+
+let getOneDoctor = (inputId) => {
+  return new Promise (async(resolve, reject) => {
+    try {
+      if(!inputId){
+        resolve({
+          errCode: 1,
+          errMessage: 'id is null'
+        })
+      } else {
+        let doctor = await db.User.findOne({
+          where: {
+            roleId: 'R2',
+            id: inputId
+          },
+          attributes: {
+            exclude: ['password', 'image'],
+          },
+        })
+        resolve({
+          errCode: 0,
+          data: doctor
+        })
+      }
     } catch (e) {
         reject(e);
     }
@@ -210,7 +239,6 @@ let getDetailDoctorById = (inputId) => {
         })
 
         if (data && data.image) {
-          // data.image = new Buffer(data.image, 'base64').toString('binary');
           data.image = Buffer.from(data.image, 'base64').toString('binary');
         }
 
@@ -290,12 +318,12 @@ let getScheduleByDate = (doctorId, date) => {
           errMessage: 'Missing required parameters'
         })
       } else {
-        const quaterHour = 60 * 60 * 250
+        const quaterHour = 15 * 60 * 1000
         let dataBooking = await db.Booking.findAll({
           where: {
             doctorId: doctorId,
             date: date,
-            statusId: ['S2','S3','S1'],
+            statusId: ['S2','S3','S1', 'S5'],
             [Op.not]: [
               { statusId: 'S1' },
               {
@@ -508,6 +536,133 @@ let getListPatientForDoctor = (doctorId, date) => {
   })
 }
 
+let getListPatientForOneDoctor = (doctorId, date) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!doctorId || !date){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let existing = await db.Schedule.findAll({
+          where: {
+            doctorId: doctorId,
+            date: date,
+          },
+          attributes: ['timeType', 'date', 'doctorId'],
+          include: [
+            {
+              model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi']
+            }
+          ],
+          raw: true,
+        });
+        resolve({
+          errCode: 0,
+          data: existing
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let getInforUserBooking = (doctorId, date, timeType) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!doctorId || !date || !timeType) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let userBookingInfor = await db.Booking.findAll({
+          where: {
+            doctorId: doctorId,
+            date: date,
+            timeType: timeType
+          },
+          attributes: ['timeType', 'statusId', 'patientId'],
+          include: [
+            {
+              model: db.User, as: 'patientData',
+              attributes: ['email', 'firstName'],
+            },
+            {
+              model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']
+            },
+            {
+              model: db.Allcode, as: 'statusIdData', attributes: ['valueEn', 'valueVi']
+            }, 
+          ],
+          raw: true,
+        });
+        resolve({
+          errCode: 0,
+          data: userBookingInfor
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let getScheduleCancel = (doctorId, date, timeType) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!doctorId || !date || !timeType) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        const quaterHour = 15 * 60 * 1000
+        let userBookingInfor1 = await db.Booking.findOne({
+          where: {
+            doctorId: doctorId,
+            date: date,
+            timeType: timeType,
+            statusId: ['S2','S3','S1'],
+          },
+          order: [['createdAt', 'DESC']],
+          raw: false,
+        });
+
+        let userBookingInfor2 = await db.Booking.findOne({
+          where: {
+            doctorId: doctorId,
+            date: date,
+            timeType: timeType,
+            statusId: ['S4'],
+          },
+          order: [['createdAt', 'DESC']],
+          raw: false,
+        });
+
+        if(userBookingInfor1.statusId === 'S1' || userBookingInfor1.statusId === 'S2') {
+          userBookingInfor1.statusId = 'S5';
+          await userBookingInfor1.save();
+          let userEmail = await db.User.findOne({where: {id: userBookingInfor1.patientId}, raw: true})
+          await emailService.sendCancelEmail(userBookingInfor1, userEmail.email)
+        } else if (userBookingInfor2.statusId === 'S4') {
+          userBookingInfor2.statusId = 'S5';
+          await userBookingInfor2.save();
+        }
+        resolve({
+          errCode: 0,
+          data1: userBookingInfor1,
+          data2: userBookingInfor2,
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
 let sendRemedy = (data) => {
   return new Promise(async(resolve, reject) => {
     try {
@@ -547,6 +702,7 @@ let sendRemedy = (data) => {
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
+    getOneDoctor: getOneDoctor,
     saveDetailInforDoctor: saveDetailInforDoctor,
     getDetailDoctorById: getDetailDoctorById,
     bulkCreateSchedule: bulkCreateSchedule,
@@ -554,5 +710,8 @@ module.exports = {
     getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
     getListPatientForDoctor: getListPatientForDoctor,
+    getListPatientForOneDoctor: getListPatientForOneDoctor,
+    getInforUserBooking: getInforUserBooking,
+    getScheduleCancel: getScheduleCancel,
     sendRemedy: sendRemedy,
 }

@@ -39,17 +39,17 @@ let handleUserLogin = (email, password) => {
             userData.user = user;
           } else {
             userData.errCode = 3;
-            userData.errMessage = 'Wrong password!';
+            userData.errMessage = 'Nhập sai mật khẩu';
           }
         } else {
           userData.errCode = 2;
-          userData.errMessage = 'User not found!';
+          userData.errMessage = 'Tài khoản không tồn tại';
         }
       } else {
         //return error
         userData.errCode = 1;
         userData.errMessage =
-          "Your's email is not exist!, please register first!";
+          "Tài khoản này không tồn tại, hãy yêu cầu đăng ký";
       }
       resolve(userData);
     } catch (e) {

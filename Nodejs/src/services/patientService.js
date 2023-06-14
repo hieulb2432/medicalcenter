@@ -58,6 +58,19 @@ let postBookAppointment = (data) => {
             });
           }
 
+          setTimeout(async () => {
+            let appointment = await db.Booking.findOne({
+              where: {
+                doctorId: data.doctorId,
+                token: token,
+                statusId: 'S1'
+              }, 
+              raw: false
+            })
+            appointment.statusId = 'S4';
+            await appointment.save()
+          }, 15*60*1000)
+
 
           resolve({
             errCode: 0,
@@ -73,10 +86,10 @@ let checkTimeToVerify = (appointment) => {
   let createDate = new Date(appointment.createdAt).getTime()
   const now = +new Date().getTime();
   const diffInMilliseconds = Math.abs(now - createDate);
-  console.log(diffInMilliseconds)
-  console.log(createDate, now, typeof(createDate), typeof(now))
+  // console.log(diffInMilliseconds)
+  // console.log(createDate, now, typeof(createDate), typeof(now))
   // Tính toán khoảng cách tương ứng với 15 phút trong mili giây
-  const fifteenMinutesInMilliseconds = 1 * 60 * 1000;
+  const fifteenMinutesInMilliseconds = 15 * 60 * 1000;
 
   // So sánh khoảng cách giữa 2 timestamp với khoảng cách tương ứng với 15 phút
   if (diffInMilliseconds >= fifteenMinutesInMilliseconds) {
@@ -106,7 +119,6 @@ let postVerifyBookAppointment = (data) => {
         
         if(appointment){
           let checkTime = checkTimeToVerify(appointment)
-          console.log(checkTime)
           if(checkTime) {
             appointment.statusId = 'S2';
             await appointment.save()
@@ -114,19 +126,27 @@ let postVerifyBookAppointment = (data) => {
               errCode: 0,
               errMessage: 'Update Appoinment succeed!',
             })
-          } else {
-            appointment.statusId = 'S4';
-            await appointment.save()
-            resolve({
-              errCode: 4,
-              errMessage: 'Quá thời gian nên không thể cập nhật',
-            })
           }
         } else {
-          resolve({
-            errCode: 2,
-            errMessage: 'Appoinment has been actived or not exist',
+          let appointment2 = await db.Booking.findOne({
+            where: {
+              doctorId: data.doctorId,
+              token: data.token,
+              statusId: 'S4'
+            }, 
+            raw: false
           })
+          if(appointment2) {
+            resolve({
+              errCode: 4,
+              errMessage: 'Quá thời gian',
+            })
+          } else {
+            resolve({
+              errCode: 2,
+              errMessage: 'Appoinment has been actived or not exist',
+            })
+          }
         }
       }
     } catch(e){
