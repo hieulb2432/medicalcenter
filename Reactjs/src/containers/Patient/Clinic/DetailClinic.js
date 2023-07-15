@@ -86,7 +86,6 @@ class DetailClinic extends Component {
                                         isShowDescriptionDoctor={true}
                                         isShowLinkDetail={true}
                                         isShowPrice={false}
-                                        // dataTime={dataTime}
                                     />
                                 </div>
                             </div>

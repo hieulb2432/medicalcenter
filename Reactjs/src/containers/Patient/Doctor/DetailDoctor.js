@@ -9,6 +9,7 @@ import DoctorExtraInfor from './DoctorExtraInfor';
 import Comment from '../SocialPlugin/Comment'
 import HomeFooter from '../../HomePage/HomeFooter';
 import LikeAndShare from '../SocialPlugin/LikeAndShare'
+import LoadingOverlay from 'react-loading-overlay'
 
 class DetailDoctor extends Component {
     constructor(props) {
@@ -40,7 +41,7 @@ class DetailDoctor extends Component {
 
     render() {
         let {language} = this.props
-        let { detailDoctor } = this.state;
+        let { detailDoctor, isShowLoading } = this.state;
         let nameVi, nameEn
         if(detailDoctor && detailDoctor.positionData) {
             nameVi = `${detailDoctor.positionData?.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`;
@@ -51,7 +52,8 @@ class DetailDoctor extends Component {
             "https://heroku.com...." : window.location.href;
 
         return (
-            <>                
+            <>  
+       
                 <HomeHeader isShowBanner={false}/>
                 <div className='doctor-detail-container'>
                     <div className='intro-doctor'>
@@ -69,11 +71,6 @@ class DetailDoctor extends Component {
                                         {detailDoctor.Markdown.description}
                                     </span>    
                                 }
-                                {/* <div className='like-share-plugin'>
-                                    <LikeAndShare
-                                        dataHref={currentURL}
-                                    />
-                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -101,17 +98,7 @@ class DetailDoctor extends Component {
                                 >
                             </div>
                         }
-
-                        {/* <div className='comment-doctor'>
-                            <Comment
-                                dataHref={currentURL}
-                                width={"100%"}
-                            />
-                        </div> */}
                     </div>
-
-                    {/* <div className='comment-doctor'>
-                    </div> */}
                     <HomeFooter />
                 </div>
             </>

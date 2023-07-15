@@ -40,14 +40,24 @@ class Login extends Component {
         let data = {}
         try {
             data = await handleLoginApi(this.state.username, this.state.password);
+            // // Lấy username và password từ người dùng
+            // const username = document.getElementById('username').value;
+            // const password = document.getElementById('password').value;
+
+            // // Lưu username và password vào localStorage
+            // localStorage.setItem('username', username);
+            // localStorage.setItem('password', password);
+
+            // // Đọc username và password từ localStorage
+            // const savedUsername = localStorage.getItem('username');
+            // const savedPassword = localStorage.getItem('password');
+            
             if(data && data.errCode !== 0) {
-                console.log(data)
                 this.setState({
                     errMessage: data.message
                 })
             }
             if(data && data.errCode === 0) {
-                console.log(data.user)
                 let {userInfo, navigate} = this.props;
             let redirectPath = '';
                 let role = data.user.roleId;
@@ -56,7 +66,7 @@ class Login extends Component {
                     navigate(`${redirectPath}`)
                 }
                 if(role === USER_ROLE.DOCTOR) {
-                    redirectPath = '/system/user-redux';
+                    redirectPath = '/doctor/manage-schedule';
                     navigate(`${redirectPath}`)
                 }
                 this.props.userLoginSuccess(data.user)
@@ -78,7 +88,6 @@ class Login extends Component {
             let {userInfo, navigate} = this.props;
             let redirectPath = '';
             if (userInfo && !_.isEmpty(userInfo)){
-                console.log(userInfo)
                 let role = userInfo.roleId;
                 if(role === USER_ROLE.ADMIN) {
                     redirectPath = '/system/user-redux';

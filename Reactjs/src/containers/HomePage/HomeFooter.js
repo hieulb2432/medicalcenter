@@ -23,7 +23,7 @@ class HomeFooter extends Component {
                                     <img src={logo} onClick={()=>this.returnToHome()} />
                                 </div>
                                 <div className='home-footer-title'>
-                                    <span>Công ty Cổ phần Công nghệ HealthCare</span>
+                                    <span>Công ty Cổ phần Công nghệ Medical Center</span>
                                 </div>
                             <div className='home-footer-address'>
                                 <i class="address-logo fas fa-map-marker-alt"></i>
@@ -63,13 +63,13 @@ class HomeFooter extends Component {
                         </div>
                         <div className='brach-x'>
                             <div className='brach-title'>Hỗ trợ khách hàng</div>
-                            <div className='brach-title-description'>support@healthcare.vn</div>
+                            <div className='brach-title-description'>support@Medicalcenter.vn</div>
                         </div>
                     </div>
                 </div>
                 <div className='copyright col-12'>
                     <span>
-                        &copy; 2022 Cong ty co phan Health Care
+                        &copy; 2022 Cong ty co phan Medical Center
                     </span>
                     <a
                         target="_blank"

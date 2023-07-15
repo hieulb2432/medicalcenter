@@ -14,11 +14,11 @@
             background-color: darken($colormain, 5);
         }
         .menu-group-name {
-            line-height: 40px;
+            line-height: 50px;
             padding: 0 15px;
-            border-right: 1px solid $border;
+            // border-right: 1px solid $border;
             &:first-child {
-                border-left: 1px solid $border;
+                // border-left: 1px solid $border;
             }
         }
         .menu-list {

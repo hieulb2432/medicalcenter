@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from "react-redux";
 import './ManageSchedule.scss'
 import { FormattedMessage } from 'react-intl'
@@ -18,18 +18,20 @@ class ManageSchedule extends Component {
         this.state = {
             currentDateConvert: moment(new Date()).startOf('day').valueOf(),
             listDoctors: [],
-            // selectedDoctor: {},
             currentDate: '',
             rangeTime: [],
             inDay: true,
             bookingData: {},
-            isOpenModal: false
+            isOpenModal: false, 
+            checkToday: false,
         }
     }
 
     async componentDidMount() {
-        // this.props.fetchAllDoctors();
         this.props.fetchAllScheduleTime();
+        this.setState({
+            checkToday: true,
+        })
     }
 
     checkTime = (data) => {
@@ -54,12 +56,23 @@ class ManageSchedule extends Component {
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        // if(prevProps.allDoctors !== this.props.allDoctors){
-        //     let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
-        //     this.setState({
-        //         listDoctors: dataSelect,
-        //     });
-        // }
+        if(prevState.currentDate !== this.state.currentDate) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Đặt giá trị giờ, phút, giây và mili giây về 0
+            const todayTimestamp = today.getTime();
+
+            // Kiểm tra xem timestamp có phải là ngày hôm nay hay không
+            const timestamp = new Date(this.state.currentDate).getTime() // 2022-05-07
+            if (timestamp >= todayTimestamp) {
+                this.setState({
+                    checkToday: true
+                })
+            } else {
+                this.setState({
+                    checkToday: false
+                })
+            }
+        }
 
         if(prevProps.allScheduleTime!== this.props.allScheduleTime){
             let data = this.props.allScheduleTime;
@@ -86,16 +99,16 @@ class ManageSchedule extends Component {
                 if(data && data.length > 0) {
                     data = data.map(item => ({
                         ...item,
-                        isSelected: false
+                        isSelected: false,
                     }))
                 }
                 this.setState({
-                    rangeTime: this.checkTime(data)
+                    rangeTime: this.checkTime(data),
                 })
             } else {
                 let data = this.props.allScheduleTime;
                 this.setState({
-                    rangeTime: data
+                    rangeTime: data,
                 })
             }
         }
@@ -123,26 +136,6 @@ class ManageSchedule extends Component {
             })
         }
     }
-
-    // buildDataInputSelect = (inputData) => {
-    //     let result = []
-    //     let {language} = this.props;
-    //     if(inputData && inputData.length > 0){
-    //         inputData.map((item, index) => {
-    //             let object = {};
-    //             let labelVi = `${item.lastName} ${item.firstName}`
-    //             let labelEn = `${item.firstName} ${item.lastName}`
-    //             object.label = language === LANGUAGES.VI ? labelVi : labelEn 
-    //             object.value = item.id;
-    //             result.push(object);        
-    //         });
-    //     }
-    //     return result
-    // }
-
-    // handleChangeSelect = async (selectedDoctor) => {
-    //     this.setState({ selectedDoctor })
-    // };
 
     handleOnChangeDatePicker = (date) => {
         this.setState({ 
@@ -178,22 +171,13 @@ class ManageSchedule extends Component {
             toast.error('Invalid date!');
             return;
         }
-        
-        // if(selectedDoctor && _.isEmpty(selectedDoctor)){
-        //     toast.error('Invalid selected doctor!');
-        //     return;
-        // }
 
         let formatedDate = new Date(currentDate).getTime();
-        // let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
         if(rangeTime && rangeTime.length > 0) {
-            // let currentTime = new Date()
-            // let hours = currentTime.getHours()
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
                 selectedTime.map(schedule => {
                     let object = {}
-                    // object.doctorId = selectedDoctor.value;
                     object.doctorId = user.id;
                     object.date = formatedDate;
                     object.timeType = schedule.keyMap;
@@ -207,7 +191,6 @@ class ManageSchedule extends Component {
 
         let res = await saveBulkSchecduleDoctorService({
             arrSchedule: result,
-            // doctorId: selectedDoctor.value,
             doctorId: user.id,
             date: formatedDate
         })
@@ -225,14 +208,10 @@ class ManageSchedule extends Component {
             isOpenModal: true,
             bookingData: item
         })
-        // const data = await getInforUserBooking(item.doctorId, item.date, item.timeType)
-        // this.setState({
-        //     patientInfor: data.data
-        // })
     }
 
     render() {
-        const { listDoctors, selectedDoctor, currentDate, rangeTime, dataPatient, patientInfor} = this.state;
+        const { listDoctors, selectedDoctor, currentDate, rangeTime, dataPatient, patientInfor, checkToday} = this.state;
         const { language, user} = this.props;
         let nameVi, nameEn
         if(user) {
@@ -271,7 +250,9 @@ class ManageSchedule extends Component {
                             />
                         </div>
                         <div className='col-12 pick-hour-container'>
-                            {rangeTime && rangeTime.length > 0 &&
+                        <div className='col-12' style={{marginLeft: '-15px'}}><FormattedMessage id="manage-schedule.choose-schedule"/></div>
+                        
+                            {rangeTime && rangeTime.length > 0 ?
                                 rangeTime.map((item, index)=>{
                                     return(
                                         <button 
@@ -283,12 +264,15 @@ class ManageSchedule extends Component {
                                         </button>
                                     )
                                 })
+                                :
+                                <div className='pick-hour-container-no-schedule'>Đã quá giờ để chọn lịch cho ngày hôm nay</div>
                             }
+                            
                         </div>
 
                         <div className='col-12'>
                             <button 
-                                className='btn btn-primary btn-save-schedule'
+                                className={checkToday === true ? 'btn btn-primary btn-save-schedule' : 'btn btn-primary btn-save-disable'}
                                 onClick={()=>this.handleSaveSchedule()}
                             >
                                 <FormattedMessage id="manage-schedule.save"/>

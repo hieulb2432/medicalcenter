@@ -74,7 +74,6 @@ class DetailSpecialty extends Component {
                 location: location
             })
             
-            console.log('check data here', res)
             if(res && res.errCode === 0) {
                 let data = res.data
                 let arrDoctorId = []

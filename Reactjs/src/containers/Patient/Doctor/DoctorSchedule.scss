@@ -88,6 +88,26 @@
             font-size: 14px;
           }
         }
+        .note {
+          .square-note-available {
+            .available-square {
+              display: inline-block;
+              width: 30px;
+              height: 20px;
+              background: #fff04b;
+              margin-right: 10px;
+            }
+          }
+          .square-note-unavailable {
+            .unavailable-square {
+              display: inline-block;
+              width: 30px;
+              height: 20px;
+              background: #cccccc;
+              margin-right: 10px;
+            }
+          }
+        }
         .book-free {
           margin-top: 10px;
         }

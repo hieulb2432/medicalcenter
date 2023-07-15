@@ -25,7 +25,6 @@ class DoctorSchedule extends Component {
         let allDays = this.getArrDays(language);
         if(this.props.doctorIdFromParent){
             let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
-            console.log('res', res, this.props.doctorIdFromParent,  allDays[0].value)
             if(res && res.errCode === 0) {
                 let dataAvailable = this.checkAvailableTime(res)
                 this.setState({
@@ -34,11 +33,6 @@ class DoctorSchedule extends Component {
                     allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
                 })
             } 
-            // this.setState({
-            //     // allAvailableTime: res.data ? res.data : []
-            //     allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
-            //     allFreezeTime: res.dataFreeze ? res.dataFreeze : []
-            // })
         }
         this.setState({
             allDays: allDays,
@@ -61,11 +55,6 @@ class DoctorSchedule extends Component {
                     allAvailableTime: dataAvailable,
                     allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
                 })
-            // this.setState({
-            //     // allAvailableTime: res.data ? res.data : []
-            //     allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
-            //     allFreezeTime: res.dataFreeze ? res.dataFreeze : []
-            // })
         }
     }
 
@@ -141,7 +130,6 @@ class DoctorSchedule extends Component {
             let doctorId = this.props.doctorIdFromParent
             let date = event.target.value;
             let res = await getScheduleDoctorByDateService(doctorId, date)
-            console.log('date', res, doctorId, date)
             const today = new Date();
             today.setHours(0, 0, 0, 0); // Đặt giá trị giờ, phút, giây và mili giây về 0
             const todayTimestamp = today.getTime();
@@ -246,6 +234,17 @@ class DoctorSchedule extends Component {
                                     }
                                     </div>
 
+                                    <div className='note'>
+                                        <div className="square-note-available">
+                                            <div className="available-square"></div>
+                                            <span><FormattedMessage id="patient.detail-doctor.available" /></span>
+                                        </div>
+                                        <div className="square-note-unavailable">
+                                            <div className="unavailable-square"></div>
+                                            <span><FormattedMessage id="patient.detail-doctor.unavailable" /></span>
+                                        </div>
+                                    </div>
+
                                     <div className="book-free">
                                         <span>
                                             <FormattedMessage id="patient.detail-doctor.choose" />
@@ -267,6 +266,7 @@ class DoctorSchedule extends Component {
                     isOpenModal = {isOpenModalBooking}
                     closeBookingModal = {this.closeBookingModal}
                     dataTime = {dataScheduleTimeModal}
+                    isShowLoading= {this.state.isShowLoading}
                 />
             </>
         );

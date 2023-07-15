@@ -71,7 +71,6 @@ class ManageSpecialty extends Component {
             toast.error('Something wrongs...');
             console.log(res);
         }
-        console.log('check stateee', this.state)
     }
 
     render() {

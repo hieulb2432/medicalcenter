@@ -178,17 +178,19 @@ class BookingModal extends Component {
         }
 
         return (
-            <LoadingOverlay
-                active={this.state.isShowLoading}
-                spinner
-                text='Loading...'
-            >
+
             <Modal 
                 isOpen={isOpenModal} 
                 className={'booking-modal-container'}
                 size='lg'
                 centered
             >
+                <LoadingOverlay
+                active={this.state.isShowLoading}
+                // active={true}
+                spinner
+                text='Loading...'
+            ></LoadingOverlay>
                 <div className='booking-modal-content'>
                     <div className='booking-modal-header'>
                         <span className='left'>
@@ -310,7 +312,6 @@ class BookingModal extends Component {
                     </div>
                 </div>
             </Modal>
-            </LoadingOverlay>
         );
     }
 }

@@ -20,6 +20,10 @@ export const editUserService = (id) => {
   return axios.put('/api/edit-user', id);
 }
 
+export const checkUserEmail = (email) => {
+  return axios.post('/api/check-user-email',{'email': email});
+}
+
 export const getAllCodeService = (inputType) => {
   return axios.get(`/api/allcode?type=${inputType}`);
 }
@@ -92,6 +96,14 @@ export const getDetailClinicByIdService = (data) => {
   return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`);
 };
 
+export const handleDeleteClinic = (id) => {
+  return axios.delete('/api/delete-clinic', {data: {id}});
+}
+
+export const handleEditClinic = (data) => {
+  return axios.put('api/edit-clinic', data);
+}
+
 export const getAllPatientForDoctorService = (data) => {
   return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`);
 };
@@ -109,8 +121,15 @@ export const getInforUserBooking = (doctorId, date, timeType) => {
 };
 
 export const getScheduleCancelService = (data) => {
-  console.log('a', data)
   return axios.get(`/api/get-schedule-cancel?doctorId=${data.doctorId}&date=${data.date}&timeType=${data.timeType}`);
+};
+
+export const getHistoryAppointment = (email) => {
+  return axios.get(`/api/get-history-appointment?email=${email}`);
+};
+
+export const getAllHistorySchedule = (email, id) => {
+  return axios.get(`/api/get-all-history-schedule?email=${email}&id=${id}`);
 };
 
 export { 

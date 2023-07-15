@@ -22,7 +22,6 @@ class OutstandingDoctor extends Component {
         arrDoctors: this.props.topDoctorsRedux
       })
     }
-    console.log(this.props.topDoctorsRedux)
   }
 
   componentDidMount() {

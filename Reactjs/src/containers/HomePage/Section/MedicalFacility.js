@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import { getAllClinicService } from '../../../services/userService';
 import './MedicalFacility.scss';
 import {withRouter} from 'react-router';
+import { FormattedMessage } from 'react-intl';
 
 class MedicalFacility extends Component {
 
@@ -21,7 +22,6 @@ class MedicalFacility extends Component {
         dataClinic: res.data ? res.data : []
       });
     }
-    console.log('check facility', res)
   }
 
   componentDidUpdate() {
@@ -41,8 +41,8 @@ class MedicalFacility extends Component {
             <div className="section-share section-medical-facility">
             <div className="section-container container">
               <div className="section-header">
-                <h2 className="title-section">Cơ sở y tế nổi bật</h2>
-                <button className="btn-section">Xem thêm</button>
+                <h2 className="title-section"><FormattedMessage id="homepage.health-facilities"/></h2>
+                {/* <button className="btn-section">Xem thêm</button> */}
               </div>
               <div className="section-content">
                 <Slider {...this.props.settings}>
@@ -71,7 +71,8 @@ class MedicalFacility extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        language: state.app.language,
     };
 };
 

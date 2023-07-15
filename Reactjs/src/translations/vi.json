@@ -11,16 +11,7 @@
     "support": "Hỗ trợ",
     "welcome": "Xin chào"
 },
-"home-header-banner": {
-    "title1":"NỀN TẢNG Y TẾ",
-    "title2": "CHĂM SÓC SỨC KHỎE TOÀN DIỆN",
-    "check-specialty": "Khám chuyên khoa",
-    "remote": "Khám từ xa",
-    "general":"Khám tổng quát",
-    "test": "Xét nghiệm y học",
-    "mental": "Sức khỏe tinh thần",
-    "dental":"Khám nha khoa"
-},
+
 "menu": {
         "system": {
             "header": "Hệ thống",
@@ -43,9 +34,7 @@
             "clinic": "Phòng khám",
             "manage-clinic": "Quản lý phòng khám",
             "specialty": "Chuyên khoa",
-            "manage-specialty": "Quản lý chuyên khoa",
-            "handbook": "Cẩm nang",
-            "manage-handbook": "Quản lý cẩm nang"
+            "manage-specialty": "Quản lý chuyên khoa"
         }, 
         "doctor": {
             "manage-schedule": "Quản lý kế hoạch khám bệnh",
@@ -67,23 +56,31 @@
     "save": "Lưu user",
     "edit": "Lưu thay đổi"
   },
+
+  "manage-clinic": {
+    "add": "Thêm mới cơ sở y tế"
+  },
 "homepage": {
-    "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
+    "outstanding-doctor": "Các bác sĩ của chúng tôi",
     "more-info": "Xem thêm",
-    "popular-specialty": "Chuyên khoa phổ biến"
+    "popular-specialty": "Các chuyên khoa của chúng tôi",
+    "health-facilities": "Các cơ sở y tế của chúng tôi"
   },
 "manage-schedule": {
     "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
     "choose-doctor": "Bác sĩ",
     "choose-date": "Chọn ngày",
-    "save": "Lưu thông tin"
+    "save": "Lưu thông tin",
+    "choose-schedule": "Chọn lịch khám"
   },
 "patient": {
     "detail-doctor": {
         "schedule": "Lịch khám",
         "no-schedule": "Bác sĩ không có lịch hẹn trong thời gian này, vui lòng chọn thời gian khác!",
         "choose": "Chọn ",
-        "book-free": " và đặt (miễn phí)"
+        "book-free": " và đặt (miễn phí)",
+        "available": "Lịch còn trống",
+        "unavailable": "Lịch đã được đặt trước"
         },
     "extra-infor-doctor": {
         "text-address": "Địa chỉ khám",

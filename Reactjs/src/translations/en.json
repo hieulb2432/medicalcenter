@@ -11,16 +11,6 @@
         "support": "Support",
         "welcome": "Welcome"
     },
-    "home-header-banner": {
-        "title1":"MEDICAL PLATFORM",
-        "title2": "COMPREHENSIVE HEALTH CARE",
-        "check-specialty": "Specialized examination",
-        "remote":"Remote examination",
-        "general":"General examination",
-        "test": "Medical test",
-        "mental": "Mental health",
-        "dental":"Dental examination"
-    },
     "menu": {
         "admin": {
           "manage-user": "Users System",
@@ -31,9 +21,7 @@
           "clinic": "Clinics",
           "manage-clinic": "Manage clinics",
           "specialty": "Specialties",
-          "manage-specialty": "Manage specialties",
-          "handbook": "Handbook",
-          "manage-handbook": "Manage handbook"
+          "manage-specialty": "Manage specialties"
         },
         "doctor": {
             "manage-schedule": "Manage Doctor's Schedule",
@@ -55,23 +43,30 @@
         "save": "Save user",
         "edit": "Save change"
     },
+    "manage-clinic": {
+        "add": "Add new clinic"
+      },
     "homepage": {
-        "outstanding-doctor": "Last week's featured doctor",
+        "outstanding-doctor": "Our Doctor",
         "more-info": "More info",
-        "popular-specialty": "Popular specialties"
+        "popular-specialty": "Our Specialties",
+        "health-facilities": "Our Health Facilities"
       },
     "manage-schedule": {
         "title": "Manage doctor's examination plan",
         "choose-doctor": "Doctor",
         "choose-date": "Choose Date",
-        "save": "Save infor"
+        "save": "Save infor",
+        "choose-schedule": "Choose Schedule"
     },
     "patient": {
         "detail-doctor": {
           "schedule": "Schedule",
           "no-schedule": "The doctor does not have an appointment during this time, please choose another time!",
           "choose": "Choose ",
-          "book-free": " and book (free)"
+          "book-free": " and book (free)",
+          "available": "Available schedule",
+          "unavailable": "Booked schedule"
         },
     "extra-infor-doctor": {
         "text-address": "Address of examination",

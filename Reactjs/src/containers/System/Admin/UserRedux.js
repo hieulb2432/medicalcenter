@@ -5,8 +5,10 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
-import './UserRedux.scss'
 import TableManageUser from './TableManageUser';
+import { emitter } from '../../../utils/emitter';
+import ModalAddNewUser from './ModalAddNewUser';
+import ModalEditUser from './ModalEditUser';
 
 class UserRedux extends Component {
 
@@ -17,7 +19,7 @@ class UserRedux extends Component {
             positionArr: [],
             roleArr: [],
             previewImgURL: '',
-            isOpen: false,
+            isOpen: false, // Xem prview ảnh
 
             email: '',
             password: '',
@@ -32,6 +34,9 @@ class UserRedux extends Component {
 
             action: '',
             userEditId: '',
+            isOpenModalUser: false,
+            isOpenModalEditUser: false,
+            user: ''
         }
     }
 
@@ -127,6 +132,8 @@ class UserRedux extends Component {
                 positionId: this.state.position,
                 avatar: this.state.avatar,
             })
+
+            
         }
 
         if (action === CRUD_ACTION.EDIT) {
@@ -145,6 +152,7 @@ class UserRedux extends Component {
                 avatar: this.state.avatar
             })
         }
+
       }
 
       checkValidateInput = () => {
@@ -177,35 +185,54 @@ class UserRedux extends Component {
       }
 
       handleEditUserFromParent = (user) => {
-        let imageBase64 = '';
-        if (user.image) {
-        // imageBase64 = new Buffer(user.image, 'base64').toString('binary');
-        imageBase64 = Buffer.from(user.image, 'base64').toString('binary');
-        }
         this.setState({
-            email: user.email,
-            password: 'HASHCODE',
-            firstName: user.firstName,
-            lastName: user.lastName,
-            phoneNumber: user.phoneNumber,
-            address: user.address,
-            gender: user.gender,
-            role: user.roleId,
-            position: user.positionId,
-            avatar: '',
-            previewImgURL: imageBase64,
-            action: CRUD_ACTION.EDIT,
-            userEditId: user.id
+            isOpenModalEditUser: true
         })
+        this.setState({user: user})
+        // let imageBase64 = '';
+        // if (user.image) {
+        // imageBase64 = Buffer.from(user.image, 'base64').toString('binary');
+        // }
+        // this.setState({
+        //     email: user.email,
+        //     password: 'HASHCODE',
+        //     firstName: user.firstName,
+        //     lastName: user.lastName,
+        //     phoneNumber: user.phoneNumber,
+        //     address: user.address,
+        //     gender: user.gender,
+        //     role: user.roleId,
+        //     position: user.positionId,
+        //     avatar: '',
+        //     previewImgURL: imageBase64,
+        //     action: CRUD_ACTION.EDIT,
+        //     userEditId: user.id
+        // })
       }
 
+      handleAddNewUser = () => {
+        this.setState({
+            isOpenModalUser: true
+        })
+      }
+      
+      toggleUserModal = () => {
+            this.setState({
+                isOpenModalUser: !this.state.isOpenModalUser,
+            })
+        }
+
+        toggleEditUserModal = () => {
+            this.setState({
+                isOpenModalEditUser: !this.state.isOpenModalEditUser,
+            })
+        }
     render() {
         let genders = this.state.genderArr;
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
         let language = this.props.language;
         let isGetGender = this.props.isLoadingGender;
-
         let {
             previewImgURL,
             isOpen,
@@ -217,7 +244,8 @@ class UserRedux extends Component {
             address,
             gender,
             role,
-            position
+            position,
+            isOpenModalUser
           } = this.state;
 
         return (
@@ -225,11 +253,12 @@ class UserRedux extends Component {
                 <div className='title'>
                     Quản lý người dùng
                 </div>
+
                 <div className="user-redux-body" >
                     <div className='container'>
                         <div className='row'>
-                            <div className='col-12 my-3'>{isGetGender === true ? 'Loading gender' : ''}</div>
-                            <div className='col-12 my-3'><FormattedMessage id="manage-user.add"/></div>
+                            {/* <div className='col-12 my-3'>{isGetGender === true ? 'Loading gender' : ''}</div> */}
+                            {/* <div className='col-12 my-3'><FormattedMessage id="manage-user.add"/></div>
                             <div className='col-6'>
                                 <label><FormattedMessage id="manage-user.email"/></label>
                                 <input className='form-control' type='email' 
@@ -238,7 +267,6 @@ class UserRedux extends Component {
                                     disabled={this.state.action === CRUD_ACTION.EDIT ? true : false}
                                 ></input>
                             </div>
-
                             <div className='col-6'>
                                 <label><FormattedMessage id="manage-user.password"/></label>
                                 <input className='form-control' type='password'
@@ -350,6 +378,19 @@ class UserRedux extends Component {
                                     : 
                                     <FormattedMessage id="manage-user.save"/>}
                                 </button>
+                            </div> */}
+                            {isOpenModalUser &&
+                            <ModalAddNewUser
+                                isOpenModal = {this.state.isOpenModalUser}
+                                toggle = {this.toggleUserModal}
+                                handleSaveUser = {this.handleSaveUser}
+                                
+                            />}
+
+                            <div className='col-12'>
+                                <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
+                                        onClick={() => this.handleAddNewUser()}>
+                                <i className="fas fa-plus"></i> Add new user</button>
                             </div>
 
                             <div className='col-12 mb-3'>
@@ -362,14 +403,20 @@ class UserRedux extends Component {
                     </div>
                 </div>
 
-
-                {this.state.isOpen === true && (
+                {/* {this.state.isOpen === true && (
                 <Lightbox
                     mainSrc={this.state.previewImgURL}
                     onCloseRequest={() => this.setState({ isOpen: false })}
                 />
-                )}
-
+                )} */}
+                {this.state.isOpenModalEditUser && 
+                <ModalEditUser
+                    isOpenModal = {this.state.isOpenModalEditUser}
+                    toggle = {this.toggleEditUserModal}
+                    // handleEditUser = {this.handleEditUser}
+                    handleEditUserFromParent={this.handleEditUserFromParent}
+                    user = {this.state.user}
+                />}
             </div>
         )
     }

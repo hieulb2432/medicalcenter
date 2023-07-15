@@ -6,8 +6,10 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { toast } from 'react-toastify';
 import {CommonUtils} from '../../../utils'
-import {createNewClinic} from '../../../services/userService'
+import {getAllClinicService, handleDeleteClinic} from '../../../services/userService'
 import './ManageClinic.scss';
+import ModalAddNewClinic from './ModalAddNewClinic';
+import ModalEditClinic from './ModalEditClinic';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -15,110 +17,182 @@ class ManageClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            address: '',
-            imageBase64: '',
-            descriptionHTML: '',
-            descriptionMarkdown: '',
+            isOpenNewClinic: false,
+            isOpenEditClinic: false,
+            dataClinic: {},
+            currentClinic: {}
         }
     }
 
     async componentDidMount() {
+        this.getAllClinic()
     }
 
     componentDidUpdate(prevProps, prevState, snapshots) {
 
     }
 
-    handleOnChangeInput = (event, id) => {
-        let stateCopy = {...this.state}
-        stateCopy[id]= event.target.value
+    // handleSaveClinic = () => {
+    //     let isValid = this.checkValidateInput();
+    //     if(isValid == false) return;
+
+    //     let action = this.state.action
+    //     if (action === CRUD_ACTION.CREATE) {
+    //         // fire redux create user 
+    //         this.props.createNewUser({
+    //             email: this.state.email,
+    //             password: this.state.password,
+    //             firstName: this.state.firstName,
+    //             lastName: this.state.lastName,
+    //             address: this.state.address,
+    //             phoneNumber: this.state.phoneNumber,
+    //             gender: this.state.gender,
+    //             roleId: this.state.role,
+    //             positionId: this.state.position,
+    //             avatar: this.state.avatar,
+    //         })
+
+            
+    //     }
+
+    //     if (action === CRUD_ACTION.EDIT) {
+    //         // fire redux edit user
+    //         this.props.editUserRedux({
+    //             id: this.state.userEditId,
+    //             email: this.state.email,
+    //             password: this.state.password,
+    //             firstName: this.state.firstName,
+    //             lastName: this.state.lastName,
+    //             address: this.state.address,
+    //             phoneNumber: this.state.phoneNumber,
+    //             gender: this.state.gender,
+    //             roleId: this.state.role,
+    //             positionId: this.state.position,
+    //             avatar: this.state.avatar
+    //         })
+    //     }
+
+    //   }
+
+    handleDeleteUser = async (id) => {
+        try {
+            let res = await handleDeleteClinic(id)
+            if (res && res.errCode === 0) {
+                toast.success('Xóa thành công')
+                await this.getAllClinicService();
+              } else {
+                toast.error(res.errMessage);
+              }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    handleAddNewClinic = () => {
         this.setState({
-            ...stateCopy
+            isOpenNewClinic: true
         })
-    }
-
-    handleEditorChange = ({ html, text }) => {
-        this.setState({
-            descriptionHTML: html,
-            descriptionMarkdown: text,
-        });
       }
-
-    handleOnChangeImage = async (event) => {
-    let data = event.target.files;
-    let file = data[0];
-    if (file) {
-        let base64 = await CommonUtils.getBase64(file);
-        // let objectUrl = URL.createObjectURL(file);
-        this.setState({
-            imageBase64: base64,
-            // avatar: base64,
-        });
-    }
-    };
-    
-    handleSaveNewClinic = async () => {
-        let res = await createNewClinic(this.state)
-        if(res && res.errCode === 0) {
-            toast.success('Add new address succeed!');
+      
+    toggleClinicModal = () => {
             this.setState({
-                name: '',
-                address: '',
-                imageBase64: '',
-                descriptionHTML: '',
-                descriptionMarkdown: '',
+                isOpenNewClinic: !this.state.isOpenNewClinic,
             })
-        } else {
-            toast.error('Something wrongs...');
-            console.log(res);
+        }
+
+        
+    handleEditClinic = (clinic) => {
+        this.setState({
+            isOpenEditClinic: true
+        })
+
+        this.setState({currentClinic: clinic})
+    }
+        
+    toggleClinicModalEdit = () => {
+            this.setState({
+                isOpenEditClinic: !this.state.isOpenEditClinic,
+            })
+        }
+         
+    getAllClinic = async () => {
+        let res = await getAllClinicService()
+        if(res && res.errCode === 0){
+            this.setState({
+                dataClinic: res.data
+            })
         }
     }
 
     render() {
-
+        let {dataClinic} = this.state
+        console.log('check', dataClinic)
         return (
             <>
-                <div className='manage-specialty-container'>
-                    <div className='ms-title'>Quan ly phong kham</div>
-                    
-                    <div className='add-new-specialty row'>
-                        <div className='col-6 form-group'>
-                            <label>Ten phong kham</label>
-                            <input className='form-control' type='text'
-                                value={this.state.name}
-                                onChange={(event)=>this.handleOnChangeInput(event, 'name')}
-                            ></input>
-                        </div>
-                        <div className='col-6 form-group'>
-                            <label>Anh phong kham</label>
-                            <input className='form-control-file' type='file'
-                                onChange={(event)=> this.handleOnChangeImage(event)}
-                            ></input>
-                        </div>
-                        <div className='col-6 form-group'>
-                            <label>Dia chi phong kham</label>
-                            <input className='form-control' type='text'
-                                value={this.state.address}
-                                onChange={(event)=>this.handleOnChangeInput(event, 'address')}
-                            ></input>
-                        </div>
-                        <div className='col-12'>
-                            <MdEditor 
-                            style={{ height: '500px' }}
-                            renderHTML={text => mdParser.render(text)}
-                            onChange={this.handleEditorChange} 
-                            value={this.state.descriptionMarkdown}
-                            />
-                        </div>
-                        <div className='col-12'>
-                            <button className='btn-save-specialty'
-                                onClick={this.handleSaveNewClinic}
-                            >Save</button>
-                        </div>
-                    </div>
+            <div className='title'>
+                    Quản lý cơ sở y tế
                 </div>
-                
+            <div className="col-12 my-3">
+                    <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewClinic()}>Thêm mới</button>
+            </div>
+                {this.state.isOpenNewClinic &&
+                <ModalAddNewClinic
+                    isOpenModal = {this.state.isOpenNewClinic}
+                    toggle = {this.toggleClinicModal}
+                    handleSaveUser = {this.handleSaveClinic}
+                />
+                }
+
+                {this.state.isOpenEditClinic &&
+                    <ModalEditClinic 
+                    isOpenModalEdit = {this.state.isOpenEditClinic}
+                    toggle = {this.toggleClinicModalEdit}
+                    clinic = {this.state.currentClinic}
+                />
+                }
+
+                <div className="col-12 my-3">
+                    
+                    <table id="TableManageUser">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên cơ sở y tế</th>
+                                <th>Địa chỉ cơ sở y tế</th>
+                                <th>Thông tin về cơ sở y tế</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {dataClinic && dataClinic.length > 0 && dataClinic.map((item, index) => {
+                                return(
+                                    <tr key={index}>
+                                        <td>{index+1}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.address}</td>
+                                        <td>{item.descriptionHTML}</td>
+                                        <td>
+                                            <button
+                                                className="btn-edit"
+                                                onClick={() => {
+                                                    this.handleEditClinic(item);
+                                                }}
+                                                >
+                                                <i className="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button
+                                                className="btn-delete"
+                                                onClick={() => this.handleDeleteUser(item.id)}
+                                                >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </>
         );
     }
