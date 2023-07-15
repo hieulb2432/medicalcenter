@@ -20,6 +20,20 @@ let handleLogin = async (req, res) => {
   });
 };
 
+let checkUserEmail = async (req, res) => {
+  try{
+    let response = await userService.checkUserEmail(req.body.email);
+    return res.status(200).json(response);
+
+} catch (e) {
+    console.log(e);
+    return res.status(200).json({
+        errCode: -1,
+        errMessage: 'Error from server'
+    })
+}
+};
+
 let handleGetAllUsers = async (req, res) => {
     let id = req.query.id;
   
@@ -81,4 +95,5 @@ module.exports = {
     handleEditUser: handleEditUser,
     handleDeleteUser: handleDeleteUser,
     getAllCode: getAllCode,
+    checkUserEmail: checkUserEmail
 };

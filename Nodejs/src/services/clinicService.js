@@ -39,7 +39,6 @@ let getAllClinic = () => {
         data.map((item) =>
             (item.image = Buffer.from(item.image, 'base64').toString('binary'))
         );
-        console.log(data)
       }
       resolve({
         errCode: 0,
@@ -88,8 +87,88 @@ let getDetailClinicById = (inputId) => {
   })
 }
 
+let handleDeleteClinic = (clinicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let clinic = await db.Clinic.findOne({
+        where: { id: clinicId },
+        include: [
+          {
+            model: db.Doctor_Infor,
+            as: 'clinicData',
+          }
+        ],
+        raw : true ,
+        nest : true
+      });
+      console.log(clinic.clinicData)
+      if (clinic.clinicData.id) {
+        resolve({
+          errCode: 3,
+          errMessage: 'Không thể xóa do đang liên kết với bác sĩ',
+        });
+      }
+      if (!clinic.clinicData.id) {
+        await db.Clinic.destroy({
+          where: { id: clinicId },
+        });
+        resolve({
+          errCode: 0,
+          message: 'The clinic is deleted!',
+        });
+      }
+      
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let handleEditClinic = (data) => {
+  console.log(data)
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log(data)
+      if (!data.name || !data.imageBase64 || !data.address ||
+        !data.descriptionHTML || !data.descriptionMarkdown ) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameter!',
+        });
+      }
+      let clinic = await db.Clinic.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+      if (clinic) {
+        clinic.name = data.name,
+        clinic.address = data.address,
+        clinic.descriptionHTML = data.descriptionHTML;
+        clinic.descriptionMarkdown = data.descriptionMarkdown;
+        if (data.imageBase64) {
+          clinic.image = data.imageBase64
+        }
+        await clinic.save();
+        resolve({
+          errCode: 0,
+          message: 'Update user data successfully!',
+        });
+      } else {
+        resolve({
+          errCode: 2,
+          errMessage: 'The user is not exist!',
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};  
+
 module.exports = {
     createClinic: createClinic,
     getAllClinic: getAllClinic,
     getDetailClinicById: getDetailClinicById,
+    handleDeleteClinic: handleDeleteClinic,
+    handleEditClinic: handleEditClinic
 }

@@ -22,6 +22,7 @@ let initWebRouters = (app) => {
     router.put('/api/edit-user', userController.handleEditUser);
     router.delete('/api/delete-user', userController.handleDeleteUser);
     router.get('/api/allcode', userController.getAllCode);
+    router.post('/api/check-user-email', userController.checkUserEmail);
 
     router.get('/api/top-doctor-home', doctorController.getTopDoctorHome);
     router.get('/api/get-all-doctors', doctorController.getAllDoctors);
@@ -41,6 +42,8 @@ let initWebRouters = (app) => {
 
     router.post('/api/patient-book-appointment', patientController.postBookAppointment);
     router.post('/api/verify-book-appointment', patientController.postVerifyBookAppointment);
+    router.get('/api/get-history-appointment', patientController.getHistoryAppointment);
+    router.get('/api/get-all-history-schedule', patientController.getAllHistorySchedule);
 
     router.post('/api/create-new-specialty', specialtyController.createSpecialty);
     router.get('/api/get-all-specialty', specialtyController.getAllSpecialty);
@@ -49,6 +52,8 @@ let initWebRouters = (app) => {
     router.post('/api/create-new-clinic', clinicController.createClinic);
     router.get('/api/get-all-clinic', clinicController.getAllClinic);
     router.get('/api/get-detail-clinic-by-id', clinicController.getDetailClinicById);
+    router.delete('/api/delete-clinic', clinicController.handleDeleteClinic);
+    router.put('/api/edit-clinic', clinicController.handleEditClinic);
 
     return app.use('/', router)
 }

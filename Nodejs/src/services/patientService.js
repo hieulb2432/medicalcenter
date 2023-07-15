@@ -86,8 +86,6 @@ let checkTimeToVerify = (appointment) => {
   let createDate = new Date(appointment.createdAt).getTime()
   const now = +new Date().getTime();
   const diffInMilliseconds = Math.abs(now - createDate);
-  // console.log(diffInMilliseconds)
-  // console.log(createDate, now, typeof(createDate), typeof(now))
   // Tính toán khoảng cách tương ứng với 15 phút trong mili giây
   const fifteenMinutesInMilliseconds = 15 * 60 * 1000;
 
@@ -155,7 +153,101 @@ let postVerifyBookAppointment = (data) => {
   })
 }
 
+let getHistoryAppointment = (email) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!email){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let checkUser = await db.User.findOne({
+          where: {
+            email: email,
+          }, 
+          raw: false
+        })
+        
+        if(checkUser){
+          await emailService.sendTokenEmail({
+            email: checkUser.email,
+            id: checkUser.id
+          })
+          resolve({
+            errCode: 0,
+            errMessage: 'Succeed!',
+            id: checkUser.id
+          })
+        }
+      }
+    } catch(e){
+      reject(e);
+    }
+  })
+}
+
+let getAllHistorySchedule = (email, id) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!email || !id){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let checkUser = await db.User.findOne({
+          where: {
+            email: email,
+            id: id
+          },
+          attributes: {
+            exclude: ['password', 'gender', 'image', 'roleId', 'positionId'],
+          },
+          include: [
+            {
+              model: db.Allcode,
+              as: 'genderData',
+              attributes: ['valueEn', 'valueVi'],
+            },
+            { model: db.Booking,
+              // order: [['date', 'ASC']],
+              as: 'patientData', attributes: ['date', 'timeType', 'updatedAt'], 
+              include: [
+                {model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']},
+                {model: db.Allcode, as: 'statusIdData', attributes: ['valueEn', 'valueVi']},
+                {model: db.User, as: 'doctorDataUser', attributes: ['lastName', 'firstName'],
+                include: [
+                      {
+                      model: db.Doctor_Infor,
+                      attributes: ['nameClinic']
+                    }
+                  ]
+                }
+              ]
+            },
+          ],
+          raw: false
+        })
+        
+        if(checkUser){
+          resolve({
+            errCode: 0,
+            errMessage: 'Succeed!',
+            data: checkUser
+          })
+        }
+      }
+    } catch(e){
+      reject(e);
+    }
+  })
+}
+
+
 module.exports = {
     postBookAppointment: postBookAppointment,
     postVerifyBookAppointment: postVerifyBookAppointment,
+    getHistoryAppointment: getHistoryAppointment,
+    getAllHistorySchedule: getAllHistorySchedule
 }

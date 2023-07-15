@@ -368,7 +368,6 @@ let getScheduleByDate = (doctorId, date) => {
           nest: true,
         })
         
-        // console.log('check', dataSchedule)
       if (!dataScheduleAvailable && !dataScheduleFreeze) {
           dataScheduleAvailable = [];
           dataScheduleFreeze = [];
@@ -645,7 +644,12 @@ let getScheduleCancel = (doctorId, date, timeType) => {
         if(userBookingInfor1.statusId === 'S1' || userBookingInfor1.statusId === 'S2') {
           userBookingInfor1.statusId = 'S5';
           await userBookingInfor1.save();
-          let userEmail = await db.User.findOne({where: {id: userBookingInfor1.patientId}, raw: true})
+          let userEmail = await db.User.findOne({
+            where: {
+              id: userBookingInfor1.patientId
+            }, 
+            raw: true
+          })
           await emailService.sendCancelEmail(userBookingInfor1, userEmail.email)
         } else if (userBookingInfor2.statusId === 'S4') {
           userBookingInfor2.statusId = 'S5';

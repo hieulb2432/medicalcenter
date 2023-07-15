@@ -38,7 +38,6 @@ let getAllSpecialty = () => {
         data.map((item) =>
             (item.image = Buffer.from(item.image, 'base64').toString('binary'))
         );
-        console.log(data)
       }
       resolve({
         errCode: 0,
