@@ -11,7 +11,6 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { toast } from 'react-toastify';
-import {createNewClinic} from '../../../services/userService'
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -30,14 +29,29 @@ class ModalAddNewClinic extends Component {
 
 
     componentDidMount() {
-        this.props.getGenderStart();
-        this.props.getPositionStart();
-        this.props.getRoleStart();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         
     }
+
+    checkValidateInput = () => {
+        let isValid = true;
+        let arrCheck = [
+            'name',
+            'address',
+            'descriptionHTML',
+            'imageBase64'
+        ];
+        for (let i = 0; i < arrCheck.length; i++) {
+            if (!this.state[arrCheck[i]]) {
+            isValid = false;
+            toast.error('Nhập thiếu trường: ' + arrCheck[i]);
+            break;
+            }
+        }
+        return isValid;
+        };
 
     handleOnChangeInput = (event, id) => {
         let stateCopy = {...this.state}
@@ -67,75 +81,11 @@ class ModalAddNewClinic extends Component {
           }
 
           handleSaveClinic = async () => {
-            let res = await createNewClinic(this.state)
-            if(res && res.errCode === 0) {
-                toast.success('Thêm mới thành công!');
-                this.setState({
-                    name: '',
-                    address: '',
-                    imageBase64: '',
-                    descriptionHTML: '',
-                    descriptionMarkdown: '',
-                })
-                this.props.toggle()
-            } else {
-                toast.error('Thêm mới thất bại');
-                console.log(res);
+            await this.props.fetchCreateNewClinic(this.state)
+            let isValid = this.checkValidateInput();
+            if(isValid == false) return;
+            this.props.toggle()
             }
-        }
-    // handleSaveClinic = () => {
-    // let isValid = this.checkValidateInput();
-    // if(isValid == false) return;
-
-    // // let action = this.state.action
-    // // console.log('check ac tion', action)
-    // // if (action === CRUD_ACTION.CREATE) {
-    //         // fire redux create user 
-    //         this.props.createNewUser({
-    //             email: this.state.email,
-    //             password: this.state.password,
-    //             firstName: this.state.firstName,
-    //             lastName: this.state.lastName,
-    //             address: this.state.address,
-    //             phoneNumber: this.state.phoneNumber,
-    //             gender: this.state.gender,
-    //             roleId: this.state.role,
-    //             positionId: this.state.position,
-    //             avatar: this.state.avatar,
-    //         })
-
-    //         this.props.toggle()
-    //     // }
-    // }
-
-    // checkValidateInput = () => {
-    // let isValid = true;
-    // let arrCheck = [
-    //     'email',
-    //     'password',
-    //     'firstName',
-    //     'lastName',
-    //     'phoneNumber',
-    //     'address',
-    // ];
-    // for (let i = 0; i < arrCheck.length; i++) {
-    //     if (!this.state[arrCheck[i]]) {
-    //     isValid = false;
-    //     alert('This input is required: ' + arrCheck[i]);
-    //     break;
-    //     }
-    // }
-    // return isValid;
-    // };
-    
-
-    // onChangeInput = (event, id) => {
-    //     let copyState = {...this.state}
-    //     copyState[id] = event.target.value;
-    //     this.setState({
-    //         ...copyState,
-    //     })
-    // }
 
     render() {
         const { toggle } = this.props;
@@ -202,22 +152,14 @@ class ModalAddNewClinic extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        genderRedux: state.admin.genders,
-        roleRedux: state.admin.roles,
-        positionRedux: state.admin.positions,
-        isLoadingGender: state.admin.isLoadingGender,
-        listUsers: state.admin.users
+        allClinics: state.admin.allClinics
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getGenderStart: () => dispatch(actions.fetchGenderStart()),
-        getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser: (data) => dispatch(actions.createNewUser(data)),
-        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        editUserRedux: (data) => dispatch(actions.editUser(data)),
+        fetchAllClinicsStart: () => dispatch(actions.fetchAllClinicsStart()),
+        fetchCreateNewClinic: (data) => dispatch(actions.fetchCreateNewClinic(data)),
     };
 };
 

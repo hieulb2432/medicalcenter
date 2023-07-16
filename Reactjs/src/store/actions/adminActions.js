@@ -3,7 +3,7 @@ import {getAllCodeService, createNewUserService,
   getAllUsers, deleteUserService, editUserService,
   getTopDoctorHomeService, getAllDoctorsService,
   saveDetailDoctorService, getAllSpecialtyService,
-  getAllClinicService, handleDeleteClinic, handleEditClinic} from '../../services/userService';
+  getAllClinicService, handleDeleteClinic, handleEditClinic, createNewClinic} from '../../services/userService';
 import { toast } from 'react-toastify';
 
 // export const fetchGenderStart = () => ({
@@ -324,44 +324,72 @@ export const fetchAllScheduleTime = () => {
     };
   };
 
-  export const fetchAllClinicStart = () => {
+  export const fetchAllClinicsStart = () => {
     return async (dispatch) => {
       try {
         let res = await getAllClinicService();
         if (res && res.errCode === 0) {
-          dispatch(fetchAllClinicSuccess(res.users.reverse())); // reverse???
+          dispatch(fetchAllClinicsSuccess(res.data));
         } else {
-          dispatch(fetchAllClinicFailed());
+          dispatch(fetchAllClinicsFailed());
         }
       } catch (e) {
-        dispatch(fetchAllClinicFailed());
+        dispatch(fetchAllClinicsFailed());
       }
     };
 };
 
-export const fetchAllClinicSuccess = (data) => ({
+export const fetchAllClinicsSuccess = (data) => ({
     type: actionTypes.FETCH_ALL_CLINIC_SUCCESS,
-    clinics: data,
+    clinics: data
   });
   
-export const fetchAllClinicFailed = () => ({
+export const fetchAllClinicsFailed = () => ({
     type: actionTypes.FETCH_ALL_CLINIC_FAILED,
   });
+
+export const fetchCreateNewClinic = (data) => {
+  return async (dispatch) => {
+    try {
+      let res = await createNewClinic(data);
+      if (res && res.errCode === 0) {
+        toast.success('Thêm mới thành công!');
+        dispatch(saveClinicSuccess());
+        dispatch(fetchAllClinicsStart());
+      } else {
+        // toast.error('Thêm mới thất bại');
+        dispatch(saveClinicFailed());
+      }
+    } catch (e) {
+      toast.error('Thêm mới thất bại');
+      dispatch(saveClinicFailed());
+    }
+  };
+};
+
+export const saveClinicSuccess = () => ({
+  type: actionTypes.CREATE_CLINIC_SUCCESS,
+});
+
+export const saveClinicFailed = () => ({
+  type: actionTypes.CREATE_CLINIC_FAILED,
+});
 
 export const deleteClinic = (id) => {
     return async (dispatch) => {
       try {
         let res = await handleDeleteClinic(id);
+        console.log('deleteClinic', res);
         if (res && res.errCode === 0) {
-          toast.success('Delete clinic succeed!');
+          toast.success('Xóa thành công');
           dispatch(deleteClinicSuccess());
-          dispatch(fetchAllClinicStart());
+          dispatch(fetchAllClinicsStart());
         } else {
-          toast.error('Delete Clinic error!');
+          toast.error('Không thể xóa do đang liên kết với bác sĩ');
           dispatch(deleteClinicFailed());
         }
       } catch (e) {
-        toast.error('Delete Clinic error!');
+        toast.error('Xóa thất bại!');
         dispatch(deleteClinicFailed());
       }
     };
@@ -380,15 +408,15 @@ export const editClinic = (data) => {
       try {
         let res = await handleEditClinic(data);
         if (res && res.errCode === 0) {
-          toast.success('Update user succeed!');
+          toast.success('Chỉnh sử thành công');
           dispatch(editClinicSuccess());
-          dispatch(fetchAllClinicStart());
+          dispatch(fetchAllClinicsStart());
         } else {
-          toast.error('Update Clinic error!');
+          // toast.error('Chỉnh sửa thất bại!');
           dispatch(deleteClinicFailed());
         }
       } catch (e) {
-        toast.error('Update Clinic error!');
+        toast.error('Chỉnh sửa thất bại!');
         dispatch(editClinicFailed());
       }
     };

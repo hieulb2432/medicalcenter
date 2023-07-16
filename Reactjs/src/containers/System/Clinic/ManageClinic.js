@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
+import * as actions from '../../../store/actions';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
@@ -25,67 +26,19 @@ class ManageClinic extends Component {
     }
 
     async componentDidMount() {
-        this.getAllClinic()
+        this.props.fetchAllClinicsStart()
     }
 
     componentDidUpdate(prevProps, prevState, snapshots) {
-
+        if(prevProps.allClinics !== this.props.allClinics){
+            this.setState({
+                dataClinic: this.props.allClinics,
+            });
+        }
     }
 
-    // handleSaveClinic = () => {
-    //     let isValid = this.checkValidateInput();
-    //     if(isValid == false) return;
-
-    //     let action = this.state.action
-    //     if (action === CRUD_ACTION.CREATE) {
-    //         // fire redux create user 
-    //         this.props.createNewUser({
-    //             email: this.state.email,
-    //             password: this.state.password,
-    //             firstName: this.state.firstName,
-    //             lastName: this.state.lastName,
-    //             address: this.state.address,
-    //             phoneNumber: this.state.phoneNumber,
-    //             gender: this.state.gender,
-    //             roleId: this.state.role,
-    //             positionId: this.state.position,
-    //             avatar: this.state.avatar,
-    //         })
-
-            
-    //     }
-
-    //     if (action === CRUD_ACTION.EDIT) {
-    //         // fire redux edit user
-    //         this.props.editUserRedux({
-    //             id: this.state.userEditId,
-    //             email: this.state.email,
-    //             password: this.state.password,
-    //             firstName: this.state.firstName,
-    //             lastName: this.state.lastName,
-    //             address: this.state.address,
-    //             phoneNumber: this.state.phoneNumber,
-    //             gender: this.state.gender,
-    //             roleId: this.state.role,
-    //             positionId: this.state.position,
-    //             avatar: this.state.avatar
-    //         })
-    //     }
-
-    //   }
-
     handleDeleteUser = async (id) => {
-        try {
-            let res = await handleDeleteClinic(id)
-            if (res && res.errCode === 0) {
-                toast.success('Xóa thành công')
-                await this.getAllClinicService();
-              } else {
-                toast.error(res.errMessage);
-              }
-        } catch (e) {
-            console.log(e)
-        }
+        await this.props.deleteClinic(id)
     }
 
     handleAddNewClinic = () => {
@@ -170,7 +123,14 @@ class ManageClinic extends Component {
                                         <td>{index+1}</td>
                                         <td>{item.name}</td>
                                         <td>{item.address}</td>
-                                        <td>{item.descriptionHTML}</td>
+                                        <td>
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: item.descriptionHTML,
+                                            }}
+                                            >
+                                        </div>
+                                        </td>
                                         <td>
                                             <button
                                                 className="btn-edit"
@@ -201,11 +161,14 @@ class ManageClinic extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
+        allClinics: state.admin.allClinics
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchAllClinicsStart: () => dispatch(actions.fetchAllClinicsStart()),
+        deleteClinic: (id) => dispatch(actions.deleteClinic(id))
     };
 };
 

@@ -66,29 +66,15 @@ class ModalEditClinic extends Component {
           }
 
           handleSaveClinic = async () => {
-            console.log('check state', this.state);
-            let res = await handleEditClinic(this.state)
-            if(res && res.errCode === 0) {
-                toast.success('Chỉnh sửa thành công!');
-                this.setState({
-                    name: '',
-                    address: '',
-                    imageBase64: '',
-                    descriptionHTML: '',
-                    descriptionMarkdown: '',
-                })
-                this.props.toggle()
-            } else {
-                toast.error('Thêm mới thất bại');
-                console.log(res);
-            }
+            await this.props.editClinic(this.state)
+            let isValid = this.checkValidateInput();
+            if(isValid == false) return;
+            this.props.toggle()
         }
     // handleSaveClinic = () => {
-    // let isValid = this.checkValidateInput();
-    // if(isValid == false) return;
+    
 
     // // let action = this.state.action
-    // // console.log('check ac tion', action)
     // // if (action === CRUD_ACTION.CREATE) {
     //         // fire redux create user 
     //         this.props.createNewUser({
@@ -108,25 +94,23 @@ class ModalEditClinic extends Component {
     //     // }
     // }
 
-    // checkValidateInput = () => {
-    // let isValid = true;
-    // let arrCheck = [
-    //     'email',
-    //     'password',
-    //     'firstName',
-    //     'lastName',
-    //     'phoneNumber',
-    //     'address',
-    // ];
-    // for (let i = 0; i < arrCheck.length; i++) {
-    //     if (!this.state[arrCheck[i]]) {
-    //     isValid = false;
-    //     alert('This input is required: ' + arrCheck[i]);
-    //     break;
-    //     }
-    // }
-    // return isValid;
-    // };
+    checkValidateInput = () => {
+    let isValid = true;
+    let arrCheck = [
+        'name',
+        'address',
+        'descriptionHTML',
+        'imageBase64'
+    ];
+    for (let i = 0; i < arrCheck.length; i++) {
+        if (!this.state[arrCheck[i]]) {
+        isValid = false;
+        toast.error('Nhập thiếu trường: ' + arrCheck[i]);
+        break;
+        }
+    }
+    return isValid;
+    };
     
 
     // onChangeInput = (event, id) => {
@@ -216,22 +200,14 @@ class ModalEditClinic extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        genderRedux: state.admin.genders,
-        roleRedux: state.admin.roles,
-        positionRedux: state.admin.positions,
-        isLoadingGender: state.admin.isLoadingGender,
-        listUsers: state.admin.users
+        allClinics: state.admin.allClinics
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getGenderStart: () => dispatch(actions.fetchGenderStart()),
-        getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser: (data) => dispatch(actions.createNewUser(data)),
-        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        editUserRedux: (data) => dispatch(actions.editUser(data)),
+        fetchAllClinicsStart: () => dispatch(actions.fetchAllClinicsStart()),
+        editClinic: (data) => dispatch(actions.editClinic(data)),
     };
 };
 
