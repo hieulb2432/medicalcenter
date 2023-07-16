@@ -101,7 +101,6 @@ let handleDeleteClinic = (clinicId) => {
         raw : true ,
         nest : true
       });
-      console.log(clinic.clinicData)
       if (clinic.clinicData.id) {
         resolve({
           errCode: 3,
@@ -125,7 +124,6 @@ let handleDeleteClinic = (clinicId) => {
 };
 
 let handleEditClinic = (data) => {
-  console.log(data)
   return new Promise(async (resolve, reject) => {
     try {
       console.log(data)
