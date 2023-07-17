@@ -31,8 +31,8 @@
             "manage-admin": "Quản lý admin",
             "crud": "CRUD user",
             "crud-redux": "Quản lý người dùng",
-            "clinic": "Phòng khám",
-            "manage-clinic": "Quản lý phòng khám",
+            "clinic": "Cơ sở y tế",
+            "manage-clinic": "Quản lý Cơ sở y tế",
             "specialty": "Chuyên khoa",
             "manage-specialty": "Quản lý chuyên khoa"
         }, 

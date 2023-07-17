@@ -148,10 +148,23 @@ const appReducer = (state = initialState, action) => {
       };
       
     case actionTypes.FETCH_ALL_CLINIC_FAILED:
-            state.allClinics = [];
-            return {
-              ...state,
-            };
+      state.allClinics = [];
+      return {
+        ...state,
+      };
+    
+    case actionTypes.FETCH_ALL_SPECIALTY_SUCCESS:
+      state.allSpecialty = action.specialty;
+      return {
+        ...state,
+      };
+      
+    case actionTypes.FETCH_ALL_SPECIALTY_FAILED:
+      state.allSpecialty = [];
+      return {
+        ...state,
+      };
+                        
                 
     default:
       return state;

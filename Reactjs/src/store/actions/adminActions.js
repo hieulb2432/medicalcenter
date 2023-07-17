@@ -2,7 +2,7 @@ import actionTypes from './actionTypes';
 import {getAllCodeService, createNewUserService, 
   getAllUsers, deleteUserService, editUserService,
   getTopDoctorHomeService, getAllDoctorsService,
-  saveDetailDoctorService, getAllSpecialtyService,
+  saveDetailDoctorService, getAllSpecialtyService, createNewSpecialty, handleDeleteSpecialty, handleEditSpecialty,
   getAllClinicService, handleDeleteClinic, handleEditClinic, createNewClinic} from '../../services/userService';
 import { toast } from 'react-toastify';
 
@@ -324,6 +324,8 @@ export const fetchAllScheduleTime = () => {
     };
   };
 
+// Clinic
+
   export const fetchAllClinicsStart = () => {
     return async (dispatch) => {
       try {
@@ -413,7 +415,7 @@ export const editClinic = (data) => {
           dispatch(fetchAllClinicsStart());
         } else {
           // toast.error('Chỉnh sửa thất bại!');
-          dispatch(deleteClinicFailed());
+          dispatch(editClinicFailed());
         }
       } catch (e) {
         toast.error('Chỉnh sửa thất bại!');
@@ -429,3 +431,111 @@ export const editClinicSuccess = () => ({
 export const editClinicFailed = () => ({
     type: actionTypes.EDIT_CLINIC_FAILED,
   });
+
+// Specialty
+
+export const fetchAllSpecialtyStart = () => {
+  return async (dispatch) => {
+    try {
+      let res = await getAllSpecialtyService();
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllSpecialtySuccess(res.data));
+      } else {
+        dispatch(fetchAllSpecialtyFailed());
+      }
+    } catch (e) {
+      dispatch(fetchAllSpecialtyFailed());
+    }
+  };
+};
+
+export const fetchAllSpecialtySuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_SPECIALTY_SUCCESS,
+  specialty: data
+});
+
+export const fetchAllSpecialtyFailed = () => ({
+  type: actionTypes.FETCH_ALL_SPECIALTY_FAILED,
+});
+
+export const deleteSpecialty = (id) => {
+  return async (dispatch) => {
+    try {
+      let res = await handleDeleteSpecialty(id);
+      if (res && res.errCode === 0) {
+        toast.success('Xóa thành công');
+        dispatch(deleteSpecialtySuccess());
+        dispatch(fetchAllSpecialtyStart());
+      } else {
+        toast.error('Không thể xóa do đang liên kết với bác sĩ');
+        dispatch(deleteSpecialtyFailed());
+      }
+    } catch (e) {
+      toast.error('Xóa thất bại!');
+      dispatch(deleteSpecialtyFailed());
+    }
+  };
+};
+
+export const deleteSpecialtySuccess = () => ({
+  type: actionTypes.DELETE_SPECIALTY_SUCCESS,
+});
+
+export const deleteSpecialtyFailed = () => ({
+  type: actionTypes.DELETE_SPECIALTY_FAILED,
+});
+
+export const fetchCreateNewSpecialty = (data) => {
+  return async (dispatch) => {
+    try {
+      let res = await createNewSpecialty(data);
+      if (res && res.errCode === 0) {
+        toast.success('Thêm mới thành công!');
+        dispatch(saveSpecialtySuccess());
+        dispatch(fetchAllSpecialtyStart());
+      } else {
+        // toast.error('Thêm mới thất bại');
+        dispatch(saveSpecialtyFailed());
+      }
+    } catch (e) {
+      toast.error('Thêm mới thất bại');
+      dispatch(saveSpecialtyFailed());
+    }
+  };
+};
+
+export const saveSpecialtySuccess = () => ({
+  type: actionTypes.CREATE_SPECIALTY_SUCCESS,
+});
+
+export const saveSpecialtyFailed = () => ({
+  type: actionTypes.CREATE_SPECIALTY_FAILED,
+});
+
+export const editSpecialty = (data) => {
+  return async (dispatch) => {
+    try {
+      let res = await handleEditSpecialty(data);
+      if (res && res.errCode === 0) {
+        console.log('checking ehe')
+        toast.success('Chỉnh sử thành công');
+        dispatch(editSpecialtySuccess());
+        dispatch(fetchAllSpecialtyStart());
+      } else {
+        // toast.error('Chỉnh sửa thất bại!');
+        dispatch(editSpecialtyFailed());
+      }
+    } catch (e) {
+      toast.error('Chỉnh sửa thất bại!');
+      dispatch(editSpecialtyFailed());
+    }
+  };
+};
+
+export const editSpecialtySuccess = () => ({
+  type: actionTypes.EDIT_SPECIALTY_SUCCESS,
+});
+
+export const editSpecialtyFailed = () => ({
+  type: actionTypes.EDIT_SPECIALTY_FAILED,
+});

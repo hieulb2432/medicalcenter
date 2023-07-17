@@ -68,18 +68,17 @@ class ManageClinic extends Component {
             })
         }
          
-    getAllClinic = async () => {
-        let res = await getAllClinicService()
-        if(res && res.errCode === 0){
-            this.setState({
-                dataClinic: res.data
-            })
-        }
-    }
+    // getAllClinic = async () => {
+    //     let res = await getAllClinicService()
+    //     if(res && res.errCode === 0){
+    //         this.setState({
+    //             dataClinic: res.data
+    //         })
+    //     }
+    // }
 
     render() {
         let {dataClinic} = this.state
-        console.log('check', dataClinic)
         return (
             <>
             <div className='title'>

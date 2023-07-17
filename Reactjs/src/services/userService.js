@@ -84,6 +84,14 @@ export const getDetailSpecialtyByIdService = (data) => {
   return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`);
 };
 
+export const handleDeleteSpecialty = (id) => {
+  return axios.delete('/api/delete-specialty', {data: {id}});
+}
+
+export const handleEditSpecialty = (data) => {
+  return axios.put('api/edit-specialty', data);
+}
+
 export const createNewClinic = (data) => {
   return axios.post('/api/create-new-clinic', data);
 };

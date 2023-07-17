@@ -14,18 +14,17 @@ import { toast } from 'react-toastify';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-class ModalEditClinic extends Component {
+class ModalEditSpecialty extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.clinic.id,
-            name: this.props.clinic.name,
-            address: this.props.clinic.address,
-            imageBase64: this.props.clinic.image,
-            descriptionHTML: this.props.clinic.descriptionHTML,
-            descriptionMarkdown: this.props.clinic.descriptionMarkdown,
-            // previewImgURL: Buffer.from(this.props.clinic.image, 'base64').toString('binary')
+            id: this.props.specialty.id,
+            name: this.props.specialty.name,
+            imageBase64: this.props.specialty.image,
+            descriptionHTML: this.props.specialty.descriptionHTML,
+            descriptionMarkdown: this.props.specialty.descriptionMarkdown,
+            // previewImgURL: Buffer.from(this.props.specialty.image, 'base64').toString('binary')
         };
     }
 
@@ -56,26 +55,25 @@ class ModalEditClinic extends Component {
             });
         }
         };
-    
-        handleEditorChange = ({ html, text }) => {
-            this.setState({
-                descriptionHTML: html,
-                descriptionMarkdown: text,
-            });
-          }
 
-          handleSaveClinic = async () => {
-            await this.props.editClinic(this.state)
-            let isValid = this.checkValidateInput();
-            if(isValid == false) return;
-            this.props.toggle()
+    handleEditorChange = ({ html, text }) => {
+        this.setState({
+            descriptionHTML: html,
+            descriptionMarkdown: text,
+        });
         }
+
+    handleSaveSpecialty = async () => {
+        await this.props.editSpecialty(this.state)
+        let isValid = this.checkValidateInput();
+        if(isValid == false) return;
+        this.props.toggle()
+    }
 
     checkValidateInput = () => {
     let isValid = true;
     let arrCheck = [
         'name',
-        'address',
         'descriptionHTML',
         'imageBase64'
     ];
@@ -90,8 +88,8 @@ class ModalEditClinic extends Component {
     };
 
     render() {
-        const { toggle, clinic } = this.props;
-        console.log(this.state.imageBase64, this.state.previewImgURL)
+        const { toggle } = this.props;
+        // console.log(this.state.imageBase64, this.state.previewImgURL)
         return (
           <Modal
             isOpen={this.props.isOpenModalEdit}
@@ -130,13 +128,6 @@ class ModalEditClinic extends Component {
                                 style={{backgroundImage: `url(${this.state.previewImgURL})`}}
                             > abcbcbcc</div> */}
                         </div>
-                        <div className='col-6 form-group'>
-                            <label>Địa chỉ cơ sở y tế <span style={{color: 'red'}}>*</span></label>
-                            <input className='form-control' type='text'
-                                value={this.state.address}
-                                onChange={(event)=>this.handleOnChangeInput(event, 'address')}
-                            ></input>
-                        </div>
                         <div className='col-12'>
                         <label>Thông tin cơ sở y tế <span style={{color: 'red'}}>*</span></label>
                             <MdEditor 
@@ -152,7 +143,7 @@ class ModalEditClinic extends Component {
             </ModalBody>
            
             <ModalFooter>
-              <Button color="primary" className="px-3" onClick={this.handleSaveClinic}>
+              <Button color="primary" className="px-3" onClick={this.handleSaveSpecialty}>
                 Lưu
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
@@ -168,15 +159,15 @@ class ModalEditClinic extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        allClinics: state.admin.allClinics
+        allSpecialty: state.admin.allSpecialty
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAllClinicsStart: () => dispatch(actions.fetchAllClinicsStart()),
-        editClinic: (data) => dispatch(actions.editClinic(data)),
+        fetchAllSpecialtyStart: () => dispatch(actions.fetchAllSpecialtyStart()),
+        editSpecialty: (data) => dispatch(actions.editSpecialty(data)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalEditClinic);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditSpecialty);
