@@ -67,26 +67,19 @@ class ManageClinic extends Component {
                 isOpenEditClinic: !this.state.isOpenEditClinic,
             })
         }
-         
-    // getAllClinic = async () => {
-    //     let res = await getAllClinicService()
-    //     if(res && res.errCode === 0){
-    //         this.setState({
-    //             dataClinic: res.data
-    //         })
-    //     }
-    // }
 
     render() {
         let {dataClinic} = this.state
         return (
-            <>
-            <div className='title'>
-                    Quản lý cơ sở y tế
+            <div>
+                <div className="clinic-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div className='clinic-title mt-4' style={{color: '#ff5400'}}>
+                            Quản lý cơ sở y tế
+                        </div>
+                    <div className="my-3">
+                            <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewClinic()}>Thêm mới</button>
+                    </div>
                 </div>
-            <div className="col-12 my-3">
-                    <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewClinic()}>Thêm mới</button>
-            </div>
                 {this.state.isOpenNewClinic &&
                 <ModalAddNewClinic
                     isOpenModal = {this.state.isOpenNewClinic}
@@ -103,7 +96,7 @@ class ManageClinic extends Component {
                 />
                 }
 
-                <div className="col-12 my-3">
+                <div className="col-12 mb-3">
                     
                     <table id="TableManageUser">
                         <thead>
@@ -152,7 +145,7 @@ class ManageClinic extends Component {
                         </tbody>
                     </table>
                 </div>
-            </>
+            </div>
         );
     }
 }

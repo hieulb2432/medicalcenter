@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import logo from '../../assets/images/logo.png';
 import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
 import { adminMenu, doctorMenu } from './menuApp';
@@ -42,10 +42,17 @@ class Header extends Component {
     render() {
         const { processLogout, language, userInfo } = this.props;
         return (
-            <div className="header-container">
+            <div className="col-12 header-container">
                 {/* thanh navigator */}
-                <div className="header-tabs-container">
+                {/* <div className="header-tabs-container">
                     <Navigator menus={this.state.menuApp} />
+                </div> */}
+                <div className="header-logo">
+                  <img src={logo} style={{width: '150px', height: '50px'}} />
+                </div>
+
+                <div className="header-title">
+                    Hệ thống quản lý đặt lịch khám bệnh
                 </div>
 
                 <div className="languages">

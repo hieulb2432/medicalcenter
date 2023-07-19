@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import logo from '../../assets/images/logo-new-ver.png';
+import logo from '../../assets/images/logo.png';
 import './HomeFooter.scss';
 import {withRouter} from 'react-router';
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"></link>
@@ -20,7 +20,7 @@ class HomeFooter extends Component {
                     <div className='home-footer-intro col-5'>
                         <div className='home-footer-intro-infor'>
                                 <div className="home-footer-logo">
-                                    <img src={logo} onClick={()=>this.returnToHome()} />
+                                    <img src={logo} style={{width: '150px', height: '50px'}} onClick={()=>this.returnToHome()} />
                                 </div>
                                 <div className='home-footer-title'>
                                     <span>Công ty Cổ phần Công nghệ Medical Center</span>

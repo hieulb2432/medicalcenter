@@ -220,25 +220,19 @@ class ManageSchedule extends Component {
         }
         let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
         return (
-            <div className='manage-schedule-container'>
-                <div className='m-s-title'>
+            <div className='col-10 manage-schedule-container'>
+                <div className='schedule-title mt-4' style={{color: '#ff5400'}}>
                     <FormattedMessage id="manage-schedule.title"/>
                 </div>
-                <div className='container'>
+                <div className='schedule-container mt-3'>
                     <div className='row'>
-                        <div className='col-6'>
+                    {/* <div className='col-6'>
                             <div><FormattedMessage id="manage-schedule.choose-doctor"/></div>
                             <div className='doctor-infor'>
                                 {language=== LANGUAGES.VI ? nameVi : nameEn}
                             </div>
-                            
-                            {/* <Select
-                                value={this.state.selectedDoctor}
-                                onChange={this.handleChangeSelect}
-                                options={this.state.listDoctors}
-                            /> */}
-                        </div>
-                        <div className='col-6 form-group'>
+                        </div> */}
+                        <div className='col-4 form-group'>
                             <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                             <DatePicker
                                 onChange={this.handleOnChangeDatePicker}
@@ -270,7 +264,7 @@ class ManageSchedule extends Component {
                             
                         </div>
 
-                        <div className='col-12'>
+                        <div className='col-4'>
                             <button 
                                 className={checkToday === true ? 'btn btn-primary btn-save-schedule' : 'btn btn-primary btn-save-disable'}
                                 onClick={()=>this.handleSaveSchedule()}
@@ -283,9 +277,9 @@ class ManageSchedule extends Component {
 
                 <div className='manage-patient-container'>
                     
-                    <div className='container'>
+                    <div className='schedule-container'>
                         <div className='row'>
-                            <div className='col-12 m-p-title' style={{margin: '10px 0 10px 0'}}>
+                            <div className='col-12 mt-3' style={{margin: '10px 0 10px 0', color: '#ff5400'}}>
                                 Quản lý lịch khám bệnh nhân
                             </div>
                             <div className='col-4 form-group'>

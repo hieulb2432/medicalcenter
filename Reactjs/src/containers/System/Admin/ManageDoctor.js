@@ -277,7 +277,7 @@ class ManageDoctor extends Component {
     render() {
         let {hasOldData} = this.state
         return (
-            <div className='manage-doctor-container'>
+            <div className='manage-doctor-container ml-3 mr-3'>
                 <div className='manage-doctor-title'>
                     <FormattedMessage id="admin.manage-doctor.title" />
                 </div>
@@ -404,7 +404,7 @@ class ManageDoctor extends Component {
 
                 <div className='manage-doctor-editor'>
                     <MdEditor 
-                        style={{ height: '300px' }}
+                        style={{ height: '265px' }}
                         renderHTML={text => mdParser.render(text)}
                         onChange={this.handleEditorChange} 
                         value={this.state.contentMarkdown}
@@ -413,7 +413,7 @@ class ManageDoctor extends Component {
 
                 
                 <button
-                    className={hasOldData === true ? 'save-content-doctor' : 'create-content-doctor'}
+                    className={hasOldData === true ? 'save-content-doctor' : 'save-content-doctor-disabled'}
                     onClick={() => this.handleSaveContentMarkdown()}
                     >
                         {hasOldData === true?
@@ -422,7 +422,7 @@ class ManageDoctor extends Component {
                             </span> 
                             : 
                             <span>
-                                <FormattedMessage id="admin.manage-doctor.add" />
+                                <FormattedMessage id="admin.manage-doctor.save" />
                             </span>                        
                     }
                     </button>

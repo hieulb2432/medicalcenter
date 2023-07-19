@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/Admin/UserRedux';
 import Header from '../containers/Header/Header';
+import Nav from '../containers/Nav/Nav';
 import ManageDoctor from '../containers/System/Admin/ManageDoctor';
 import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty';
 import ManageClinic from '../containers/System/Clinic/ManageClinic';
@@ -13,16 +14,21 @@ class System extends Component {
         const { systemMenuPath, isLoggedIn } = this.props;
         return (
             <React.Fragment>
-            {isLoggedIn && <Header />}
+            {isLoggedIn}
+            {/* {<Header />}
+            {<Nav /> } */}
 
             <div className="system-container">
-                <div className="system-list">
+            {<Header />}
+            
+                <div className="system-list" style={{display: 'flex'}}>
+                {<Nav /> }
                     <Switch>
                         {/* <Route path="/system/user-manage" component={UserManage} /> */}
-                        <Route path="/system/user-redux" component={UserRedux} />
-                        <Route path="/system/manage-doctor" component={ManageDoctor} />
-                        <Route path="/system/manage-specialty" component={ManageSpecialty} />
-                        <Route path="/system/manage-clinic" component={ManageClinic} />
+                        <Route path="/system/user-redux" component={UserRedux} className= 'col-10'/>
+                        <Route path="/system/manage-doctor" component={ManageDoctor} className='col-10'/>
+                        <Route path="/system/manage-specialty" component={ManageSpecialty} className= 'col-10'/>
+                        <Route path="/system/manage-clinic" component={ManageClinic} className= 'col-10' />
 
                         <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                     </Switch>

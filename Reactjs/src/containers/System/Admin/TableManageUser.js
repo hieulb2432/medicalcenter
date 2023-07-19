@@ -149,6 +149,7 @@ class TableManageUser extends Component {
         let {isOpenModalUser} = this.state
         return (
             <React.Fragment>
+               
                     <table id="TableManageUser">
                         <thead>
                             <tr>
@@ -196,6 +197,7 @@ class TableManageUser extends Component {
                             })}
                         </tbody>
                     </table>
+               
                     
                     {/* <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} /> */}
             </React.Fragment>

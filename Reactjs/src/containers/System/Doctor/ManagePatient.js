@@ -110,17 +110,17 @@ class ManagePatient extends Component {
         let {currentDate} = this.state
         let {language} = this.props
         return (
-            <>
+            <div className='col-10'>
             <LoadingOverlay
                 active={this.state.isShowLoading}
                 spinner
                 text='Loading...'
                 >
                 <div className='manage-patient-container'>
-                    <div className='m-s-title'>
+                    <div className='patient-title mt-4' style={{color: '#ff5400'}}>
                         Quan ly benh nhan da dat lịch kham
                     </div>
-                    <div className='container'>
+                    <div className='schedule-container mt-3'>
                         <div className='row'>
                         <div className='col-4 form-group'>
                             <label>Chon ngay kham</label>
@@ -158,7 +158,7 @@ class ManagePatient extends Component {
                                         <td>
                                             <button className='btn btn-primary'
                                                 onClick={() => this.handleBtnConfirm(item)}
-                                            >Xac nhan
+                                            >Gửi hóa đơn
                                             </button>
                                         </td>
                                     </tr>
@@ -186,7 +186,7 @@ class ManagePatient extends Component {
                 />
                 
             </LoadingOverlay>
-            </>
+            </div>
         );
     }
 }

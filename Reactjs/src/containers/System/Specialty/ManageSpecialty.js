@@ -72,13 +72,15 @@ class ManageSpecialty extends Component {
     render() {
         let {dataSpecialty} = this.state
         return (
-            <>
-                <div className='title'>
-                    Quản lý chuyên khoa
+            <div>
+                <div className="specialty-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div className='specialty-title mt-4' style={{color: '#ff5400'}}>
+                        Quản lý chuyên khoa
+                    </div>
+                    <div className="my-3" style={{display: 'flex', flexFlow: 'row-reverse'}}>
+                            <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewSpecialty()}>Thêm mới</button>
+                    </div>
                 </div>
-            <div className="col-12 my-3">
-                    <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewSpecialty()}>Thêm mới</button>
-            </div>
                 {this.state.isOpenNewSpecialty &&
                 <ModalAddNewSpecialty
                     isOpenModal = {this.state.isOpenNewSpecialty}
@@ -95,7 +97,7 @@ class ManageSpecialty extends Component {
                 />
                 }
 
-                <div className="col-12 my-3">
+                <div className="col-12 mb-3">
                     
                     <table id="TableManageUser">
                         <thead>
@@ -142,7 +144,7 @@ class ManageSpecialty extends Component {
                         </tbody>
                     </table>
                 </div>
-            </>
+            </div>
         );
     }
 }

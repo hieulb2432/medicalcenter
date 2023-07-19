@@ -249,14 +249,23 @@ class UserRedux extends Component {
           } = this.state;
 
         return (
-            <div className='user-redux-container'>
-                <div className='title'>
-                    Quản lý người dùng
+            <div className='user-redux-container' style={{width: '100%'}}>
+                <div className="user-top mr-3 ml-3 mt-3" style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div className='user-title' style={{color: '#ff5400'}}>
+                        Quản lý người dùng
+                    </div>
+                    
+                    <div className='ml-12'>
+                                <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
+                                        onClick={() => this.handleAddNewUser()}>
+                                <i className="fas fa-plus"></i> Thêm mới</button>
+                            </div>
+
                 </div>
 
                 <div className="user-redux-body" >
-                    <div className='container'>
-                        <div className='row'>
+                    <div className=''>
+                        <div className='col-12'>
                             {/* <div className='col-12 my-3'>{isGetGender === true ? 'Loading gender' : ''}</div> */}
                             {/* <div className='col-12 my-3'><FormattedMessage id="manage-user.add"/></div>
                             <div className='col-6'>
@@ -387,13 +396,13 @@ class UserRedux extends Component {
                                 
                             />}
 
-                            <div className='col-12'>
+                            {/* <div className='col-12 ml-12' style={{display: 'flex', flexFlow: 'row-reverse'}}>
                                 <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
                                         onClick={() => this.handleAddNewUser()}>
-                                <i className="fas fa-plus"></i> Add new user</button>
-                            </div>
+                                <i className="fas fa-plus"></i> Thêm mới</button>
+                            </div> */}
 
-                            <div className='col-12 mb-3'>
+                            <div className='mb-3'>
                                 <TableManageUser 
                                     handleEditUserFromParent={this.handleEditUserFromParent}
                                     action={this.state.action}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
+import Nav from '../containers/Nav/Nav';
 import Header from '../containers/Header/Header';
 import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
 import ManagePatient from '../containers/System/Doctor/ManagePatient';
@@ -10,13 +11,15 @@ class Doctor extends Component {
         const { isLoggedIn } = this.props;
         return (
             <React.Fragment>
-            {isLoggedIn && <Header />}
+            {isLoggedIn}
 
             <div className="system-container">
-                <div className="system-list">
+            {<Header />}
+                <div className="system-list" style={{display: 'flex'}}>
+                {<Nav/>}
                     <Switch>
-                        <Route path="/doctor/manage-schedule" component={ManageSchedule} />
-                        <Route path="/doctor/manage-patient" component={ManagePatient} />
+                        <Route path="/doctor/manage-schedule" component={ManageSchedule}/>
+                        <Route path="/doctor/manage-patient" component={ManagePatient}/>
                     </Switch>
                 </div>
             </div>
