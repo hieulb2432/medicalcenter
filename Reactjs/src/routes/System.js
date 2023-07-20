@@ -25,10 +25,10 @@ class System extends Component {
                 {<Nav /> }
                     <Switch>
                         {/* <Route path="/system/user-manage" component={UserManage} /> */}
-                        <Route path="/system/user-redux" component={UserRedux} className= 'col-10'/>
-                        <Route path="/system/manage-doctor" component={ManageDoctor} className='col-10'/>
-                        <Route path="/system/manage-specialty" component={ManageSpecialty} className= 'col-10'/>
-                        <Route path="/system/manage-clinic" component={ManageClinic} className= 'col-10' />
+                        <Route path="/system/user-redux" component={UserRedux}/>
+                        <Route path="/system/manage-doctor" component={ManageDoctor}/>
+                        <Route path="/system/manage-specialty" component={ManageSpecialty}/>
+                        <Route path="/system/manage-clinic" component={ManageClinic}/>
 
                         <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                     </Switch>

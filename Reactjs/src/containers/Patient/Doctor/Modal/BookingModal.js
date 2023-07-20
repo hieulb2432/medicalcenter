@@ -7,7 +7,6 @@ import ProfileDoctor from '../ProfileDoctor';
 import _ from 'lodash';
 import DatePicker from '../../../../components/Input/DatePicker';
 import * as actions from '../../../../store/actions'
-import { getProfileDoctorByIdService } from '../../../../services/userService';
 import { LANGUAGES } from '../../../../utils';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
@@ -153,10 +152,10 @@ class BookingModal extends Component {
             isShowLoading: false
         })
         if(res && res.errCode === 0) {
-            toast.success('Booking a new appointment succeed!');
+            toast.success('Đặt lịch thành công. Vui lòng vào email để xác nhận');
             this.props.closeBookingModal();
         } else {
-            toast.error('Booking a new appointment error!');
+            toast.error('Đặt lịch thất bại');
         }
     }
 

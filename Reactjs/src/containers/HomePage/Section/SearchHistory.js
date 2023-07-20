@@ -18,7 +18,7 @@ class SearchHistory extends Component {
             dataHistory: {},
             isOpenHistory: false,
             startIndex: 0,
-            endIndex: 10,
+            endIndex: 9,
         }
         this.listenToEmitter();
     }
@@ -122,12 +122,7 @@ class SearchHistory extends Component {
 
       handleNextPage = () => {
         const { endIndex } = this.state;
-        // const { data } = this.props;
-        // let endIndex
-        console.log(endIndex)
-        // if(+endIndex+10 < )
         const newEndIndex = Number(Math.min(+endIndex + 10, +this.state.dataHistory.patientData.length - 1));
-        console.log('check end index', newEndIndex)
         
         this.setState({
           startIndex: endIndex + 1,
@@ -148,8 +143,6 @@ class SearchHistory extends Component {
 
     render() {
       let {dataHistory, isOpenHistory, startIndex, endIndex} = this.state
-      console.log('check index', startIndex, endIndex)
-
         return (
             <>
                 <div className="container">
@@ -199,70 +192,77 @@ class SearchHistory extends Component {
                 <div className="col-12">
                 {isOpenHistory && (
                   <div>
-                    <div className="col-12 search-info-user">
-                              <div className="user-info col-12">
-                              <div className="user-info-title">Thông tin bệnh nhân</div>
-                              <hr></hr>
-                              <div className="user-info-content">
-                                    <div className="user-info-name">
-                                      <div className="user-info-name-title"><b>Họ tên bệnh nhân:</b> {dataHistory.lastName} {dataHistory.firstName}</div>
-                                    </div>
+                    <div className="search-info-user">
+                      <div className="user-info">
+                        <div className="user-info-title">Thông tin bệnh nhân</div>
+                        <hr></hr>
+                        <div className="user-info-content">
+                              <div className="user-info-name">
+                                <div className="user-info-name-title"><b>Họ tên bệnh nhân:</b> {dataHistory.lastName} {dataHistory.firstName}</div>
+                              </div>
 
-                                    <div className="user-info-phone">
-                                      <div className="user-info-phone-title"><b>Số điện thoại:</b> {dataHistory.phoneNumber}</div>
-                                    </div>
-                                    
-                                    <div className="user-info-address">
-                                      <div className="user-info-address-title"><b>Địa chỉ:</b> {dataHistory.address}</div>
-                                    </div>
-                                  </div>
+                              <div className="user-info-phone">
+                                <div className="user-info-phone-title"><b>Số điện thoại:</b> {dataHistory.phoneNumber}</div>
                               </div>
                               
-                              <div className="user-history col-12">
-                                <div className="user-history-title">Lịch sử khám bệnh</div>
-                                <hr></hr>
-                                <div className="user-history-content">
-                                <div className='col-12 table-manage-patient'>
-                                      <table style={{width:'100%', borderCollapse: 'collapse'}}>
-                                          <tbody>
-                                              <tr>
-                                                  <th>STT</th>
-                                                  <th>Ngày</th>
-                                                  <th>Thời gian</th>
-                                                  <th>Bác sĩ</th>
-                                                  <th>Địa chỉ phòng khám</th>
-                                                  <th>Trạng thái lịch</th>
-                                              </tr>
-                                              {dataHistory.patientData && dataHistory.patientData.length > 0? 
-                                                dataHistory.patientData.slice(startIndex, endIndex + 1).map((item, index) => {
-                                                  let formattedDate = moment.unix(+item.date / 1000).format('DD/MM/YYYY')
-                                                return (
-                                                <tr key={index}>
-                                                  <td>{index+1}</td>
-                                                  <td>{formattedDate}</td>
-                                                  <td>{item.timeTypeDataPatient.valueVi}</td>
-                                                  <td>{item.doctorDataUser.lastName} {item.doctorDataUser.firstName}</td>
-                                                  <td>{item.doctorDataUser.Doctor_Infor.nameClinic}</td>
-                                                  <td>{item.statusIdData.valueVi}</td>
-                                                </tr>
-                                                )
-                                              })
-                                              :
-                                              <tr>
-                                                  <td colSpan='6' style={{textAlign: "center"}}>
-                                                      Không có dữ liệu
-                                                  </td>
-                                              </tr>
-                                            }
-                                              </tbody>
-                                      </table>
-                                      <button onClick={this.handlePrevPage}>&#8249;</button>
-                                      <button onClick={this.handleNextPage}>&#8250;</button>  
-                                  </div>
-                                  </div>
+                              <div className="user-info-address">
+                                <div className="user-info-address-title"><b>Địa chỉ:</b> {dataHistory.address}</div>
                               </div>
-
                             </div>
+                      </div>
+                      
+                      <div className="user-history">
+                        <div className="user-history-title">Lịch sử khám bệnh</div>
+                        <hr></hr>
+                        <div className="user-history-content">
+                        <div className='table-manage-patient'>
+                              <table style={{width:'100%', borderCollapse: 'collapse'}}>
+                                  <tbody>
+                                      <tr>
+                                          <th>STT</th>
+                                          <th>Ngày</th>
+                                          <th>Thời gian</th>
+                                          <th>Bác sĩ</th>
+                                          <th>Địa chỉ phòng khám</th>
+                                          <th>Trạng thái lịch</th>
+                                      </tr>
+                                      {dataHistory.patientData && dataHistory.patientData.length > 0? 
+                                        dataHistory.patientData.slice(startIndex, endIndex + 1).map((item, index) => {
+                                          let formattedDate = moment.unix(+item.date / 1000).format('DD/MM/YYYY')
+                                        return (
+                                        <tr key={index}>
+                                          <td>{index+1}</td>
+                                          <td>{formattedDate}</td>
+                                          <td>{item.timeTypeDataPatient.valueVi}</td>
+                                          <td>{item.doctorDataUser.lastName} {item.doctorDataUser.firstName}</td>
+                                          <td>{item.doctorDataUser.Doctor_Infor.nameClinic}</td>
+                                          <td>{item.statusIdData.valueVi}</td>
+                                        </tr>
+                                        )
+                                      })
+                                      :
+                                      <tr>
+                                          <td colSpan='6' style={{textAlign: "center"}}>
+                                              Không có dữ liệu
+                                          </td>
+                                      </tr>
+                                    }
+                                      </tbody>
+                              </table>
+                              <div className="pagination mt-3">
+                                <button href="#" 
+                                className={dataHistory.patientData? "previous round mr-3": "previous round mr-3 disable"} 
+                                onClick={this.handlePrevPage} disabled={startIndex === 0}>&#8249;</button>
+                                
+                                <button href="#" className={dataHistory.patientData? "next round": "next round disable" }
+                                  onClick={this.handleNextPage} 
+                                  disabled={dataHistory.patientData && endIndex >= dataHistory.patientData.length -1}
+                                  >&#8250;</button>
+                              </div>
+                          </div>
+                          </div>
+                      </div>
+                    </div>
                   </div>
                 )}
                 </div>

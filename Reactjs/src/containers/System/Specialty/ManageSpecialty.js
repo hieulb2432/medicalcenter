@@ -23,6 +23,9 @@ class ManageSpecialty extends Component {
             isOpenEditSpecialty: false,
             dataSpecialty: {},
             currentSpecialty: {},
+            startIndex: 0,
+            endIndex: 4,
+            
         }
     }
 
@@ -69,8 +72,30 @@ class ManageSpecialty extends Component {
             })
         }
 
+        handleNextPage = () => {
+            const { endIndex } = this.state;
+            // let arrUsers = this.state.usersRedux
+            const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataSpecialty.length - 1));
+            
+            this.setState({
+                startIndex: endIndex + 1,
+                endIndex: newEndIndex,
+            });
+            };
+    
+            handlePrevPage = () => {
+            const { startIndex } = this.state;
+            const newStartIndex = Math.max(startIndex - 5, 0);
+            const newEndIndex = startIndex - 1;
+        
+            this.setState({
+                startIndex: newStartIndex,
+                endIndex: newEndIndex,
+            });
+            };
+
     render() {
-        let {dataSpecialty} = this.state
+        let {dataSpecialty, startIndex, endIndex} = this.state
         return (
             <div>
                 <div className="specialty-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -109,7 +134,7 @@ class ManageSpecialty extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {dataSpecialty && dataSpecialty.length > 0 && dataSpecialty.map((item, index) => {
+                            {dataSpecialty && dataSpecialty.length > 0 && dataSpecialty.slice(startIndex, endIndex + 1).map((item, index) => {
                                 return(
                                     <tr key={index}>
                                         <td>{index+1}</td>
@@ -143,6 +168,19 @@ class ManageSpecialty extends Component {
                             })}
                         </tbody>
                     </table>
+
+                    <div className="pagination mt-3">
+                        <button href="#" 
+                            className={dataSpecialty? "previous round mr-3": "previous round mr-3 disable"} 
+                            onClick={this.handlePrevPage} 
+                            disabled={startIndex === 0}>&#8249;</button>
+                        
+                        <button href="#" 
+                            className={dataSpecialty? "next round": "next round disable" }
+                            onClick={this.handleNextPage} 
+                            disabled={dataSpecialty && endIndex >= dataSpecialty.length -1}
+                            >&#8250;</button>
+                    </div>
                 </div>
             </div>
         );

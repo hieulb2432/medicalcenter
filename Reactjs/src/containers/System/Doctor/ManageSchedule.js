@@ -9,7 +9,7 @@ import DatePicker from '../../../components/Input/DatePicker'
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import _, { range, result } from 'lodash';
-import {saveBulkSchecduleDoctorService, getListPatientForOneDoctorService, getDetailInforDoctorService, getInforUserBooking} from '../../../services/userService'
+import {saveBulkSchecduleDoctorService, getListPatientForOneDoctorService} from '../../../services/userService'
 import ModalBookingInfo from './ModalBookingInfo';
 
 class ManageSchedule extends Component {
@@ -55,6 +55,7 @@ class ManageSchedule extends Component {
             return []
         }
     }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevState.currentDate !== this.state.currentDate) {
             const today = new Date();
@@ -164,7 +165,7 @@ class ManageSchedule extends Component {
     }
 
     handleSaveSchedule = async () => {
-        let {rangeTime, currentDate, selectedDoctor} = this.state;
+        let {rangeTime, currentDate} = this.state;
         let { user } = this.props;
         let result = [];
         if(!currentDate) {
@@ -195,6 +196,8 @@ class ManageSchedule extends Component {
             date: formatedDate
         })
 
+        await this.getDataPatient()
+
         if(res && res.errCode === 0) {
             toast.success('Save info successfully');
         } else {
@@ -211,7 +214,7 @@ class ManageSchedule extends Component {
     }
 
     render() {
-        const { listDoctors, selectedDoctor, currentDate, rangeTime, dataPatient, patientInfor, checkToday} = this.state;
+        const { currentDate, rangeTime, dataPatient, checkToday} = this.state;
         const { language, user} = this.props;
         let nameVi, nameEn
         if(user) {
@@ -226,12 +229,6 @@ class ManageSchedule extends Component {
                 </div>
                 <div className='schedule-container mt-3'>
                     <div className='row'>
-                    {/* <div className='col-6'>
-                            <div><FormattedMessage id="manage-schedule.choose-doctor"/></div>
-                            <div className='doctor-infor'>
-                                {language=== LANGUAGES.VI ? nameVi : nameEn}
-                            </div>
-                        </div> */}
                         <div className='col-4 form-group'>
                             <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                             <DatePicker
@@ -280,7 +277,7 @@ class ManageSchedule extends Component {
                     <div className='schedule-container'>
                         <div className='row'>
                             <div className='col-12 mt-3' style={{margin: '10px 0 10px 0', color: '#ff5400'}}>
-                                Quản lý lịch khám bệnh nhân
+                                Thông tin chi tiết lịch khám
                             </div>
                             <div className='col-4 form-group'>
                                 <label>Chọn ngày</label>
@@ -346,6 +343,7 @@ const mapStateToProps = state => {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
         allScheduleTime: state.admin.allScheduleTime,
+        allScheduleOnTable: state.admin.allScheduleOnTable,
         user: state.user.userInfo,
     };
 };

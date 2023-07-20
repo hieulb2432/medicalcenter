@@ -25,3 +25,36 @@
     background-color: #04aa6d;
     color: white;
   }
+  .pagination {
+    float: right;
+    button {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+        border: none;
+        background-color: transparent;
+      }
+      
+    button:hover {
+    background-color: #ddd;
+    color: black;
+    }
+    
+    .previous {
+    background-color: #f1f1f1;
+    color: black;
+    }
+    
+    .next {
+    background-color: #04AA6D;
+    color: white;
+    }
+    
+    .round {
+    border-radius: 50%;
+    }
+
+    .disable {
+        pointer-events:none;
+    }
+}

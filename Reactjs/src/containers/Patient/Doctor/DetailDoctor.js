@@ -88,7 +88,7 @@ class DetailDoctor extends Component {
                                 />
                         </div>
                     </div>
-
+                    <div class="text-infor ml-3 mb-3">THÔNG TIN CHI TIẾT VỀ BÁC SĨ</div>
                     <div className='detail-infor-doctor'>
                         {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML
                             && <div

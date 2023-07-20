@@ -162,10 +162,12 @@ class DoctorSchedule extends Component {
             })
     }
 
-    closeBookingModal = () => {
+    closeBookingModal = async () => {
         this.setState({
             isOpenModalBooking: false,
         })
+        // let allDays = this.getArrDays(this.props.language)
+        // await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
     }
 
     render() {
@@ -266,6 +268,8 @@ class DoctorSchedule extends Component {
                     isOpenModal = {isOpenModalBooking}
                     closeBookingModal = {this.closeBookingModal}
                     dataTime = {dataScheduleTimeModal}
+                    allAvailableTime = {allAvailableTime}
+                    allFreezeTime = {allFreezeTime}
                     isShowLoading= {this.state.isShowLoading}
                 />
             </>

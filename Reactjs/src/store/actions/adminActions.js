@@ -3,7 +3,9 @@ import {getAllCodeService, createNewUserService,
   getAllUsers, deleteUserService, editUserService,
   getTopDoctorHomeService, getAllDoctorsService,
   saveDetailDoctorService, getAllSpecialtyService, createNewSpecialty, handleDeleteSpecialty, handleEditSpecialty,
-  getAllClinicService, handleDeleteClinic, handleEditClinic, createNewClinic} from '../../services/userService';
+  getAllClinicService, handleDeleteClinic, handleEditClinic, createNewClinic,
+  getListPatientForOneDoctorService
+} from '../../services/userService';
 import { toast } from 'react-toastify';
 
 // export const fetchGenderStart = () => ({
@@ -164,10 +166,11 @@ export const deleteUserFailed = () => ({
     type: actionTypes.DELETE_USER_FAILED,
   });
 
-export const editUser = (id) => {
+export const editUser = (data) => {
+  console.log('check edit user', data)
     return async (dispatch) => {
       try {
-        let res = await editUserService(id);
+        let res = await editUserService(data);
         if (res && res.errCode === 0) {
           toast.success('Update user succeed!');
           dispatch(editUserSuccess());
@@ -277,7 +280,6 @@ export const fetchAllScheduleTime = () => {
           });
         }
       } catch (e) {
-        console.log('FETCH_ALLCODE_SCHEDULE_TIME_FAILED', e);
         dispatch({
           type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED,
         });

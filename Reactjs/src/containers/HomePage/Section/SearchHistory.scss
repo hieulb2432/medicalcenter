@@ -14,9 +14,9 @@
             padding: 15px 0px 5px 0px;
         }
     }
-        .form-control-customize {
-            width: 62%;
-        }
+    .form-control-customize {
+        width: 62%;
+    }
     
     .getCode-btn {
         display: flex;
@@ -31,27 +31,27 @@
     .fa-angle-down {
         transform: rotate(0deg);
         transition: transform 0.3s ease-in-out;
-      }
+    }
       
-      .fa-angle-up {
-        transform: rotate(180deg);
-        transition: transform 0.3s ease-in-out;
-      }
+    .fa-angle-up {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease-in-out;
+    }
 
-      .customize-icon {
-        display: flex;
-        align-items: center;
-        right: 0px !important;
+    .customize-icon {
+    display: flex;
+    align-items: center;
+    right: 0px !important;
 
-      }
-      
-      .angle {
-        height: 50%;
-        justify-content: center;
-        display: flex;
-        background: #d8d5dbc7;
-        font-size: 20px;
-      }
+    }
+    
+    .angle {
+    height: 50%;
+    justify-content: center;
+    display: flex;
+    background: #d8d5dbc7;
+    font-size: 20px;
+    }
 
     .search-info-user {
         display: block;
@@ -80,6 +80,39 @@
                     .btn-primary {
                         background-color: orange!important;
                         border-color: orange !important;
+                    }
+                    .pagination {
+                        float: right;
+                        button {
+                            text-decoration: none;
+                            display: inline-block;
+                            padding: 8px 16px;
+                            border: none;
+                            background-color: transparent;
+                          }
+                          
+                        button:hover {
+                        background-color: #ddd;
+                        color: black;
+                        }
+                        
+                        .previous {
+                        background-color: #f1f1f1;
+                        color: black;
+                        }
+                        
+                        .next {
+                        background-color: #04AA6D;
+                        color: white;
+                        }
+                        
+                        .round {
+                        border-radius: 50%;
+                        }
+
+                        .disable {
+                            pointer-events:none;
+                        }
                     }
                 }
             }

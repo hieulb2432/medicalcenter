@@ -64,7 +64,7 @@ class ModalEditClinic extends Component {
             });
           }
 
-          handleSaveClinic = async () => {
+        handleSaveClinic = async () => {
             await this.props.editClinic(this.state)
             let isValid = this.checkValidateInput();
             if(isValid == false) return;

@@ -26,51 +26,11 @@ class HomeHeader extends Component {
             <div className="home-header-container">
               <div className="home-header-content">
               <div className="left-content">
-                {/* <i className="fas fa-bars"></i> */}
                 <div className="header-logo">
                   <img src={logo} style={{width: '150px', height: '50px'}} onClick={()=>this.returnToHome()} />
                 </div>
               </div>
-              <div className="center-content">
-                <div className="child-content">
-                  <div>
-                    <b>
-                        <FormattedMessage id="home-header.specialty" />
-                    </b>
-                </div>
-                <div className="subs-title">
-                    <FormattedMessage id="home-header.search-doctor" />
-                  </div>
-                </div>
-                
-                <div className="child-content">
-                  <div>
-                  <b>
-                  <FormattedMessage id="home-header.health-facility" />
-                </b>
-              </div>
-              <div className="subs-title">
-                <FormattedMessage id="home-header.select-room" />
-                  </div>
-                  
-                </div>
-                
-                <div className="child-content">
-                  <div>
-                  <b>
-                  <FormattedMessage id="home-header.doctor" />
-                </b>
-              </div>
-              <div className="subs-title">
-                <FormattedMessage id="home-header.select-doctor" />
-                  </div>
-                </div>
-              </div>
-              <div className="right-content">
-                <div className="support">
-                  <i className="fas fa-question-circle"></i>
-                  <FormattedMessage id="home-header.support" />
-                </div>
+              <div className="right-content mr-3">
                 <div className={language === LANGUAGES.VI ? "language-vi active" : "language-vi"}>
                   <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span>
                 </div>

@@ -5,9 +5,9 @@ import Specialty from './Section/Specialty';
 import MedicalFacility from './Section/MedicalFacility';
 import OutstandingDoctor from './Section/OutstandingDoctor';
 import SearchHistory from './Section/SearchHistory';
-// import Handbook from './Section/Handbook';
-import About from './Section/About';
 import HomeFooter from './HomeFooter';
+import Hotline from './Hotline';
+import Statistic from './Statistic';
 
 import './HomePage.scss'
 import 'slick-carousel/slick/slick.css';
@@ -47,11 +47,13 @@ class HomePage extends Component {
         return (
             <>
                 <HomeHeader isShowBanner={true}/>
+                <Statistic/>
                 <Specialty settings={settings} />
                 <MedicalFacility settings={settings} />
                 <OutstandingDoctor settings={settings} />
                 <SearchHistory />
                 <HomeFooter />
+                <Hotline />
             </>
         );
       }

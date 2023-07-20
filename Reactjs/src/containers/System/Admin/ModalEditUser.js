@@ -7,6 +7,7 @@ import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
 import './ModalAddNewUser.scss'
+import { toast } from 'react-toastify';
 
 class ModalEditUser extends Component {
 
@@ -28,7 +29,8 @@ class ModalEditUser extends Component {
             gender: this.props.user.gender,
             positionId: this.props.user.positionId,
             roleId: this.props.user.roleId,
-            avatar: this.props.user.image,
+            // avatar: this.props.user.image,
+            image: this.props.user.image,
 
             action: '',
             userEditId: this.props.user.id,
@@ -82,9 +84,10 @@ class ModalEditUser extends Component {
                 gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
-                avatar: '',
+                // avatar: '',
+                image: '',
                 previewImgURL: '',
-                action: CRUD_ACTION.CREATE,
+                // action: CRUD_ACTION.CREATE,
             })
         }
     }
@@ -94,21 +97,23 @@ class ModalEditUser extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
+            console.log('base64: ', base64)
             let objectUrl = URL.createObjectURL(file);
             this.setState({
                 previewImgURL: objectUrl,
-                avatar: base64,
+                // avatar: base64,
+                image: base64
           });
         }
       };    
 
-    handleSaveUser = () => {
+    handleSaveUser = async () => {
         let isValid = this.checkValidateInput();
         if(isValid == false) return;
-        this.props.editUserRedux({
+        await this.props.editUserRedux({
             id: this.state.userEditId,
-            email: this.state.email,
-            password: this.state.password,
+            // email: this.state.email,
+            // password: this.state.password,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             address: this.state.address,
@@ -116,7 +121,8 @@ class ModalEditUser extends Component {
             gender: this.state.gender,
             roleId: this.state.roleId,
             positionId: this.state.positionId,
-            avatar: this.state.avatar
+            // avatar: this.state.avatar
+            image: this.state.image
         })
         this.props.toggle()
     }
@@ -134,7 +140,7 @@ class ModalEditUser extends Component {
     for (let i = 0; i < arrCheck.length; i++) {
         if (!this.state[arrCheck[i]]) {
         isValid = false;
-        alert('This input is required: ' + arrCheck[i]);
+        toast.error('This input is required: ' + arrCheck[i]);
         break;
         }
     }
@@ -156,12 +162,15 @@ class ModalEditUser extends Component {
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
         let language = this.props.language;
-        let isGetGender = this.props.isLoadingGender;
+        // let isGetGender = this.props.isLoadingGender;
         let imageBase64 = '';
-        if (this.state.avatar) {
-            imageBase64 = Buffer.from(this.state.avatar, 'base64').toString('binary');
+        // if (this.state.avatar) {
+        //     imageBase64 = Buffer.from(this.state.avatar, 'base64').toString('binary');
+        // }
+        if (this.state.image) {
+            imageBase64 = Buffer.from(this.state.image, 'base64').toString('binary');
         }
-        console.log(this.state.gender, genders)
+        console.log('check gender hiệ tại', this.state.image)
         let {
             previewImgURL,
             isOpen,
@@ -185,6 +194,7 @@ class ModalEditUser extends Component {
           >
             <ModalHeader toggle={toggle}><FormattedMessage id="manage-user.add"/></ModalHeader>
             <ModalBody>
+            {/* <div className='col-12 my-3'>{isGetGender === true ? 'Loading gender' : ''}</div> */}
               <div className="container">
                 <div className="row g-3">
                     <div className='col-6'>
@@ -231,11 +241,27 @@ class ModalEditUser extends Component {
                             onChange={(event)=>{this.onChangeInput(event, 'address')}}
                         ></input>
                     </div>
-                    <div className='col-3'>
+                    {/* <div className='col-3'>
                         <label><FormattedMessage id="manage-user.gender"/></label>
                             <select className="form-control"
                                 onChange={(event)=>{this.onChangeInput(event, 'gender')}}
                                 // defaultValue={user.gender}
+                                value={this.state.gender}
+                            >
+                                {genders && genders.length > 0 && genders.map((item, index) => {
+                                    return (
+                                        <option key = {index} value={item.keyMap}>
+                                            {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
+                                        </option>
+                                    )
+                                })}                                        
+                            </select>
+                    </div> */}
+
+                    <div className='col-3'>
+                        <label><FormattedMessage id="manage-user.gender"/></label>
+                            <select className="form-control"
+                                onChange={(event)=>{this.onChangeInput(event, 'gender')}}
                                 value={this.state.gender}
                             >
                                 {genders && genders.length > 0 && genders.map((item, index) => {
@@ -321,7 +347,7 @@ const mapStateToProps = state => {
         genderRedux: state.admin.genders,
         roleRedux: state.admin.roles,
         positionRedux: state.admin.positions,
-        isLoadingGender: state.admin.isLoadingGender,
+        // isLoadingGender: state.admin.isLoadingGender,
         listUsers: state.admin.users
     };
 };

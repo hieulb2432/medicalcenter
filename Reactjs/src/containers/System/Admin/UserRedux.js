@@ -31,6 +31,7 @@ class UserRedux extends Component {
             position: '',
             role: '',
             avatar: '',
+            image: '',
 
             action: '',
             userEditId: '',
@@ -86,7 +87,8 @@ class UserRedux extends Component {
                 gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
-                avatar: '',
+                // avatar: '',
+                image: '',
                 previewImgURL: '',
                 action: CRUD_ACTION.CREATE,
             })
@@ -101,7 +103,9 @@ class UserRedux extends Component {
             let objectUrl = URL.createObjectURL(file);
             this.setState({
                 previewImgURL: objectUrl,
-                avatar: base64,
+                // avatar: base64,
+                image: base64,
+
           });
         }
       };    
@@ -130,28 +134,29 @@ class UserRedux extends Component {
                 gender: this.state.gender,
                 roleId: this.state.role,
                 positionId: this.state.position,
-                avatar: this.state.avatar,
+                // avatar: this.state.avatar,
+                image: this.state.image
             })
 
             
         }
 
-        if (action === CRUD_ACTION.EDIT) {
-            // fire redux edit user
-            this.props.editUserRedux({
-                id: this.state.userEditId,
-                email: this.state.email,
-                password: this.state.password,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phoneNumber: this.state.phoneNumber,
-                gender: this.state.gender,
-                roleId: this.state.role,
-                positionId: this.state.position,
-                avatar: this.state.avatar
-            })
-        }
+        // if (action === CRUD_ACTION.EDIT) {
+        //     // fire redux edit user
+        //     this.props.editUserRedux({
+        //         id: this.state.userEditId,
+        //         email: this.state.email,
+        //         password: this.state.password,
+        //         firstName: this.state.firstName,
+        //         lastName: this.state.lastName,
+        //         address: this.state.address,
+        //         phoneNumber: this.state.phoneNumber,
+        //         gender: this.state.gender,
+        //         roleId: this.state.role,
+        //         positionId: this.state.position,
+        //         avatar: this.state.avatar
+        //     })
+        // }
 
       }
 
@@ -188,6 +193,11 @@ class UserRedux extends Component {
         this.setState({
             isOpenModalEditUser: true
         })
+        let imageBase64 = '';
+        if (user.image) {
+        imageBase64 = Buffer.from(user.image, 'base64').toString('binary');
+        }
+        user.image = imageBase64;
         this.setState({user: user})
         // let imageBase64 = '';
         // if (user.image) {
@@ -247,7 +257,6 @@ class UserRedux extends Component {
             position,
             isOpenModalUser
           } = this.state;
-
         return (
             <div className='user-redux-container' style={{width: '100%'}}>
                 <div className="user-top mr-3 ml-3 mt-3" style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -256,10 +265,10 @@ class UserRedux extends Component {
                     </div>
                     
                     <div className='ml-12'>
-                                <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
-                                        onClick={() => this.handleAddNewUser()}>
-                                <i className="fas fa-plus"></i> Thêm mới</button>
-                            </div>
+                        <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
+                                onClick={() => this.handleAddNewUser()}>
+                        <i className="fas fa-plus"></i> Thêm mới</button>
+                    </div>
 
                 </div>
 

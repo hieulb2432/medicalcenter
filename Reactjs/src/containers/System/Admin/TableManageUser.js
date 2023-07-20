@@ -33,6 +33,8 @@ class TableManageUser extends Component {
             isOpenModalUser: false,
             previewImgURL: '',
             isOpen: false, // Xem prview ảnh
+            startIndex: 0,
+            endIndex: 12,
         }
     }
 
@@ -142,17 +144,39 @@ class TableManageUser extends Component {
         //         userEditId: user.id
         //     })
         //   }
-
+        handleNextPage = () => {
+            const { endIndex } = this.state;
+            let arrUsers = this.state.usersRedux
+            console.log('handle', arrUsers)
+            const newEndIndex = Number(Math.min(+endIndex + 13, +arrUsers.length - 1));
+            
+            this.setState({
+              startIndex: endIndex + 1,
+              endIndex: newEndIndex,
+            });
+          };
+    
+          handlePrevPage = () => {
+            const { startIndex } = this.state;
+            const newStartIndex = Math.max(startIndex - 13, 0);
+            const newEndIndex = startIndex - 1;
+        
+            this.setState({
+              startIndex: newStartIndex,
+              endIndex: newEndIndex,
+            });
+          };
 
     render() {
         let arrUsers = this.state.usersRedux
-        let {isOpenModalUser} = this.state
+        let {startIndex, endIndex} = this.state
         return (
             <React.Fragment>
                
                     <table id="TableManageUser">
                         <thead>
                             <tr>
+                                <th>STT</th>
                                 <th>Email</th>
                                 <th>First name</th>
                                 <th>Last name</th>
@@ -161,9 +185,10 @@ class TableManageUser extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {arrUsers && arrUsers.length > 0 && arrUsers.map((user, index) => {
+                            {arrUsers && arrUsers.length > 0 && arrUsers.slice(startIndex, endIndex + 1).map((user, index) => {
                                 return(
                                     <tr key={index}>
+                                        <td>{index+1}</td>
                                         <td>{user.email}</td>
                                         <td>{user.firstName}</td>
                                         <td>{user.lastName}</td>
@@ -197,7 +222,16 @@ class TableManageUser extends Component {
                             })}
                         </tbody>
                     </table>
-               
+                    <div className="pagination mt-3">
+                        <button href="#" 
+                        className={arrUsers? "previous round mr-3": "previous round mr-3 disable"} 
+                        onClick={this.handlePrevPage} disabled={startIndex === 0}>&#8249;</button>
+                        
+                        <button href="#" className={arrUsers? "next round": "next round disable" }
+                            onClick={this.handleNextPage} 
+                            disabled={arrUsers && endIndex >= arrUsers.length -1}
+                            >&#8250;</button>
+                    </div>
                     
                     {/* <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} /> */}
             </React.Fragment>

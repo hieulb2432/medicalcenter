@@ -7,7 +7,6 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { toast } from 'react-toastify';
 import {CommonUtils} from '../../../utils'
-import {getAllClinicService, handleDeleteClinic} from '../../../services/userService'
 import './ManageClinic.scss';
 import ModalAddNewClinic from './ModalAddNewClinic';
 import ModalEditClinic from './ModalEditClinic';
@@ -21,7 +20,9 @@ class ManageClinic extends Component {
             isOpenNewClinic: false,
             isOpenEditClinic: false,
             dataClinic: {},
-            currentClinic: {}
+            currentClinic: {},
+            startIndex: 0,
+            endIndex: 4,
         }
     }
 
@@ -67,9 +68,32 @@ class ManageClinic extends Component {
                 isOpenEditClinic: !this.state.isOpenEditClinic,
             })
         }
+    handleNextPage = () => {
+        const { endIndex } = this.state;
+        // let arrUsers = this.state.usersRedux
+        const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataClinic.length - 1));
+        
+        this.setState({
+            startIndex: endIndex + 1,
+            endIndex: newEndIndex,
+        });
+        };
+
+        handlePrevPage = () => {
+        const { startIndex } = this.state;
+        const newStartIndex = Math.max(startIndex - 5, 0);
+        const newEndIndex = startIndex - 1;
+    
+        this.setState({
+            startIndex: newStartIndex,
+            endIndex: newEndIndex,
+        });
+        };
 
     render() {
-        let {dataClinic} = this.state
+        let {dataClinic, startIndex, endIndex} = this.state
+        console.log('tracking', dataClinic, dataClinic.length)
+
         return (
             <div>
                 <div className="clinic-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -109,7 +133,7 @@ class ManageClinic extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {dataClinic && dataClinic.length > 0 && dataClinic.map((item, index) => {
+                            {dataClinic && dataClinic.length > 0 && dataClinic.slice(startIndex, endIndex + 1).map((item, index) => {
                                 return(
                                     <tr key={index}>
                                         <td>{index+1}</td>
@@ -144,6 +168,19 @@ class ManageClinic extends Component {
                             })}
                         </tbody>
                     </table>
+
+                    <div className="pagination mt-3">
+                        <button href="#" 
+                            className={dataClinic? "previous round mr-3": "previous round mr-3 disable"} 
+                            onClick={this.handlePrevPage} 
+                            disabled={startIndex === 0}>&#8249;</button>
+                        
+                        <button href="#" 
+                            className={dataClinic? "next round": "next round disable" }
+                            onClick={this.handleNextPage} 
+                            disabled={dataClinic && endIndex >= dataClinic.length -1}
+                            >&#8250;</button>
+                    </div>
                 </div>
             </div>
         );

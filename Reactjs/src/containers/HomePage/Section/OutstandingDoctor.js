@@ -42,7 +42,6 @@ class OutstandingDoctor extends Component {
             <div className="section-container container">
               <div className="section-header">
                 <h2 className="title-section"><FormattedMessage id="homepage.outstanding-doctor"/></h2>
-                {/* <button className="btn-section"><FormattedMessage id="homepage.more-info"/></button> */}
               </div>
               <div className="section-content">
                 <Slider {...this.props.settings}>
@@ -65,7 +64,6 @@ class OutstandingDoctor extends Component {
                         </div>
                         <div className="position text-center">
                             <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
-                            {/* <p>Cơ xương khớp</p> */}
                         </div>
                       </div>
                     )

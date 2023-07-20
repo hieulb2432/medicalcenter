@@ -16,8 +16,8 @@ export const deleteUserService = (id) => {
   return axios.delete('/api/delete-user', {data: {id}});
 }
 
-export const editUserService = (id) => {
-  return axios.put('/api/edit-user', id);
+export const editUserService = (data) => {
+  return axios.put('/api/edit-user', data);
 }
 
 export const checkUserEmail = (email) => {
@@ -138,6 +138,10 @@ export const getHistoryAppointment = (email) => {
 
 export const getAllHistorySchedule = (email, id) => {
   return axios.get(`/api/get-all-history-schedule?email=${email}&id=${id}`);
+};
+
+export const getAllBooking = () => {
+  return axios.get(`/api/get-all-booking`);
 };
 
 export { 
