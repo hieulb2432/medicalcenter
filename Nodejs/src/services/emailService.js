@@ -142,7 +142,7 @@ let getBodyHTMLEmail = (dataSend) => {
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-          from: '"Fred Foo 👻" <hieu.lb2432@gmail.com>', // sender address
+          from: '"Hieu" <hieu.lb2432@gmail.com>', // sender address
           to: dataSend.email, // list of receivers
           subject: "Ket qua kham benh", // Subject line
           html: getBodyHTMLRemedy(dataSend), // html body

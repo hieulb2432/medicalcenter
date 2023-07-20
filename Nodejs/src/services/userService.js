@@ -164,6 +164,8 @@ let getAllUsers = (userId) => {
   };
   
   let updateUserData = (data) => {
+    console.log('updateUserData', data);
+    
     return new Promise(async (resolve, reject) => {
       try {
         if (!data.id || !data.roleId || !data.positionId || !data.gender) {
@@ -176,6 +178,7 @@ let getAllUsers = (userId) => {
           where: { id: data.id },
           raw: false,
         });
+        console.log('user', user.firstName, data.firstName);
         if (user) {
           user.firstName = data.firstName,
           user.lastName = data.lastName,
@@ -184,9 +187,10 @@ let getAllUsers = (userId) => {
           user.gender = data.gender;
           user.positionId = data.positionId;
           user.phoneNumber = data.phoneNumber
-          if (data.avatar) {
-            user.image = data.avatar
-          }
+          user.image = data.image
+          // if (data.avatar) {
+          //   user.image = data.avatar
+          // }
           await user.save();
           resolve({
             errCode: 0,

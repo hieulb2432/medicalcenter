@@ -244,10 +244,26 @@ let getAllHistorySchedule = (email, id) => {
   })
 }
 
+let getAllBooking = () => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      let data = await db.Booking.findAll()
+      resolve({
+        errCode: 0,
+        errMessage: 'OK',
+        data
+      })
+    } catch(e) {
+      reject(e)
+    }
+  })
+}
+
 
 module.exports = {
     postBookAppointment: postBookAppointment,
     postVerifyBookAppointment: postVerifyBookAppointment,
     getHistoryAppointment: getHistoryAppointment,
-    getAllHistorySchedule: getAllHistorySchedule
+    getAllHistorySchedule: getAllHistorySchedule,
+    getAllBooking: getAllBooking
 }
