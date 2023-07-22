@@ -126,7 +126,6 @@ let handleDeleteClinic = (clinicId) => {
 let handleEditClinic = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(data)
       if (!data.name || !data.imageBase64 || !data.address ||
         !data.descriptionHTML || !data.descriptionMarkdown ) {
         resolve({

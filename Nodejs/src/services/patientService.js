@@ -33,29 +33,82 @@ let postBookAppointment = (data) => {
         })
 
         // Update or insert User
-        let user = await db.User.findOrCreate({
-            where: { email: data.email },
-            defaults: {
-              email: data.email,
-              roleId: 'R3',
-              gender: data.selectedGender,
-              address: data.address,
-              firstName: data.fullName,
-            },
-            raw: true
+        // let user = await db.User.findOrCreate({
+        //     where: { email: data.email },
+        //     defaults: {
+        //       email: data.email,
+        //       roleId: 'R3',
+        //       gender: data.selectedGender,
+        //       address: data.address,
+        //       firstName: data.fullName,
+        //       phoneNumber: data.phoneNumber,
+        //     },
+        //     raw: true,
+        //   });
+
+        let user = await db.User.findOne({ where: { email: data.email }, raw: false });
+
+        if (user) {
+          // Nếu tìm thấy người dùng, tiến hành cập nhật thông tin
+          user.roleId = 'R3';
+          user.gender = data.selectedGender;
+          user.address = data.address;
+          user.firstName = data.fullName;
+          user.phoneNumber = data.phoneNumber;
+          user.password = '';
+          user.lastName = '';
+          user.image = '';
+          user.positionId = 'P0'
+        
+          await user.save();
+          await db.Booking.create({
+
+            statusId: 'S1',
+            doctorId: data.doctorId,
+            patientId: user.id,
+            date: data.date,
+            timeType: data.timeType,
+            token: token,
+          
+        });
+        } else {
+          // Nếu không tìm thấy người dùng, tạo mới một bản ghi
+          const newUser = await db.User.create({
+            email: data.email,
+            roleId: 'R3',
+            gender: data.selectedGender,
+            address: data.address,
+            firstName: data.fullName,
+            phoneNumber: data.phoneNumber,
+            password: '',
+            lastName: '',
+            image: '',
+            positionId: 'P0'
           });
+          await db.Booking.create({
 
-          if (user && user[0]) {
-            await db.Booking.create({
+            statusId: 'S1',
+            doctorId: data.doctorId,
+            patientId: newUser.id,
+            date: data.date,
+            timeType: data.timeType,
+            token: token,
+          
+        });
+        }
+        
+        console.log('Created', user)
+          if (user) {
+            // await db.Booking.create({
 
-                statusId: 'S1',
-                doctorId: data.doctorId,
-                patientId: user[0].id,
-                date: data.date,
-                timeType: data.timeType,
-                token: token,
+            //     statusId: 'S1',
+            //     doctorId: data.doctorId,
+            //     patientId: user.id,
+            //     date: data.date,
+            //     timeType: data.timeType,
+            //     token: token,
               
-            });
+            // });
           }
 
           setTimeout(async () => {
