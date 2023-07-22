@@ -20,6 +20,10 @@ export const editUserService = (data) => {
   return axios.put('/api/edit-user', data);
 }
 
+export const getFilterUser = (data) => {
+  return axios.get(`/api/get-filter-user?role=${data.role}`);
+};
+
 export const checkUserEmail = (email) => {
   return axios.post('/api/check-user-email',{'email': email});
 }

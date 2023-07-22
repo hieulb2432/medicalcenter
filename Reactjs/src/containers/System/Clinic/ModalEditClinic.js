@@ -25,7 +25,6 @@ class ModalEditClinic extends Component {
             imageBase64: this.props.clinic.image,
             descriptionHTML: this.props.clinic.descriptionHTML,
             descriptionMarkdown: this.props.clinic.descriptionMarkdown,
-            // previewImgURL: Buffer.from(this.props.clinic.image, 'base64').toString('binary')
         };
     }
 
@@ -50,7 +49,6 @@ class ModalEditClinic extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            // let objectUrl = URL.createObjectURL(file);
             this.setState({
                 imageBase64: base64,
             });
@@ -91,7 +89,6 @@ class ModalEditClinic extends Component {
 
     render() {
         const { toggle, clinic } = this.props;
-        console.log(this.state.imageBase64, this.state.previewImgURL)
         return (
           <Modal
             isOpen={this.props.isOpenModalEdit}
@@ -122,13 +119,6 @@ class ModalEditClinic extends Component {
                                 // value={this.state.previewImgURL}
                             >
                             </input>
-                            {/* <label htmlFor='previewImg' className="label-upload">
-                                Tải ảnh
-                                <i className="fas fa-upload"></i>
-                            </label> */}
-                            {/* <div className='preview-image'
-                                style={{backgroundImage: `url(${this.state.previewImgURL})`}}
-                            > abcbcbcc</div> */}
                         </div>
                         <div className='col-6 form-group'>
                             <label>Địa chỉ cơ sở y tế <span style={{color: 'red'}}>*</span></label>

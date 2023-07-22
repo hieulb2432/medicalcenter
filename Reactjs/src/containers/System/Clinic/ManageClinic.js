@@ -68,9 +68,8 @@ class ManageClinic extends Component {
                 isOpenEditClinic: !this.state.isOpenEditClinic,
             })
         }
-    handleNextPage = () => {
+        handleNextPage = () => {
         const { endIndex } = this.state;
-        // let arrUsers = this.state.usersRedux
         const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataClinic.length - 1));
         
         this.setState({
@@ -92,7 +91,6 @@ class ManageClinic extends Component {
 
     render() {
         let {dataClinic, startIndex, endIndex} = this.state
-        console.log('tracking', dataClinic, dataClinic.length)
 
         return (
             <div>

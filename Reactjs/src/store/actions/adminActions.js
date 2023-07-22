@@ -20,7 +20,7 @@ export const fetchGenderStart = () => {
                 type: actionTypes.FETCH_GENDER_START,
             })
 
-            let res = await getAllCodeService("GENDER");
+            let res = await getAllCodeService('gender');
             if (res && res.errCode === 0){
                 dispatch(fetchGenderSuccess(res.data));
             } else {
@@ -167,7 +167,6 @@ export const deleteUserFailed = () => ({
   });
 
 export const editUser = (data) => {
-  console.log('check edit user', data)
     return async (dispatch) => {
       try {
         let res = await editUserService(data);

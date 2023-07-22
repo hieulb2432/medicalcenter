@@ -56,12 +56,7 @@ class Statistic extends Component {
             <>
                 <div className='container'>
                     <div className='row'>
-                        {/* <div className='content-up'>
-                            <div className='content-right'>right</div>
-                            <div className='content-left'>left</div>
-                        </div> */}
-                        
-                        <div className='col-12 content-down mt-3'>
+                        <div className='col-12 content-down'>
                             <div className='col-3 list-item doctor'>
                                 <i class="fas fa-user-md"></i>
                                 <div className='mt-3 doctor-number'>

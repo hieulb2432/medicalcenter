@@ -80,12 +80,12 @@ class ModalAddNewClinic extends Component {
             });
           }
 
-          handleSaveClinic = async () => {
+        handleSaveClinic = async () => {
             await this.props.fetchCreateNewClinic(this.state)
             let isValid = this.checkValidateInput();
             if(isValid == false) return;
             this.props.toggle()
-            }
+        }
 
     render() {
         const { toggle } = this.props;

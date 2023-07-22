@@ -60,8 +60,7 @@ class DetailSpecialty extends Component {
         }
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshots) {
-        
+    async componentDidUpdate(prevProps, prevState, snapshots) {    
     }
 
     handleOnChangeSelect = async (e) => {
@@ -85,7 +84,7 @@ class DetailSpecialty extends Component {
                         })
                     }
                 }
-
+                
                 this.setState({
                     dataDetailSpecialty: res.data,
                     arrDoctorId: arrDoctorId,
@@ -93,7 +92,7 @@ class DetailSpecialty extends Component {
             }
         }
     }
-
+    
     render() {
         let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
         let {language} = this.props
@@ -137,7 +136,6 @@ class DetailSpecialty extends Component {
                                             isShowDescriptionDoctor={true}
                                             isShowLinkDetail={true}
                                             isShowPrice={false}
-                                            // dataTime={dataTime}
                                         />
                                     </div>
                                 </div>

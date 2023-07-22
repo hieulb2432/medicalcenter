@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { emitter } from '../../../utils/emitter';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
@@ -35,24 +34,6 @@ class ModalAddNewUser extends Component {
             userEditId: '',
         };
 
-        this.listenToEmitter();
-    }
-
-    listenToEmitter() {
-      emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
-        this.setState({
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: '',
-            phoneNumber: '',
-            address: '',
-            // gender: '',
-            // position: '',
-            // role: '',
-            avatar: '',
-        })
-      })
     }
 
     componentDidMount() {
@@ -90,7 +71,6 @@ class ModalAddNewUser extends Component {
             let arrGenders = this.props.genderRedux;
             let arrRoles = this.props.roleRedux;
             let arrPositions = this.props.positionRedux;
-            console.log('check listusser', arrPositions, this.props.listUsers)
 
             this.setState({
                 email: '',

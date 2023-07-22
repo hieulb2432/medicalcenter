@@ -17,6 +17,7 @@ class DoctorSchedule extends Component {
             allFreezeTime: [],
             isOpenModalBooking: false,
             dataScheduleTimeModal: {},
+            currentDay: ''
         }
     }
 
@@ -129,6 +130,7 @@ class DoctorSchedule extends Component {
         if(this.props.doctorIdFromParent && this.props.doctorIdFromParent !== -1){
             let doctorId = this.props.doctorIdFromParent
             let date = event.target.value;
+            this.setState({currentDay: date})
             let res = await getScheduleDoctorByDateService(doctorId, date)
             const today = new Date();
             today.setHours(0, 0, 0, 0); // Đặt giá trị giờ, phút, giây và mili giây về 0
@@ -163,11 +165,14 @@ class DoctorSchedule extends Component {
     }
 
     closeBookingModal = async () => {
+        let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, this.state.currentDay)
+            this.setState({
+                allAvailableTime: res.dataAvailable,
+                allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
+            })
         this.setState({
             isOpenModalBooking: false,
         })
-        // let allDays = this.getArrDays(this.props.language)
-        // await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
     }
 
     render() {
