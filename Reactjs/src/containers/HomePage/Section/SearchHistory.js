@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './SearchHistory.scss'
-import { emitter } from '../../../utils/emitter';
+// import { emitter } from '../../../utils/emitter';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {getHistoryAppointment, getAllHistorySchedule, checkUserEmail} from '../../../services/userService'
 import moment from 'moment';
@@ -20,20 +20,19 @@ class SearchHistory extends Component {
             startIndex: 0,
             endIndex: 9,
         }
-        this.listenToEmitter();
+        // this.listenToEmitter();
     }
 
-    listenToEmitter() {
-        emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
-          this.setState({
-            email: '',
-            userId: '',
-          })
-        })
-      }
+    // listenToEmitter() {
+    //     emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
+    //       this.setState({
+    //         email: '',
+    //         userId: '',
+    //       })
+    //     })
+    //   }
 
-    async componentDidMount() {
-    }
+    async componentDidMount() {}
 
     componentDidUpdate(prevProps, prevState, snapshots) {
 
@@ -48,98 +47,98 @@ class SearchHistory extends Component {
         })
       }
 
-      checkValidateInput = () => {
-        let isValid = true;
-        let arrInput = ['email', 'userId',]
-        for (let i = 0; i < arrInput.length; i++) {
-          if(!this.state[arrInput[i]]){
-            isValid = false;
-            toast.error('Bạn đã nhập thiếu trường ' + arrInput[i]);
-            break;
-          }        
-        }
-        return isValid
+    checkValidateInput = () => {
+      let isValid = true;
+      let arrInput = ['email', 'userId',]
+      for (let i = 0; i < arrInput.length; i++) {
+        if(!this.state[arrInput[i]]){
+          isValid = false;
+          toast.error('Bạn đã nhập thiếu trường ' + arrInput[i]);
+          break;
+        }        
       }
+      return isValid
+    }
 
-      checkValidateInputGetCode = async () => {
-        let isValidGetCode = true;
-        let arrInput = ['email']
-        let isExist = await checkUserEmail(this.state[arrInput[0]]);
+    checkValidateInputGetCode = async () => {
+      let isValidGetCode = true;
+      let arrInput = ['email']
+      let isExist = await checkUserEmail(this.state[arrInput[0]]);
 
-        for (let i = 0; i < arrInput.length; i++) {          
-          if(!this.state[arrInput[i]]){
-            isValidGetCode = false;
-            // alert('Missing required parameter ' + arrInput[i]);
-            toast.error('Bạn đã nhập thiếu trường ' + arrInput[i]);
-            break;
-          } 
-          if(this.state[arrInput[i]])
-          {
-            if(isExist){
-              toast.success('1 mã code đã được gửi đến email của bạn');
-            } else {
-              toast.error('Không tồn tại email này')
-              isValidGetCode = false;
-                
-            }
-          }       
-        }
-        return isValidGetCode
-      }
-
-      handleSearch = async() => {
-        let isValid = this.checkValidateInput();
-        if(isValid === true){
-          if(this.state.userId == this.state.dataHistoryCode) {
-            let res = await getAllHistorySchedule(this.state.email, this.state.dataHistoryCode);
-            let data = res.data;
-            data.patientData = data.patientData.sort((a, b) => +a.date - +b.date)
-              this.setState({
-                dataHistory: data,
-                isOpenHistory: true
-              });
+      for (let i = 0; i < arrInput.length; i++) {          
+        if(!this.state[arrInput[i]]){
+          isValidGetCode = false;
+          // alert('Missing required parameter ' + arrInput[i]);
+          toast.error('Bạn đã nhập thiếu trường ' + arrInput[i]);
+          break;
+        } 
+        if(this.state[arrInput[i]])
+        {
+          if(isExist){
+            toast.success('1 mã code đã được gửi đến email của bạn');
           } else {
-            toast.error('Bạn đã nhập sai mã code!');
+            toast.error('Không tồn tại email này')
+            isValidGetCode = false;
+              
           }
+        }       
+      }
+      return isValidGetCode
+    }
+
+    handleSearch = async() => {
+      let isValid = this.checkValidateInput();
+      if(isValid === true){
+        if(this.state.userId == this.state.dataHistoryCode) {
+          let res = await getAllHistorySchedule(this.state.email, this.state.dataHistoryCode);
+          let data = res.data;
+          data.patientData = data.patientData.sort((a, b) => +a.date - +b.date)
+            this.setState({
+              dataHistory: data,
+              isOpenHistory: true
+            });
+        } else {
+          toast.error('Bạn đã nhập sai mã code!');
         }
       }
-      
-      handleGetCode = async() => {
-        let isValidGetCode =await this.checkValidateInputGetCode();
-        if(isValidGetCode === true){
-          let res = await getHistoryAppointment(this.state.email);
-          this.setState({
-            dataHistoryCode: res.id
-          });
-        }
-      }
-     
-      toggleContent = () => {
-        this.setState({
-          isOpenHistory: !this.state.isOpenHistory
-        });
-      }
-
-      handleNextPage = () => {
-        const { endIndex } = this.state;
-        const newEndIndex = Number(Math.min(+endIndex + 10, +this.state.dataHistory.patientData.length - 1));
-        
-        this.setState({
-          startIndex: endIndex + 1,
-          endIndex: newEndIndex,
-        });
-      };
-
-      handlePrevPage = () => {
-        const { startIndex } = this.state;
-        const newStartIndex = Math.max(startIndex - 10, 0);
-        const newEndIndex = startIndex - 1;
+    }
     
+    handleGetCode = async() => {
+      let isValidGetCode =await this.checkValidateInputGetCode();
+      if(isValidGetCode === true){
+        let res = await getHistoryAppointment(this.state.email);
         this.setState({
-          startIndex: newStartIndex,
-          endIndex: newEndIndex,
+          dataHistoryCode: res.id
         });
-      };
+      }
+    }
+    
+    toggleContent = () => {
+      this.setState({
+        isOpenHistory: !this.state.isOpenHistory
+      });
+    }
+
+    handleNextPage = () => {
+      const { endIndex } = this.state;
+      const newEndIndex = Number(Math.min(+endIndex + 10, +this.state.dataHistory.patientData.length - 1));
+      
+      this.setState({
+        startIndex: endIndex + 1,
+        endIndex: newEndIndex,
+      });
+    };
+
+    handlePrevPage = () => {
+      const { startIndex } = this.state;
+      const newStartIndex = Math.max(startIndex - 10, 0);
+      const newEndIndex = startIndex - 1;
+  
+      this.setState({
+        startIndex: newStartIndex,
+        endIndex: newEndIndex,
+      });
+    };
 
     render() {
       let {dataHistory, isOpenHistory, startIndex, endIndex} = this.state

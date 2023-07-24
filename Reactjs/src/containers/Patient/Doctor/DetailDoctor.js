@@ -6,10 +6,7 @@ import {getDetailInforDoctorService} from '../../../services/userService'
 import { LANGUAGES } from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfor from './DoctorExtraInfor';
-import Comment from '../SocialPlugin/Comment'
 import HomeFooter from '../../HomePage/HomeFooter';
-import LikeAndShare from '../SocialPlugin/LikeAndShare'
-import LoadingOverlay from 'react-loading-overlay'
 
 class DetailDoctor extends Component {
     constructor(props) {

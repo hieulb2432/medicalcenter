@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from "connected-react-router";
-
 import * as actions from "../store/actions";
 import { KeyCodeUtils, LanguageUtils, USER_ROLE } from "../utils";
-
 import userIcon from '../../src/assets/images/user.svg';
 import passIcon from '../../src/assets/images/pass.svg';
 import './Login.scss';
@@ -44,23 +42,8 @@ class Login extends Component {
 
     redirectToSystemPage = () => {
         const { navigate } = this.props;
-        // const redirectPath = '/system/user-manage';
-        const redirectPath = '/system/user-redux';
+        const redirectPath = '/system/manage-user';
         navigate(`${redirectPath}`);
-
-        // let {userInfo, navigate} = this.props;
-        // let redirectPath = '';
-        // if (userInfo && !_.isEmpty(userInfo)){
-        //     let role = userInfo.roleId;
-        //     if(role === USER_ROLE.ADMIN) {
-        //         redirectPath = '/system/user-redux';
-        //         navigate(`${redirectPath}`)
-        //     }
-        //     if(role === USER_ROLE.DOCTOR) {
-        //         redirectPath = '/doctor/manage-schedule';
-        //         navigate(`${redirectPath}`)
-        //     }
-        // }
     }
 
     processLogin = async() => {
@@ -114,11 +97,11 @@ class Login extends Component {
                 console.log(userInfo)
                 let role = userInfo.roleId;
                 if(role === USER_ROLE.ADMIN) {
-                    redirectPath = '/system/user-redux';
+                    redirectPath = '/system/manage-user';
                     navigate(`${redirectPath}`)
                 }
                 if(role === USER_ROLE.DOCTOR) {
-                    redirectPath = '/system/user-redux';
+                    redirectPath = '/system/manage-schedule';
                     navigate(`${redirectPath}`)
                 }
             } 

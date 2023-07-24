@@ -212,99 +212,84 @@ class TableManageUser extends Component {
         let arrUsers = this.state.usersRedux
         let {language} = this.props
         let {startIndex, endIndex, arrUser, listRole} = this.state
-        console.log('check', arrUsers)
         return (
             <React.Fragment>
-               {/* <div className='search-sp-user'>
-                        <select onChange={(e)=> this.handleOnChangeSelect(e)}>
-                            {listRole && listRole.length > 0 &&
-                            listRole.map((item, index) =>{
-                                return (
-                                <option key={index} value={item.keyMap}>
-                                    {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
-                                </option>
-                                )
-                            })
-                            }
-                        </select>
-                </div> */}
-
-                    <table id="TableManageUser">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Email</th>
-                                <th>Họ và tên</th>
-                                <th>Số điện thoại</th>
-                                <th>Địa chỉ</th>
-                                <th>Vai trò
-                                    <div className='search-sp-user'>
-                                            <select onChange={(e)=> this.handleOnChangeSelect(e)}>
-                                                {listRole && listRole.length > 0 &&
-                                                listRole.map((item, index) =>{
-                                                    return (
-                                                    <option key={index} value={item.keyMap}>
-                                                        {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
-                                                    </option>
-                                                    )
-                                                })
-                                                }
-                                            </select>
-                                    </div>
-                                </th>
-                                <th>Thao tác</th>
+                <table id="TableManageUser">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Email</th>
+                            <th>Họ và tên</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Vai trò
+                                <div className='search-sp-user'>
+                                        <select onChange={(e)=> this.handleOnChangeSelect(e)}>
+                                            {listRole && listRole.length > 0 &&
+                                            listRole.map((item, index) =>{
+                                                return (
+                                                <option key={index} value={item.keyMap}>
+                                                    {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
+                                                </option>
+                                                )
+                                            })
+                                            }
+                                        </select>
+                                </div>
+                            </th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {arrUsers && arrUsers.length > 0 && arrUsers.slice(startIndex, endIndex + 1).map((user, index) => {
+                            return(
+                                <tr key={index}>
+                                    <td>{index+1}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.lastName} {user.firstName}</td>
+                                    <td>{user.phoneNumber}</td>
+                                    <td>{user.address}</td>
+                                    <td>{user['roleData.valueVi']}</td>
+                                    <td>
+                                    {/* {isOpenModalUser &&
+                                        <ModalEditUser
+                                            isOpenModal = {this.state.isOpenModalUser}
+                                            toggle = {this.toggleUserModal}
+                                            handleEditUser = {this.handleEditUser}
+                                            handleEditUserFromParent={this.handleEditUserFromParent}
+                                        />
+                                    } */}
+                                        <button
+                                            className="btn-edit"
+                                            onClick={() => {
+                                                this.handleEditUser(user);
+                                            }}
+                                            >
+                                            <i className="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button
+                                            className="btn-delete"
+                                            onClick={() => this.handleDeleteUser(user)}
+                                            >
+                                            <i className="fas fa-trash"></i>
+                                        </button>
+                                    </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {arrUsers && arrUsers.length > 0 && arrUsers.slice(startIndex, endIndex + 1).map((user, index) => {
-                                return(
-                                    <tr key={index}>
-                                        <td>{index+1}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.lastName} {user.firstName}</td>
-                                        <td>{user.phoneNumber}</td>
-                                        <td>{user.address}</td>
-                                        <td>{user['roleData.valueVi']}</td>
-                                        <td>
-                                        {/* {isOpenModalUser &&
-                                            <ModalEditUser
-                                                isOpenModal = {this.state.isOpenModalUser}
-                                                toggle = {this.toggleUserModal}
-                                                handleEditUser = {this.handleEditUser}
-                                                handleEditUserFromParent={this.handleEditUserFromParent}
-                                            />
-                                        } */}
-                                            <button
-                                                className="btn-edit"
-                                                onClick={() => {
-                                                    this.handleEditUser(user);
-                                                }}
-                                                >
-                                                <i className="fas fa-pencil-alt"></i>
-                                            </button>
-                                            <button
-                                                className="btn-delete"
-                                                onClick={() => this.handleDeleteUser(user)}
-                                                >
-                                                <i className="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                    <div className="pagination mt-3">
-                        <button href="#" 
-                        className={arrUsers? "previous round mr-3": "previous round mr-3 disable"} 
-                        onClick={this.handlePrevPage} disabled={startIndex === 0}>&#8249;</button>
-                        
-                        <button href="#" className={arrUsers? "next round": "next round disable" }
-                            onClick={this.handleNextPage} 
-                            disabled={arrUsers && endIndex >= arrUsers.length -1}
-                            >&#8250;</button>
-                    </div>
-                                </React.Fragment>
+                            )
+                        })}
+                    </tbody>
+                </table>
+                <div className="pagination mt-3">
+                    <button href="#" 
+                    className={arrUsers? "previous round mr-3": "previous round mr-3 disable"} 
+                    onClick={this.handlePrevPage} disabled={startIndex === 0}>&#8249;</button>
+                    
+                    <button href="#" className={arrUsers? "next round": "next round disable" }
+                        onClick={this.handleNextPage} 
+                        disabled={arrUsers && endIndex >= arrUsers.length -1}
+                        >&#8250;</button>
+                </div>
+            </React.Fragment>
                 
         );
     }

@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions'
 import TableManageUser from './TableManageUser';
 import ModalAddNewUser from './ModalAddNewUser';
 import ModalEditUser from './ModalEditUser';
+import '../../System/UserManage.scss';
 
 class UserRedux extends Component {
 
