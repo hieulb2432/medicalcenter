@@ -4,8 +4,6 @@ import _ from 'lodash';
 import emailService from '../services/emailService'
 import { v4 as uuidv4 } from 'uuid';
 
-const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
-
 let buildUrlEmail = (doctorId, token) => {
   let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}`
   return result
@@ -31,20 +29,6 @@ let postBookAppointment = (data) => {
           doctorName: data.doctorName,
           redirectLink: buildUrlEmail(data.doctorId, token)
         })
-
-        // Update or insert User
-        // let user = await db.User.findOrCreate({
-        //     where: { email: data.email },
-        //     defaults: {
-        //       email: data.email,
-        //       roleId: 'R3',
-        //       gender: data.selectedGender,
-        //       address: data.address,
-        //       firstName: data.fullName,
-        //       phoneNumber: data.phoneNumber,
-        //     },
-        //     raw: true,
-        //   });
 
         let user = await db.User.findOne({ where: { email: data.email }, raw: false });
 
@@ -93,23 +77,8 @@ let postBookAppointment = (data) => {
             date: data.date,
             timeType: data.timeType,
             token: token,
-          
         });
         }
-        
-        console.log('Created', user)
-          if (user) {
-            // await db.Booking.create({
-
-            //     statusId: 'S1',
-            //     doctorId: data.doctorId,
-            //     patientId: user.id,
-            //     date: data.date,
-            //     timeType: data.timeType,
-            //     token: token,
-              
-            // });
-          }
 
           setTimeout(async () => {
             let appointment = await db.Booking.findOne({
@@ -124,7 +93,6 @@ let postBookAppointment = (data) => {
             await appointment.save()
           }, 15*60*1000)
 
-
           resolve({
             errCode: 0,
             errMessage: 'Save infor patient succeed!',
@@ -135,6 +103,7 @@ let postBookAppointment = (data) => {
     }
   })
 }
+
 let checkTimeToVerify = (appointment) => {
   let createDate = new Date(appointment.createdAt).getTime()
   const now = +new Date().getTime();

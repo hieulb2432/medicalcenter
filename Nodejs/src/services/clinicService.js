@@ -40,6 +40,7 @@ let getAllClinic = () => {
             (item.image = Buffer.from(item.image, 'base64').toString('binary'))
         );
       }
+      data.reverse()
       resolve({
         errCode: 0,
         errMessage: 'OK',

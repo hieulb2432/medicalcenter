@@ -4,8 +4,6 @@ import _ from 'lodash';
 import emailService from '../services/emailService'
 const { Op } = require("sequelize");
 
-const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
-
 let getTopDoctorHome = (limitInput) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -118,6 +116,7 @@ let checkRequiredFields = (inputData) => {
     element
   }
 }
+
 let saveDetailInforDoctor = (inputData) => {
   return new Promise(async(resolve, reject) => {
     try{
@@ -267,7 +266,7 @@ let bulkCreateSchedule = (data) => {
         let schedule = data.arrSchedule
         if(schedule && schedule.length > 0) {
           schedule = schedule.map(item => {
-            item.maxNumber = MAX_NUMBER_SCHEDULE
+            // item.maxNumber = MAX_NUMBER_SCHEDULE
             return item;
 
           })
@@ -275,16 +274,8 @@ let bulkCreateSchedule = (data) => {
 
         //get all existed schedule
         let existing = await db.Schedule.findAll({
-          where: { doctorId: data.doctorId, date: data.date,
-            // [Op.not]: [
-            //   {
-            //     createdAt: {
-            //       [Op.lt]: (new Date)
-            //     }
-            //   }
-            // ]
-          },
-          attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
+          where: { doctorId: data.doctorId, date: data.date,},
+          attributes: ['timeType', 'date', 'doctorId'],
           raw: true,
         });
 

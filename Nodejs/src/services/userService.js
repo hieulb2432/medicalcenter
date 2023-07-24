@@ -289,6 +289,7 @@ let getFilterUser = (role) => {
                 raw: true
               }) 
             }
+          roleUser.reverse();
           resolve({
             errCode: 0,
             errMessage: 'OK',
