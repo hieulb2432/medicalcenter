@@ -94,7 +94,6 @@ class Login extends Component {
             let {userInfo, navigate} = this.props;
             let redirectPath = '';
             if (userInfo && !_.isEmpty(userInfo)){
-                console.log(userInfo)
                 let role = userInfo.roleId;
                 if(role === USER_ROLE.ADMIN) {
                     redirectPath = '/system/manage-user';

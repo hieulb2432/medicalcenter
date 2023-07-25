@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import './RemedyModal.scss'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import _ from 'lodash';
-import { toast } from 'react-toastify';
 import moment from 'moment';
 import {CommonUtils} from '../../../utils'
 

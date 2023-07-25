@@ -120,6 +120,10 @@ export const getAllPatientForDoctorService = (data) => {
   return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`);
 };
 
+export const getAllSuccessPatientService = (data) => {
+  return axios.get(`/api/get-list-success-patient?doctorId=${data.doctorId}&date=${data.date}`);
+};
+
 export const getListPatientForOneDoctorService = (data) => {
   return axios.get(`/api/get-list-patient-for-one-doctor?doctorId=${data.doctorId}&date=${data.date}`);
 };

@@ -7,6 +7,7 @@ import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
 import './ModalAddNewUser.scss'
+import { toast } from 'react-toastify';
 
 class ModalAddNewUser extends Component {
 
@@ -112,27 +113,20 @@ class ModalAddNewUser extends Component {
     handleSaveUser = () => {
     let isValid = this.checkValidateInput();
     if(isValid == false) return;
-
-    // let action = this.state.action
-    // console.log('jkajskj')
-    // console.log('check ac tion', action)
-    // if (action === CRUD_ACTION.CREATE) {
-            // fire redux create user 
-            this.props.createNewUser({
-                email: this.state.email,
-                password: this.state.password,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phoneNumber: this.state.phoneNumber,
-                gender: this.state.gender,
-                roleId: this.state.role,
-                positionId: this.state.position,
-                avatar: this.state.avatar,
-            })
-
-            this.props.toggle()
-        // }
+        // fire redux create user 
+        this.props.createNewUser({
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address: this.state.address,
+            phoneNumber: this.state.phoneNumber,
+            gender: this.state.gender,
+            roleId: this.state.role,
+            positionId: this.state.position,
+            avatar: this.state.avatar,
+        })
+        this.props.toggle()
     }
 
     checkValidateInput = () => {
@@ -148,7 +142,7 @@ class ModalAddNewUser extends Component {
     for (let i = 0; i < arrCheck.length; i++) {
         if (!this.state[arrCheck[i]]) {
         isValid = false;
-        alert('This input is required: ' + arrCheck[i]);
+        toast.error('Nhập thiếu trường ' + arrCheck[i]);
         break;
         }
     }

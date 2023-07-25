@@ -16,7 +16,6 @@ class ManageSchedule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDateConvert: moment(new Date()).startOf('day').valueOf(),
             listDoctors: [],
             currentDate: '',
             rangeTime: [],
@@ -169,7 +168,7 @@ class ManageSchedule extends Component {
         let { user } = this.props;
         let result = [];
         if(!currentDate) {
-            toast.error('Invalid date!');
+            toast.error('Bạn vui lòng chọn lại ngày!');
             return;
         }
 
@@ -185,7 +184,7 @@ class ManageSchedule extends Component {
                     result.push(object);
                 })
             } else {
-                toast.error('Invalid selected time!');
+                toast.error('Bạn chưa chọn lịch khám!');
                 return;
             }
         }
@@ -199,9 +198,9 @@ class ManageSchedule extends Component {
         await this.getDataPatient()
 
         if(res && res.errCode === 0) {
-            toast.success('Save info successfully');
+            toast.success('Lưu thông tin lịch khám thành công');
         } else {
-            toast.error('Error saving');
+            toast.error('Lỗi lưu trữ');
         }
 
     }
@@ -221,7 +220,7 @@ class ManageSchedule extends Component {
             nameVi = `${user.lastName} ${user.firstName}`;
             nameEn = `${user.firstName} ${user.lastName}`;
         }
-        let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
+        let today = new Date(new Date().setDate(new Date().getDate()));
         return (
             <div className='col-10 manage-schedule-container'>
                 <div className='schedule-title mt-4' style={{color: '#ff5400'}}>
@@ -229,18 +228,17 @@ class ManageSchedule extends Component {
                 </div>
                 <div className='schedule-container mt-3'>
                     <div className='row'>
-                        <div className='col-4 form-group'>
-                            <label><FormattedMessage id="manage-schedule.choose-date"/></label>
+                        <div className='col-3 form-group'>
+                            <div style={{marginTop: '22px'}}><FormattedMessage id="manage-schedule.choose-date"/></div>
                             <DatePicker
                                 onChange={this.handleOnChangeDatePicker}
                                 className='form-control'
-                                // value = {this.state.currentDate}
+                                style={{ marginTop: '20px' }}                                
                                 value={currentDate}
-                                minDate={yesterday}
-
+                                minDate={today}
                             />
                         </div>
-                        <div className='col-12 pick-hour-container'>
+                        <div className='col-9 pick-hour-container'>
                         <div className='col-12' style={{marginLeft: '-15px'}}><FormattedMessage id="manage-schedule.choose-schedule"/></div>
                         
                             {rangeTime && rangeTime.length > 0 ?
@@ -261,7 +259,7 @@ class ManageSchedule extends Component {
                             
                         </div>
 
-                        <div className='col-4'>
+                        <div className='col-12' style={{display: 'flex', flexFlow: 'row-reverse'}}>
                             <button 
                                 className={checkToday === true ? 'btn btn-primary btn-save-schedule' : 'btn btn-primary btn-save-disable'}
                                 onClick={()=>this.handleSaveSchedule()}
@@ -279,7 +277,7 @@ class ManageSchedule extends Component {
                             <div className='col-12 mt-3' style={{margin: '10px 0 10px 0', color: '#ff5400'}}>
                                 Thông tin chi tiết lịch khám
                             </div>
-                            <div className='col-4 form-group'>
+                            <div className='col-3 form-group'>
                                 <label>Chọn ngày</label>
                                 <DatePicker
                                         onChange={this.handleOnChangeDatePicker}

@@ -39,7 +39,6 @@ class ModalBookingInfo extends Component {
     }
     
     cancelBooking = async () => {
-      console.log('cancelling', this.props.bookingData)
       let res = await getScheduleCancelService({
         doctorId:  this.props.bookingData.doctorId,
         date:  this.props.bookingData.date,
@@ -60,7 +59,6 @@ class ModalBookingInfo extends Component {
     render() {
         const { isOpen, toggle, bookingData, doctorId, date, timeType} = this.props;
         const {patientInfor} = this.state;
-        console.log('check patientInfor', bookingData)
         return (
           <Modal
             isOpen={this.props.isOpen}
