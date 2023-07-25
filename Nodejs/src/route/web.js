@@ -8,14 +8,6 @@ import clinicController from '../controllers/clinicController';
 let router = express.Router();
 
 let initWebRouters = (app) => {
-    // router.get('/', homeController.getHomePage);
-    // router.get('/crud', homeController.getCRUD);
-    // router.post('/post-crud', homeController.postCRUD);
-    // router.get('/get-crud', homeController.displayGetCRUD);
-    // router.get('/edit-crud', homeController.getEditCRUD);
-    // router.post('/put-crud', homeController.putCRUD);
-    // router.get('/delete-crud', homeController.deleteCRUD);
-
     router.post('/api/login', userController.handleLogin);
     router.get('/api/get-all-users', userController.handleGetAllUsers);
     router.post('/api/create-new-user', userController.handleCreateNewUser);
@@ -36,6 +28,7 @@ let initWebRouters = (app) => {
     router.get('/api/get-profile-doctor-by-id', doctorController.getProfileDoctorById);
     
     router.get('/api/get-list-patient-for-doctor', doctorController.getListPatientForDoctor);
+    router.get('/api/get-list-success-patient', doctorController.getListSuccessPatient);
     router.get('/api/get-list-patient-for-one-doctor', doctorController.getListPatientForOneDoctor);
     router.get('/api/get-infor-user-booking', doctorController.getInforUserBooking);
     router.get('/api/get-schedule-cancel', doctorController.getScheduleCancel);
