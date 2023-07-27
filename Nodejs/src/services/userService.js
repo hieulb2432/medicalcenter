@@ -115,7 +115,7 @@ let getAllUsers = (userId) => {
         reject(e);
       }
     });
-  };
+};
 
 
 let createNewUser = (data) => {

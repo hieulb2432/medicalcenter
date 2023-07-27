@@ -114,7 +114,7 @@ let handleDeleteClinic = (clinicId) => {
         });
         resolve({
           errCode: 0,
-          message: 'The clinic is deleted!',
+          message: 'Cơ sở y tế đã bị xóa!',
         });
       }
       

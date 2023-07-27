@@ -1,5 +1,4 @@
 import express from "express";
-import homeController from "../controllers/homeController";
 import userController from '../controllers/userController';
 import doctorController from '../controllers/doctorController';
 import patientController from '../controllers/patientController';

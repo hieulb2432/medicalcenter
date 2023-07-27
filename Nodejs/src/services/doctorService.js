@@ -468,7 +468,6 @@ let getProfileDoctorById = (doctorId) => {
         })
 
         if (data && data.image) {
-          // data.image = new Buffer(data.image, 'base64').toString('binary');
           data.image = Buffer.from(data.image, 'base64').toString('binary');
         }
 
@@ -650,7 +649,7 @@ let getScheduleCancel = (doctorId, date, timeType) => {
           errMessage: 'Missing required parameters'
         })
       } else {
-        const quaterHour = 15 * 60 * 1000
+        // const quaterHour = 15 * 60 * 1000
         let userBookingInfor1 = await db.Booking.findOne({
           where: {
             doctorId: doctorId,
