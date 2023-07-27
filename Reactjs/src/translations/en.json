@@ -63,8 +63,29 @@
         "title": "Manage doctor's examination plan",
         "choose-doctor": "Doctor",
         "choose-date": "Choose Date",
-        "save": "Save infor",
-        "choose-schedule": "Choose Schedule"
+        "save": "Save Information",
+        "choose-schedule": "Choose Schedule",
+        "detail-schedule": "Doctor's Detail Schedule",
+        "stt": "STT",
+        "time": "Time",
+        "action": "Action",
+        "see-detail": "See details",
+        "patientId": "Patient's Id",
+        "name": "Name",
+        "status": "Status",
+        "email": "Email",
+        "phone": "Phone",
+        "cancel": "Cancel",
+        "close": "Close",
+        "gender": "Gender",
+        "address": "Address",
+        "manage-patient": "Manage Patient",
+        "manage-success-patient": "Manage Success Patient",
+        "send-remedy": "Send Remedy",
+        "no-data": "No Data",
+        "upload": "Upload",
+        "not-book": "The schedule hasn't been booking yet",
+        "too-late": "It's too late to choose a schedule for today"
     },
     "patient": {
         "detail-doctor": {
@@ -113,6 +134,50 @@
         "note": "Note",
         "specialty": "Specialty",
         "select-clinic": "Clinic"
+        }
+    },
+    "system": {
+        "admin": {
+            "manage-user": "Manage User",
+            "add-new": "Add New",
+            "stt": "STT",
+            "email": "Email",
+            "full-name": "Full name",
+            "phoneNumber":"Phone Number",
+            "address": "Address",
+            "position": "Position",
+            "action": "Action",
+            "upload": "Upload",
+            "save": "Save",
+            "close": "Close"
+        },
+        "clinic": {
+            "manage-clinic": "Manage Clinic",
+            "stt": "STT",
+            "clinic-name": "Clinic's Name",
+            "clinic-address": "Clinic's Address",
+            "clinic-information": "Clinic's Information",
+            "clinic-action": "Action",
+            "clinic-image": "Clinic's Image",
+            "save": "Save",
+            "close": "Close",
+            "add-new": "Add New",
+            "edit": "Edit Clinic's Information",
+            "add": "Add New Clinic"
+        },
+        "specialty": {
+            "manage-specialty": "Manage Specialty",
+            "stt": "STT",
+            "specialty-name": "Specialty's Name",
+            "specialty-address": "Specialty's Address",
+            "specialty-information": "Specialty's Information",
+            "specialty-action": "Action",
+            "specialty-image": "Specialty's Image",
+            "save": "Save",
+            "close": "Close",
+            "add-new": "Add New",
+            "edit": "Edit Specialty's Information",
+            "add": "Add New Specialty"
         }
     }
 }

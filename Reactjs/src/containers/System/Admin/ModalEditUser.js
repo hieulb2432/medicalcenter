@@ -248,7 +248,7 @@ class ModalEditUser extends Component {
                             >
                             </input>
                             <label htmlFor='previewImg' className="label-upload">
-                                Tải ảnh
+                                <FormattedMessage id="system.admin.upload"/>
                                 <i className="fas fa-upload"></i>
                             </label>
                             <div className='preview-image'
@@ -263,10 +263,10 @@ class ModalEditUser extends Component {
             </ModalBody>
             <ModalFooter>
               <Button color="primary" className="px-3" onClick={this.handleSaveUser}>
-                Lưu
+                <FormattedMessage id="system.admin.save"/>
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Đóng
+                <FormattedMessage id="system.admin.close"/>
               </Button>
             </ModalFooter>
           </Modal>

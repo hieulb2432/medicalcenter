@@ -97,20 +97,20 @@ class ModalEditClinic extends Component {
             size="lg"
             centered
           >
-            <ModalHeader toggle={toggle}>Chỉnh sửa thông tin cơ sở y tế</ModalHeader>
+            <ModalHeader toggle={toggle}><FormattedMessage id="system.clinic.edit"/></ModalHeader>
             <ModalBody>
               <div className="container">
                 <div className='manage-specialty-container'>    
                     <div className='add-new-specialty row'>
                         <div className='col-6 form-group'>
-                            <label>Tên cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.clinic.clinic-name"/> <span style={{color: 'red'}}>*</span></label>
                             <input className='form-control' type='text'
                                 value={this.state.name}
                                 onChange={(event)=>this.handleOnChangeInput(event, 'name')}
                             ></input>
                         </div>
                         <div className='col-6 form-group'>
-                            <label>Ảnh cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.clinic.clinic-image"/> <span style={{color: 'red'}}>*</span></label>
                             <input 
                                 id="previewImg"
                                 type="file"
@@ -122,14 +122,14 @@ class ModalEditClinic extends Component {
                             </input>
                         </div>
                         <div className='col-6 form-group'>
-                            <label>Địa chỉ cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.clinic.clinic-address"/> <span style={{color: 'red'}}>*</span></label>
                             <input className='form-control' type='text'
                                 value={this.state.address}
                                 onChange={(event)=>this.handleOnChangeInput(event, 'address')}
                             ></input>
                         </div>
                         <div className='col-12'>
-                        <label>Thông tin cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                        <label><FormattedMessage id="system.clinic.clinic-information"/> <span style={{color: 'red'}}>*</span></label>
                             <MdEditor 
                             style={{ height: '400px' }}
                             renderHTML={text => mdParser.render(text)}
@@ -144,10 +144,10 @@ class ModalEditClinic extends Component {
            
             <ModalFooter>
               <Button color="primary" className="px-3" onClick={this.handleSaveClinic}>
-                Lưu
+              <FormattedMessage id="system.clinic.save"/>
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Đóng
+              <FormattedMessage id="system.clinic.close"/>
               </Button>
             </ModalFooter>
           

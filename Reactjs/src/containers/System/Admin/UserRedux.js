@@ -102,9 +102,9 @@ class UserRedux extends Component {
     }
 
     handleAddNewUser = () => {
-    this.setState({
-        isOpenModalUser: true
-    })
+        this.setState({
+            isOpenModalUser: true
+        })
     }
     
     toggleUserModal = () => {
@@ -120,17 +120,18 @@ class UserRedux extends Component {
     }
     render() {
         let {isOpenModalUser} = this.state;
+        let {language} = this.props
         return (
             <div className='user-redux-container' style={{width: '100%'}}>
                 <div className="user-top mr-3 ml-3 mt-3" style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div className='user-title' style={{color: '#ff5400'}}>
-                        Quản lý người dùng
+                        <FormattedMessage id="system.admin.manage-user"/>
                     </div>
                     
                     <div className='ml-12'>
                         <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
                                 onClick={() => this.handleAddNewUser()}>
-                        <i className="fas fa-plus"></i>Thêm mới</button>
+                        <i className="fas fa-plus"></i> <FormattedMessage id="system.admin.add-new"/></button>
                     </div>
 
                 </div>

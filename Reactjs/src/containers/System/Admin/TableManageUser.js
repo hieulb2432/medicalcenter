@@ -98,7 +98,6 @@ class TableManageUser extends Component {
         })
     }
     
-
     handleNextPage = () => {
         const { endIndex } = this.state;
         let arrUsers = this.state.usersRedux
@@ -130,12 +129,12 @@ class TableManageUser extends Component {
                 <table id="TableManageUser">
                     <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Email</th>
-                            <th>Họ và tên</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                            <th>Vai trò
+                            <th><FormattedMessage id="system.admin.stt"/></th>
+                            <th><FormattedMessage id="system.admin.email"/></th>
+                            <th><FormattedMessage id="system.admin.full-name"/></th>
+                            <th><FormattedMessage id="system.admin.phoneNumber"/></th>
+                            <th><FormattedMessage id="system.admin.address"/></th>
+                            <th><FormattedMessage id="system.admin.position"/>
                                 <div className='search-sp-user'>
                                         <select onChange={(e)=> this.handleOnChangeSelect(e)}>
                                             {listRole && listRole.length > 0 &&
@@ -150,7 +149,7 @@ class TableManageUser extends Component {
                                         </select>
                                 </div>
                             </th>
-                            <th>Thao tác</th>
+                            <th><FormattedMessage id="system.admin.action"/></th>
                         </tr>
                     </thead>
                     <tbody>

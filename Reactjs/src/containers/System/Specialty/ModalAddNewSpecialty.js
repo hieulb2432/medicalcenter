@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import { emitter } from '../../../utils/emitter';
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
@@ -26,12 +25,10 @@ class ModalAddNewSpecialty extends Component {
         };
     }
 
-
     componentDidMount() {
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        
+    componentDidUpdate(prevProps, prevState, snapshot) {  
     }
 
     checkValidateInput = () => {
@@ -49,7 +46,7 @@ class ModalAddNewSpecialty extends Component {
             }
         }
         return isValid;
-        };
+    };
 
     handleOnChangeInput = (event, id) => {
         let stateCopy = {...this.state}
@@ -69,21 +66,21 @@ class ModalAddNewSpecialty extends Component {
                 imageBase64: base64,
             });
         }
-        };
+    };
     
-        handleEditorChange = ({ html, text }) => {
-            this.setState({
-                descriptionHTML: html,
-                descriptionMarkdown: text,
-            });
-          }
+    handleEditorChange = ({ html, text }) => {
+        this.setState({
+            descriptionHTML: html,
+            descriptionMarkdown: text,
+        });
+    }
 
-          handleSaveClinic = async () => {
-            await this.props.fetchCreateNewSpecialty(this.state)
-            let isValid = this.checkValidateInput();
-            if(isValid == false) return;
-            this.props.toggle()
-            }
+    handleSaveClinic = async () => {
+    await this.props.fetchCreateNewSpecialty(this.state)
+    let isValid = this.checkValidateInput();
+    if(isValid == false) return;
+    this.props.toggle()
+    }
 
     render() {
         const { toggle } = this.props;
@@ -94,26 +91,26 @@ class ModalAddNewSpecialty extends Component {
             className="modal-user-container"
             size="lg"
           >
-            <ModalHeader toggle={toggle}>Thêm mới Chuyên khoa</ModalHeader>
+            <ModalHeader toggle={toggle}><FormattedMessage id="system.specialty.add"/></ModalHeader>
             <ModalBody>
               <div className="container">
                 <div className='manage-specialty-container'>    
                     <div className='add-new-specialty row'>
                         <div className='col-6 form-group'>
-                            <label>Tên Chuyên khoa <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.specialty.specialty-name"/> <span style={{color: 'red'}}>*</span></label>
                             <input className='form-control' type='text'
                                 value={this.state.name}
                                 onChange={(event)=>this.handleOnChangeInput(event, 'name')}
                             ></input>
                         </div>
                         <div className='col-6 form-group'>
-                            <label>Ảnh Chuyên khoa <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.specialty.specialty-image"/> <span style={{color: 'red'}}>*</span></label>
                             <input className='form-control-file' type='file'
                                 onChange={(event)=> this.handleOnChangeImage(event)}
                             ></input>
                         </div>
                         <div className='col-12'>
-                        <label>Thông tin Chuyên khoa <span style={{color: 'red'}}>*</span></label>
+                        <label><FormattedMessage id="system.specialty.specialty-information"/> <span style={{color: 'red'}}>*</span></label>
                             <MdEditor 
                             style={{ height: '400px' }}
                             renderHTML={text => mdParser.render(text)}
@@ -128,10 +125,10 @@ class ModalAddNewSpecialty extends Component {
            
             <ModalFooter>
               <Button color="primary" className="px-3" onClick={this.handleSaveClinic}>
-                Lưu
+              <FormattedMessage id="system.specialty.save"/>
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Đóng
+              <FormattedMessage id="system.specialty.close"/>
               </Button>
             </ModalFooter>
           

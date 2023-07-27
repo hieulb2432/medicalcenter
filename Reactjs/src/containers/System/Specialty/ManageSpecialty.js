@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { toast } from 'react-toastify';
-import {CommonUtils} from '../../../utils'
-import {createNewSpecialty} from '../../../services/userService'
 import * as actions from '../../../store/actions';
 import './ManageSpecialty.scss';
 import ModalAddNewSpecialty from './ModalAddNewSpecialty';
 import ModalEditSpecialty from './ModalEditSpecialty';
-
-
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
     constructor(props) {
@@ -27,11 +20,11 @@ class ManageSpecialty extends Component {
             endIndex: 4,
             
         }
-    }
+        }
 
     async componentDidMount() {
         this.props.fetchAllSpecialtyStart();
-    }
+        }
 
     componentDidUpdate(prevProps, prevState, snapshots) {
         if(prevProps.allSpecialty !== this.props.allSpecialty){
@@ -39,24 +32,23 @@ class ManageSpecialty extends Component {
                 dataSpecialty: this.props.allSpecialty,
             });
         }
-    }
+        }
 
     handleDeleteUser = async (id) => {
         await this.props.deleteSpecialty(id)
-    }
+        }
 
     handleAddNewSpecialty = () => {
         this.setState({
             isOpenNewSpecialty: true
         })
-      }
+        }
       
     toggleSpecialtyModal = () => {
             this.setState({
                 isOpenNewSpecialty: !this.state.isOpenNewSpecialty,
             })
         }
-
         
     handleEditSpecialty = (specialty) => {
         this.setState({
@@ -64,7 +56,7 @@ class ManageSpecialty extends Component {
         })
 
         this.setState({currentSpecialty: specialty})
-    }
+        }
         
     toggleSpecialtyModalEdit = () => {
             this.setState({
@@ -72,27 +64,27 @@ class ManageSpecialty extends Component {
             })
         }
 
-        handleNextPage = () => {
-            const { endIndex } = this.state;
-            // let arrUsers = this.state.usersRedux
-            const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataSpecialty.length - 1));
-            
-            this.setState({
-                startIndex: endIndex + 1,
-                endIndex: newEndIndex,
-            });
-            };
-    
-            handlePrevPage = () => {
-            const { startIndex } = this.state;
-            const newStartIndex = Math.max(startIndex - 5, 0);
-            const newEndIndex = startIndex - 1;
+    handleNextPage = () => {
+        const { endIndex } = this.state;
+        // let arrUsers = this.state.usersRedux
+        const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataSpecialty.length - 1));
         
-            this.setState({
-                startIndex: newStartIndex,
-                endIndex: newEndIndex,
-            });
-            };
+        this.setState({
+            startIndex: endIndex + 1,
+            endIndex: newEndIndex,
+        });
+        };
+
+    handlePrevPage = () => {
+        const { startIndex } = this.state;
+        const newStartIndex = Math.max(startIndex - 5, 0);
+        const newEndIndex = startIndex - 1;
+    
+        this.setState({
+            startIndex: newStartIndex,
+            endIndex: newEndIndex,
+        });
+        };
 
     render() {
         let {dataSpecialty, startIndex, endIndex} = this.state
@@ -100,10 +92,10 @@ class ManageSpecialty extends Component {
             <div>
                 <div className="specialty-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div className='specialty-title mt-4' style={{color: '#ff5400'}}>
-                        Quản lý chuyên khoa
+                    <FormattedMessage id="system.specialty.manage-specialty"/>
                     </div>
                     <div className="my-3" style={{display: 'flex', flexFlow: 'row-reverse'}}>
-                            <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewSpecialty()}>Thêm mới</button>
+                            <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewSpecialty()}><FormattedMessage id="system.specialty.add-new"/></button>
                     </div>
                 </div>
                 {this.state.isOpenNewSpecialty &&
@@ -127,10 +119,10 @@ class ManageSpecialty extends Component {
                     <table id="TableManageUser">
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Tên Chuyên khoa</th>
-                                <th>Thông tin về Chuyên khoa</th>
-                                <th>Thao tác</th>
+                                <th><FormattedMessage id="system.specialty.stt"/></th>
+                                <th><FormattedMessage id="system.specialty.specialty-name"/></th>
+                                <th><FormattedMessage id="system.specialty.specialty-information"/></th>
+                                <th><FormattedMessage id="system.specialty.specialty-action"/></th>
                             </tr>
                         </thead>
                         <tbody>

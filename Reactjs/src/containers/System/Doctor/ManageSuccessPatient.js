@@ -57,12 +57,12 @@ class ManageSuccessPatient extends Component {
             <div className='col-10'>
                 <div className='manage-patient-container'>
                     <div className='patient-title mt-4' style={{color: '#ff5400'}}>
-                        Quản lý bệnh nhân đã hoàn thành lịch khám
+                    <FormattedMessage id="manage-schedule.manage-success-patient"/>
                     </div>
                     <div className='schedule-container mt-3'>
                         <div className='row'>
                         <div className='col-3 form-group'>
-                            <label>Chọn ngày khám</label>
+                            <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                             <DatePicker
                                     onChange={this.handleOnChangeDatePicker}
                                     className='form-control'
@@ -74,12 +74,12 @@ class ManageSuccessPatient extends Component {
                         <table style={{width:'100%'}}>
                             <tbody>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Thời gian</th>
-                                    <th>Tên</th>
-                                    <th>Địa chỉ mail</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
+                                    <th><label><FormattedMessage id="manage-schedule.stt"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.time"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.name"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.email"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.phone"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.address"/></label></th>
                                 </tr>
                                 {dataPatient && dataPatient.length > 0 ? 
                                     dataPatient.map((item, index) => {
@@ -99,7 +99,7 @@ class ManageSuccessPatient extends Component {
                                 :
                                 <tr>
                                     <td colSpan='6' style={{textAlign: "center"}}>
-                                        Không có dữ liệu
+                                    <label><FormattedMessage id="manage-schedule.no-data"/></label>
                                     </td>
                                 </tr>
                             }

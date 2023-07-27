@@ -117,12 +117,12 @@ class ManagePatient extends Component {
                 >
                 <div className='manage-patient-container'>
                     <div className='patient-title mt-4' style={{color: '#ff5400'}}>
-                        Quản lý bệnh nhân đã đặt lịch khám
+                    <FormattedMessage id="manage-schedule.manage-patient"/>
                     </div>
                     <div className='schedule-container mt-3'>
                         <div className='row'>
                         <div className='col-3 form-group'>
-                            <label>Chọn ngày khám</label>
+                            <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                             <DatePicker
                                     onChange={this.handleOnChangeDatePicker}
                                     className='form-control'
@@ -134,12 +134,12 @@ class ManagePatient extends Component {
                         <table style={{width:'100%'}}>
                             <tbody>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Thời gian</th>
-                                    <th>Tên</th>
-                                    <th>Giới tính</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Thao tác</th>
+                                    <th><FormattedMessage id="manage-schedule.stt"/></th>
+                                    <th><FormattedMessage id="manage-schedule.time"/></th>
+                                    <th><FormattedMessage id="manage-schedule.name"/></th>
+                                    <th><FormattedMessage id="manage-schedule.gender"/></th>
+                                    <th><FormattedMessage id="manage-schedule.address"/></th>
+                                    <th><FormattedMessage id="manage-schedule.action"/></th>
                                 </tr>
                                 {dataPatient && dataPatient.length > 0 ? 
                                     dataPatient.map((item, index) => {
@@ -157,7 +157,7 @@ class ManagePatient extends Component {
                                         <td>
                                             <button className='btn btn-primary'
                                                 onClick={() => this.handleBtnConfirm(item)}
-                                            >Gửi hóa đơn
+                                            ><FormattedMessage id="manage-schedule.send-remedy"/>
                                             </button>
                                         </td>
                                     </tr>
@@ -166,7 +166,7 @@ class ManagePatient extends Component {
                                 :
                                 <tr>
                                     <td colSpan='6' style={{textAlign: "center"}}>
-                                        Không có dữ liệu
+                                    <FormattedMessage id="manage-schedule.no-data"/>
                                     </td>
                                 </tr>
                             }

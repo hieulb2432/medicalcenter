@@ -294,10 +294,10 @@ class ModalAddNewUser extends Component {
             </ModalBody>
             <ModalFooter>
               <Button color="primary" className="px-3" onClick={this.handleSaveUser}>
-                Save
+              <FormattedMessage id="system.admin.save"/>
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Close
+              <FormattedMessage id="system.admin.close"/>
               </Button>
             </ModalFooter>
           </Modal>

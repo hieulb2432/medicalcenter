@@ -254,7 +254,7 @@ class ManageSchedule extends Component {
                                     )
                                 })
                                 :
-                                <div className='pick-hour-container-no-schedule'>Đã quá giờ để chọn lịch cho ngày hôm nay</div>
+                                <div className='pick-hour-container-no-schedule'><FormattedMessage id="manage-schedule.too-late"/></div>
                             }
                             
                         </div>
@@ -275,10 +275,10 @@ class ManageSchedule extends Component {
                     <div className='schedule-container'>
                         <div className='row'>
                             <div className='col-12 mt-3' style={{margin: '10px 0 10px 0', color: '#ff5400'}}>
-                                Thông tin chi tiết lịch khám
+                            <FormattedMessage id="manage-schedule.detail-schedule"/>
                             </div>
                             <div className='col-3 form-group'>
-                                <label>Chọn ngày</label>
+                                <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                                 <DatePicker
                                         onChange={this.handleOnChangeDatePicker}
                                         className='form-control'
@@ -290,9 +290,9 @@ class ManageSchedule extends Component {
                             <table style={{width:'100%', borderCollapse: 'collapse'}}>
                                 <tbody>
                                     <tr>
-                                        <th>STT</th>
-                                        <th>Thời gian</th>
-                                        <th>Thao tác</th>
+                                        <th><FormattedMessage id="manage-schedule.stt"/></th>
+                                        <th><FormattedMessage id="manage-schedule.time"/></th>
+                                        <th><FormattedMessage id="manage-schedule.action"/></th>
                                     </tr>
                                     {dataPatient && dataPatient.length > 0 ? 
                                         dataPatient.map((item, index) => {
@@ -304,7 +304,7 @@ class ManageSchedule extends Component {
                                             <td>{time}</td>
                                             <td><button className='btn btn-primary'
                                                     onClick={() => this.handleOpenModal(item)}
-                                                >Xem chi tiet
+                                                ><FormattedMessage id="manage-schedule.see-detail"/>
                                             </button>
                                             </td>
                                         </tr>
@@ -313,7 +313,7 @@ class ManageSchedule extends Component {
                                     :
                                     <tr>
                                         <td colSpan='6' style={{textAlign: "center"}}>
-                                            Không có dữ liệu
+                                        <FormattedMessage id="manage-schedule.no-data"/>
                                         </td>
                                     </tr>
                                 }

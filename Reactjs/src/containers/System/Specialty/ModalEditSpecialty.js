@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import { emitter } from '../../../utils/emitter';
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
@@ -88,8 +87,7 @@ class ModalEditSpecialty extends Component {
     };
 
     render() {
-        const { toggle } = this.props;
-        // console.log(this.state.imageBase64, this.state.previewImgURL)
+        const { toggle, language } = this.props;
         return (
           <Modal
             isOpen={this.props.isOpenModalEdit}
@@ -97,20 +95,20 @@ class ModalEditSpecialty extends Component {
             className="modal-user-container"
             size="lg"
           >
-            <ModalHeader toggle={toggle}>Thêm mới cơ sở y tế</ModalHeader>
+            <ModalHeader toggle={toggle}><FormattedMessage id="system.specialty.edit"/></ModalHeader>
             <ModalBody>
               <div className="container">
                 <div className='manage-specialty-container'>    
                     <div className='add-new-specialty row'>
                         <div className='col-6 form-group'>
-                            <label>Tên cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.specialty.specialty-name"/> <span style={{color: 'red'}}>*</span></label>
                             <input className='form-control' type='text'
                                 value={this.state.name}
                                 onChange={(event)=>this.handleOnChangeInput(event, 'name')}
                             ></input>
                         </div>
                         <div className='col-6 form-group'>
-                            <label>Ảnh cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                            <label><FormattedMessage id="system.specialty.specialty-image"/> <span style={{color: 'red'}}>*</span></label>
                             <input 
                                 id="previewImg"
                                 type="file"
@@ -129,7 +127,7 @@ class ModalEditSpecialty extends Component {
                             > abcbcbcc</div> */}
                         </div>
                         <div className='col-12'>
-                        <label>Thông tin cơ sở y tế <span style={{color: 'red'}}>*</span></label>
+                        <label><FormattedMessage id="system.specialty.specialty-information"/> <span style={{color: 'red'}}>*</span></label>
                             <MdEditor 
                             style={{ height: '400px' }}
                             renderHTML={text => mdParser.render(text)}
@@ -144,10 +142,10 @@ class ModalEditSpecialty extends Component {
            
             <ModalFooter>
               <Button color="primary" className="px-3" onClick={this.handleSaveSpecialty}>
-                Lưu
+              <FormattedMessage id="system.specialty.save"/>
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Đóng
+              <FormattedMessage id="system.specialty.close"/>
               </Button>
             </ModalFooter>
           

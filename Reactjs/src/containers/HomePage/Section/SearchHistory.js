@@ -96,7 +96,7 @@ class SearchHistory extends Component {
       if(isValidGetCode === true){
         let res = await getHistoryAppointment(this.state.email);
         this.setState({
-          dataHistoryCode: res.id
+          dataHistoryCode: res.codeUser
         });
       }
     }

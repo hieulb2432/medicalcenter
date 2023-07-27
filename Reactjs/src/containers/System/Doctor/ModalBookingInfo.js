@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {getInforUserBooking} from '../../../services/userService'
@@ -49,10 +50,10 @@ class ModalBookingInfo extends Component {
         this.setState({
           isUpdate: true
         })
-        toast.success('Cancel booking succeed!');
+        toast.success('Hủy lịch khám thành công. Đã gửi email tới bệnh nhân!');
         // this.props.closeBookingModal();
       } else {
-          toast.error('Cancel booking error!');
+          toast.error('Lịch khám này đã hoàn thành hoặc đã hủy. Không thể hủy lịch khám này!');
       }
     }
 
@@ -66,18 +67,18 @@ class ModalBookingInfo extends Component {
             className="modal-user-container"
             size="lg"
           >
-            <ModalHeader toggle={toggle}>Chi tiết lịch</ModalHeader>
+            <ModalHeader toggle={toggle}><label><FormattedMessage id="manage-schedule.see-detail"/></label></ModalHeader>
             <ModalBody>
               <div className='col-12 table-manage-patient'>
                         <table style={{width:'100%'}}>
                             <tbody>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>ID Bệnh nhân</th>
-                                    <th>Ten</th>
-                                    <th>Email</th>
-                                    <th>Thời gian</th>
-                                    <th>Trạng thái</th>
+                                    <th><label><FormattedMessage id="manage-schedule.stt"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.patientId"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.name"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.email"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.time"/></label></th>
+                                    <th><label><FormattedMessage id="manage-schedule.status"/></label></th>
                                 </tr>
                                 {patientInfor && patientInfor.data.length > 0 ? 
                                     patientInfor?.data.map((item, index) => {
@@ -95,7 +96,7 @@ class ModalBookingInfo extends Component {
                                 :
                                 <tr>
                                     <td colSpan='6' style={{textAlign: "center"}}>
-                                        Lịch chưa được đặt
+                                    <FormattedMessage id="manage-schedule.not-book"/>
                                     </td>
                                 </tr>
                             }
@@ -109,10 +110,10 @@ class ModalBookingInfo extends Component {
               <Button color="primary" className="px-3" 
               onClick={this.cancelBooking}
               >
-                Hủy lịch
+                <label><FormattedMessage id="manage-schedule.cancel"/></label>
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Close
+              <label><FormattedMessage id="manage-schedule.close"/></label>
               </Button>
             </ModalFooter>
           </Modal>

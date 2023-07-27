@@ -90,15 +90,15 @@ class ManageClinic extends Component {
 
     render() {
         let {dataClinic, startIndex, endIndex} = this.state
-
+        let {language} = this.props
         return (
             <div>
                 <div className="clinic-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div className='clinic-title mt-4' style={{color: '#ff5400'}}>
-                            Quản lý cơ sở y tế
+                    <FormattedMessage id="system.clinic.manage-clinic"/>
                         </div>
                     <div className="my-3">
-                            <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewClinic()}>Thêm mới</button>
+                            <button className="btn btn-primary px-3" onClick={()=>this.handleAddNewClinic()}><FormattedMessage id="system.clinic.add-new"/></button>
                     </div>
                 </div>
                 {this.state.isOpenNewClinic &&
@@ -122,11 +122,11 @@ class ManageClinic extends Component {
                     <table id="TableManageUser">
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Tên cơ sở y tế</th>
-                                <th>Địa chỉ cơ sở y tế</th>
-                                <th>Thông tin về cơ sở y tế</th>
-                                <th>Thao tác</th>
+                                <th><FormattedMessage id="system.clinic.stt"/></th>
+                                <th><FormattedMessage id="system.clinic.clinic-name"/></th>
+                                <th><FormattedMessage id="system.clinic.clinic-address"/></th>
+                                <th><FormattedMessage id="system.clinic.clinic-information"/></th>
+                                <th><FormattedMessage id="system.clinic.clinic-action"/></th>
                             </tr>
                         </thead>
                         <tbody>

@@ -58,9 +58,9 @@
     "edit": "Lưu thay đổi"
   },
 
-  "manage-clinic": {
-    "add": "Thêm mới cơ sở y tế"
-  },
+"manage-clinic": {
+"add": "Thêm mới cơ sở y tế"
+},
 "homepage": {
     "outstanding-doctor": "Các bác sĩ của chúng tôi",
     "more-info": "Xem thêm",
@@ -78,7 +78,28 @@
     "choose-doctor": "Bác sĩ",
     "choose-date": "Chọn ngày",
     "save": "Lưu thông tin",
-    "choose-schedule": "Chọn lịch khám"
+    "choose-schedule": "Chọn lịch khám",
+    "detail-schedule": "Doctor's Detail Schedule",
+    "stt": "STT",
+    "time": "Thời gian",
+    "action": "Thao tác",
+    "see-detail": "Xem chi tiết",
+    "patientId": "Id bệnh nhân",
+    "name": "Tên",
+    "status": "Trạng thái",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "cancel": "Hủy lịch",
+    "close": "Đóng",
+    "gender": "Giới tính",
+    "address": "Địa chỉ",
+    "manage-patient": "Quản lý bệnh nhân đã đặt lịch khám",
+    "manage-success-patient": "Quản lý bệnh nhân đã hoàn thành lịch khám",
+    "send-remedy": "Gửi hóa đơn",
+    "no-data": "Không có dữ liệu",
+    "upload": "Chọn hóa đơn",
+    "not-book": "Lịch chưa được đặt",
+    "too-late": "Đã quá giờ để chọn lịch cho ngày hôm nay"
   },
 "patient": {
     "detail-doctor": {
@@ -127,5 +148,49 @@
         "specialty": "Chọn chuyên khoa",
         "select-clinic": "Chọn cơ sở y tế"
         }
+    },
+"system": {
+    "admin": {
+        "manage-user": "Quản lý người dùng",
+        "add-new": "Thêm mới",
+        "stt": "STT",
+        "email": "Email",
+        "full-name": "Họ và tên",
+        "phoneNumber":"Số điện thoại",
+        "address": "Địa chỉ",
+        "position": "Vị trí",
+        "action": "Thao tác",
+        "upload": "Tải ảnh",
+        "save": "Lưu",
+        "close": "Đóng"
+    },
+    "clinic": {
+        "manage-clinic": "Quản lý Cơ sở y tế",
+        "stt": "STT",
+        "clinic-name": "Tên Cơ sở y tế",
+        "clinic-address": "Địa chỉ Cơ sở y tế",
+        "clinic-information": "Thông tin Cơ Sở y tế",
+        "clinic-action": "Thao tác",
+        "clinic-image": "Ảnh Cơ sở y tế",
+        "save": "Lưu",
+        "close": "Đóng",
+        "add-new": "Thêm mới",
+        "edit": "Chỉnh sửa Thông tin Cơ Sở y tế",
+        "add": "Thêm mới Cơ sở y tế"
+    },
+    "specialty": {
+        "manage-specialty": "Quản lý Chuyên khoa",
+        "stt": "STT",
+        "specialty-name": "Tên Chuyên khoa",
+        "specialty-address": "Địa chỉ Chuyên khoa",
+        "specialty-information": "Thông tin Chuyên khoa",
+        "specialty-action": "Thao tác",
+        "specialty-image": "Ảnh Chuyên khoa",
+        "save": "Lưu",
+        "close": "Đóng",
+        "add-new": "Thêm mới",
+        "edit": "Chỉnh sửa Thông tin Chuyên khoa",
+        "add": "Thêm mới Chuyên khoa"
     }
+}
 }

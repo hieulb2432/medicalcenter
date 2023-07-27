@@ -66,7 +66,7 @@ class RemedyModal extends Component {
                 centered
             >
                 <div className="modal-header">
-                    <h5 className="modal-title">Gui hoa don kham benh thanh cong</h5>
+                    <h5 className="modal-title"><label><FormattedMessage id="manage-schedule.send-remedy"/></label></h5>
                     <button type="button" className="close" aria-label="Close">
                         <span aria-hidden="true" onClick={closeRemedyModal}>×</span>
                     </button>
@@ -75,7 +75,7 @@ class RemedyModal extends Component {
                     <div className='row'>
                         <div className='col-6 form-group'>
                             <div className=''>
-                                <label>Email benh nhan</label>
+                                <label><label><FormattedMessage id="manage-schedule.email"/></label></label>
                                 <input type='email' value={this.state.email} className='form-control'
                                     onChange={(e)=> this.handleOnChangeEmail(e)}
                                 ></input>
@@ -84,7 +84,7 @@ class RemedyModal extends Component {
 
                         <div className='col-6 form-group'>
                             <div className=''>
-                                <label>Chon file hoa don</label>
+                                <label><label><FormattedMessage id="manage-schedule.upload"/></label></label>
                                 <input type='file' className='form-control-file'
                                     onChange={(event)=>this.handleOnChangeImage(event)}
                                 ></input>
@@ -93,8 +93,8 @@ class RemedyModal extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={()=>this.handleSendRemedy()}>Send</Button>{' '}
-                    <Button color="secondary" onClick={closeRemedyModal}>Cancel</Button>
+                    <Button color="primary" onClick={()=>this.handleSendRemedy()}><label><FormattedMessage id="manage-schedule.send-remedy"/></label></Button>{' '}
+                    <Button color="secondary" onClick={closeRemedyModal}><label><FormattedMessage id="manage-schedule.cancel"/></label></Button>
                 </ModalFooter>
             </Modal>
         );
