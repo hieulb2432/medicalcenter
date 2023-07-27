@@ -51,6 +51,7 @@ class Statistic extends Component {
         })
     }
     render() {
+        let language = this.props.language;
         let {doctorNumber, clinicNumber, specialtyNumber, bookingNumber} = this.state
         return (
             <>
@@ -62,28 +63,28 @@ class Statistic extends Component {
                                 <div className='mt-3 doctor-number'>
                                     {doctorNumber}
                                 </div>
-                                <h4>Bác sĩ</h4>
+                                <h4><FormattedMessage id="static.doctors"/></h4>
                             </div>
                             <div className='col-3 list-item patient'>
                             <i class="fas fa-users"></i>
                                 <div className='mt-3 doctor-number'>
                                     {bookingNumber}
                                 </div>
-                                <h4>Lượt khám</h4>
+                                <h4><FormattedMessage id="static.bookings"/></h4>
                             </div>
                             <div className='col-3 list-item clinic'>
                             <i class="fas fa-hospital"></i>
                                 <div className='mt-3 doctor-number'>
                                     {clinicNumber}
                                 </div>
-                                <h4>Cơ sở y tế</h4>
+                                <h4><FormattedMessage id="static.health-facilities"/></h4>
                             </div>
                             <div className='col-3 list-item specialty'>
                             <i class="fas fa-user-tag"></i>
                                 <div className='mt-3 doctor-number'>
                                     {specialtyNumber}
                                 </div>
-                                <h4>Chuyên khoa</h4>
+                                <h4><FormattedMessage id="static.specialties"/></h4>
                             </div>
                         </div>
                     </div>

@@ -55,19 +55,19 @@ class ModalEditClinic extends Component {
         }
         };
     
-        handleEditorChange = ({ html, text }) => {
-            this.setState({
-                descriptionHTML: html,
-                descriptionMarkdown: text,
-            });
-          }
-
-        handleSaveClinic = async () => {
-            await this.props.editClinic(this.state)
-            let isValid = this.checkValidateInput();
-            if(isValid == false) return;
-            this.props.toggle()
+    handleEditorChange = ({ html, text }) => {
+        this.setState({
+            descriptionHTML: html,
+            descriptionMarkdown: text,
+        });
         }
+
+    handleSaveClinic = async () => {
+        await this.props.editClinic(this.state)
+        let isValid = this.checkValidateInput();
+        if(isValid == false) return;
+        this.props.toggle()
+    }
 
     checkValidateInput = () => {
     let isValid = true;
@@ -95,8 +95,9 @@ class ModalEditClinic extends Component {
             toggle={()=>{toggle()}}
             className="modal-user-container"
             size="lg"
+            centered
           >
-            <ModalHeader toggle={toggle}>Thêm mới cơ sở y tế</ModalHeader>
+            <ModalHeader toggle={toggle}>Chỉnh sửa thông tin cơ sở y tế</ModalHeader>
             <ModalBody>
               <div className="container">
                 <div className='manage-specialty-container'>    

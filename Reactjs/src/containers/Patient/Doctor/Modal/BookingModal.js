@@ -177,7 +177,7 @@ class BookingModal extends Component {
         }
 
         return (
-
+            
             <Modal 
                 isOpen={isOpenModal} 
                 className={'booking-modal-container'}
@@ -186,10 +186,10 @@ class BookingModal extends Component {
             >
                 <LoadingOverlay
                 active={this.state.isShowLoading}
-                // active={true}
                 spinner
                 text='Loading...'
-            ></LoadingOverlay>
+            >
+                
                 <div className='booking-modal-content'>
                     <div className='booking-modal-header'>
                         <span className='left'>
@@ -310,6 +310,7 @@ class BookingModal extends Component {
                         </button>
                     </div>
                 </div>
+            </LoadingOverlay>
             </Modal>
         );
     }

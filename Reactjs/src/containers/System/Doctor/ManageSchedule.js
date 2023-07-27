@@ -114,13 +114,13 @@ class ManageSchedule extends Component {
         }
 
     }
-
-    
+  
     toggleUserModal = () => {
         this.setState({
             isOpenModal: !this.state.isOpenModal,
         })
     }
+    
     getDataPatient = async () => {
         let {user} = this.props
         let {currentDate} = this.state

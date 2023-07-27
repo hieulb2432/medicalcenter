@@ -8,7 +8,7 @@ import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import HomeFooter from '../../HomePage/HomeFooter';
-import { getDetailClinicByIdService, getAllCodeService } from '../../../services/userService';
+import { getDetailClinicByIdService } from '../../../services/userService';
 import _ from 'lodash';
 class DetailClinic extends Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class DetailClinic extends Component {
                     {dataDetailClinic && !_.isEmpty(dataDetailClinic) 
                     &&
                     <>
-                        <div>
+                        <div className='mb-3' style={{fontWeight: 'bold'}}>
                             {dataDetailClinic.name}
                         </div>
                         <div

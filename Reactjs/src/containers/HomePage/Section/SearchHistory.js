@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './SearchHistory.scss'
-// import { emitter } from '../../../utils/emitter';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {getHistoryAppointment, getAllHistorySchedule, checkUserEmail} from '../../../services/userService'
 import moment from 'moment';
@@ -20,17 +19,7 @@ class SearchHistory extends Component {
             startIndex: 0,
             endIndex: 9,
         }
-        // this.listenToEmitter();
     }
-
-    // listenToEmitter() {
-    //     emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
-    //       this.setState({
-    //         email: '',
-    //         userId: '',
-    //       })
-    //     })
-    //   }
 
     async componentDidMount() {}
 
@@ -53,10 +42,11 @@ class SearchHistory extends Component {
       for (let i = 0; i < arrInput.length; i++) {
         if(!this.state[arrInput[i]]){
           isValid = false;
-          toast.error('Bạn đã nhập thiếu trường ' + arrInput[i]);
+          toast.error('Bạn đã nhập thiếu trường thông tin');
           break;
         }        
       }
+
       return isValid
     }
 
@@ -68,7 +58,6 @@ class SearchHistory extends Component {
       for (let i = 0; i < arrInput.length; i++) {          
         if(!this.state[arrInput[i]]){
           isValidGetCode = false;
-          // alert('Missing required parameter ' + arrInput[i]);
           toast.error('Bạn đã nhập thiếu trường ' + arrInput[i]);
           break;
         } 
@@ -79,7 +68,6 @@ class SearchHistory extends Component {
           } else {
             toast.error('Không tồn tại email này')
             isValidGetCode = false;
-              
           }
         }       
       }

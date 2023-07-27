@@ -53,6 +53,12 @@
         "popular-specialty": "Our Specialties",
         "health-facilities": "Our Health Facilities"
       },
+    "static": {
+        "doctors": "Doctors",
+        "health-facilities": "Health Facilities",
+        "bookings": "Bookings",
+        "specialties": "Specialties"
+    },
     "manage-schedule": {
         "title": "Manage doctor's examination plan",
         "choose-doctor": "Doctor",

@@ -5,7 +5,7 @@ import './DoctorSchedule.scss';
 import { LANGUAGES } from '../../../utils';
 import moment from 'moment';
 import localization from 'moment/locale/vi';
-import {getScheduleDoctorByDateService, postPatientBookingService} from '../../../services/userService'
+import {getScheduleDoctorByDateService} from '../../../services/userService'
 import BookingModal from './Modal/BookingModal';
 
 class DoctorSchedule extends Component {
@@ -29,7 +29,6 @@ class DoctorSchedule extends Component {
             if(res && res.errCode === 0) {
                 let dataAvailable = this.checkAvailableTime(res)
                 this.setState({
-                    // allAvailableTime: res.data ? res.data : []
                     allAvailableTime: dataAvailable,
                     allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
                 })
@@ -52,7 +51,6 @@ class DoctorSchedule extends Component {
             let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, allDays[0].value)
             let dataAvailable = this.checkAvailableTime(res)
                 this.setState({
-                    // allAvailableTime: res.data ? res.data : []
                     allAvailableTime: dataAvailable,
                     allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
                 })
@@ -141,14 +139,12 @@ class DoctorSchedule extends Component {
                 if(res && res.errCode === 0) {
                     let dataAvailable = this.checkAvailableTime(res)
                     this.setState({
-                        // allAvailableTime: res.data ? res.data : []
                         allAvailableTime: dataAvailable,
                         allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
                     })
                 } 
             } else {
                 this.setState({
-                    // allAvailableTime: res.data ? res.data : []
                     allAvailableTime: res.dataAvailable ? res.dataAvailable : [],
                     allFreezeTime: res.dataFreeze ? res.dataFreeze : []
                 })
@@ -178,6 +174,7 @@ class DoctorSchedule extends Component {
     render() {
         let {allDays, allAvailableTime, allFreezeTime, isOpenModalBooking, dataScheduleTimeModal} = this.state;
         let {language} = this.props
+        console.log('check',dataScheduleTimeModal)
         return (
             <>
                 <div className='doctor-schedule-container'>

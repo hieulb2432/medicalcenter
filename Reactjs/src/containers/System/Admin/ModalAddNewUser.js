@@ -103,13 +103,6 @@ class ModalAddNewUser extends Component {
         }
       };    
 
-    openPreviewImage = () => {
-        if(!this.state.previewImgURL) return;
-        this.setState({
-            isOpen: true,
-        })
-    }
-
     handleSaveUser = () => {
     let isValid = this.checkValidateInput();
     if(isValid == false) return;
@@ -164,11 +157,8 @@ class ModalAddNewUser extends Component {
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
         let language = this.props.language;
-        let isGetGender = this.props.isLoadingGender;
 
         let {
-            previewImgURL,
-            isOpen,
             email,
             password,
             firstName,
@@ -185,6 +175,7 @@ class ModalAddNewUser extends Component {
             toggle={()=>{toggle()}}
             className="modal-user-container"
             size="lg"
+            centered
           >
             <ModalHeader toggle={toggle}><FormattedMessage id="manage-user.add"/></ModalHeader>
             <ModalBody>
@@ -195,7 +186,6 @@ class ModalAddNewUser extends Component {
                         <input className='form-control' type='email' 
                             value={email}
                             onChange={(event)=>{this.onChangeInput(event, 'email')}}
-                            disabled={this.state.action === CRUD_ACTION.EDIT ? true : false}
                         ></input>
                     </div>
                     <div className='col-6'>
@@ -203,7 +193,6 @@ class ModalAddNewUser extends Component {
                         <input className='form-control' type='password'
                             value={password}
                             onChange={(event)=>{this.onChangeInput(event, 'password')}}
-                            disabled={this.state.action === CRUD_ACTION.EDIT ? true : false}
                         ></input>
                     </div>
                     <div className='col-6'>
@@ -296,20 +285,11 @@ class ModalAddNewUser extends Component {
                             </label>
                             <div className='preview-image'
                                 style={{backgroundImage: `url(${this.state.previewImgURL})`}}
-                                // onClick={()=> this.openPreviewImage()}
                             ></div>
                         </div>
                     </div>
                 </div>
               </div>
-            
-              {/* {this.state.isOpen === true && (
-                <Lightbox
-                   sx={{width: '100px'}}
-                    mainSrc={this.state.previewImgURL}
-                    onCloseRequest={() => this.setState({ isOpen: false })}
-                />
-                )} */}
 
             </ModalBody>
             <ModalFooter>

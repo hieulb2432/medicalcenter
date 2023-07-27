@@ -46,7 +46,7 @@ class ModalAddNewClinic extends Component {
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
             isValid = false;
-            toast.error('Nhập thiếu trường: ' + arrCheck[i]);
+            toast.error('Nhập thiếu trường ' + arrCheck[i]);
             break;
             }
         }
@@ -73,19 +73,19 @@ class ModalAddNewClinic extends Component {
         }
         };
     
-        handleEditorChange = ({ html, text }) => {
-            this.setState({
-                descriptionHTML: html,
-                descriptionMarkdown: text,
-            });
-          }
-
-        handleSaveClinic = async () => {
-            await this.props.fetchCreateNewClinic(this.state)
-            let isValid = this.checkValidateInput();
-            if(isValid == false) return;
-            this.props.toggle()
+    handleEditorChange = ({ html, text }) => {
+        this.setState({
+            descriptionHTML: html,
+            descriptionMarkdown: text,
+        });
         }
+
+    handleSaveClinic = async () => {
+        await this.props.fetchCreateNewClinic(this.state)
+        let isValid = this.checkValidateInput();
+        if(isValid == false) return;
+        this.props.toggle()
+    }
 
     render() {
         const { toggle } = this.props;
@@ -95,6 +95,7 @@ class ModalAddNewClinic extends Component {
             toggle={()=>{toggle()}}
             className="modal-user-container"
             size="lg"
+            centered
           >
             <ModalHeader toggle={toggle}>Thêm mới cơ sở y tế</ModalHeader>
             <ModalBody>

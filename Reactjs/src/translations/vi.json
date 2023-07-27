@@ -67,6 +67,12 @@
     "popular-specialty": "Các chuyên khoa của chúng tôi",
     "health-facilities": "Các cơ sở y tế của chúng tôi"
   },
+  "static": {
+    "doctors": "Bác sĩ",
+    "health-facilities": "Cơ sở y tế",
+    "bookings": "Lượt khám",
+    "specialties": "Chuyên khoa"
+},
 "manage-schedule": {
     "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
     "choose-doctor": "Bác sĩ",

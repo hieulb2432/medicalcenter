@@ -39,9 +39,6 @@ class Specialty extends Component {
                 <h2 className="title-section">
                   <FormattedMessage id="homepage.popular-specialty" />
                 </h2>
-                {/* <button className="btn-section">
-                  <FormattedMessage id="homepage.more-info" />
-                </button> */}
               </div>
               <div className="section-content">
                 <Slider {...this.props.settings}>

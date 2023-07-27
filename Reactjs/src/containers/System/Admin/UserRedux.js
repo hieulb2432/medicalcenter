@@ -9,6 +9,7 @@ import TableManageUser from './TableManageUser';
 import ModalAddNewUser from './ModalAddNewUser';
 import ModalEditUser from './ModalEditUser';
 import '../../System/UserManage.scss';
+import { toast } from 'react-toastify';
 
 class UserRedux extends Component {
 
@@ -93,75 +94,30 @@ class UserRedux extends Component {
         // }
     }
 
-    handleSaveUser = () => {
-    let isValid = this.checkValidateInput();
-    if(isValid == false) return;
-
-    let action = this.state.action
-    if (action === CRUD_ACTION.CREATE) {
-        // fire redux create user 
-        this.props.createNewUser({
-            email: this.state.email,
-            password: this.state.password,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            address: this.state.address,
-            phoneNumber: this.state.phoneNumber,
-            gender: this.state.gender,
-            roleId: this.state.role,
-            positionId: this.state.position,
-            image: this.state.image
-        })
-
-        
-    }
+    handleEditUserFromParent = (user) => {
+    this.setState({
+        isOpenModalEditUser: true
+    })
+    this.setState({currentUser: user})
     }
 
-    checkValidateInput = () => {
-    let isValid = true;
-    let arrCheck = [
-        'email',
-        'password',
-        'firstName',
-        'lastName',
-        'phoneNumber',
-        'address',
-    ];
-    for (let i = 0; i < arrCheck.length; i++) {
-        if (!this.state[arrCheck[i]]) {
-        isValid = false;
-        alert('This input is required: ' + arrCheck[i]);
-        break;
-        }
+    handleAddNewUser = () => {
+    this.setState({
+        isOpenModalUser: true
+    })
     }
-    return isValid;
-    };
     
-
-      handleEditUserFromParent = (user) => {
+    toggleUserModal = () => {
         this.setState({
-            isOpenModalEditUser: true
+            isOpenModalUser: !this.state.isOpenModalUser,
         })
-        this.setState({currentUser: user})
-      }
+    }
 
-      handleAddNewUser = () => {
+    toggleEditUserModal = () => {
         this.setState({
-            isOpenModalUser: true
+            isOpenModalEditUser: !this.state.isOpenModalEditUser,
         })
-      }
-      
-      toggleUserModal = () => {
-            this.setState({
-                isOpenModalUser: !this.state.isOpenModalUser,
-            })
-        }
-
-        toggleEditUserModal = () => {
-            this.setState({
-                isOpenModalEditUser: !this.state.isOpenModalEditUser,
-            })
-        }
+    }
     render() {
         let {isOpenModalUser} = this.state;
         return (
@@ -174,7 +130,7 @@ class UserRedux extends Component {
                     <div className='ml-12'>
                         <button className='btn btn-primary px-3' style={{marginBottom: '10px'}} 
                                 onClick={() => this.handleAddNewUser()}>
-                        <i className="fas fa-plus"></i> Thêm mới</button>
+                        <i className="fas fa-plus"></i>Thêm mới</button>
                     </div>
 
                 </div>

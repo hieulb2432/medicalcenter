@@ -52,9 +52,8 @@ class ManageClinic extends Component {
             this.setState({
                 isOpenNewClinic: !this.state.isOpenNewClinic,
             })
-        }
-
-        
+    }
+  
     handleEditClinic = (clinic) => {
         this.setState({
             isOpenEditClinic: true
@@ -68,26 +67,26 @@ class ManageClinic extends Component {
                 isOpenEditClinic: !this.state.isOpenEditClinic,
             })
         }
-        handleNextPage = () => {
-        const { endIndex } = this.state;
-        const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataClinic.length - 1));
-        
-        this.setState({
-            startIndex: endIndex + 1,
-            endIndex: newEndIndex,
-        });
-        };
-
-        handlePrevPage = () => {
-        const { startIndex } = this.state;
-        const newStartIndex = Math.max(startIndex - 5, 0);
-        const newEndIndex = startIndex - 1;
+    handleNextPage = () => {
+    const { endIndex } = this.state;
+    const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataClinic.length - 1));
     
-        this.setState({
-            startIndex: newStartIndex,
-            endIndex: newEndIndex,
-        });
-        };
+    this.setState({
+        startIndex: endIndex + 1,
+        endIndex: newEndIndex,
+    });
+    };
+
+    handlePrevPage = () => {
+    const { startIndex } = this.state;
+    const newStartIndex = Math.max(startIndex - 5, 0);
+    const newEndIndex = startIndex - 1;
+
+    this.setState({
+        startIndex: newStartIndex,
+        endIndex: newEndIndex,
+    });
+    };
 
     render() {
         let {dataClinic, startIndex, endIndex} = this.state
@@ -106,7 +105,7 @@ class ManageClinic extends Component {
                 <ModalAddNewClinic
                     isOpenModal = {this.state.isOpenNewClinic}
                     toggle = {this.toggleClinicModal}
-                    handleSaveUser = {this.handleSaveClinic}
+                    // handleSaveUser = {this.handleSaveClinic}
                 />
                 }
 

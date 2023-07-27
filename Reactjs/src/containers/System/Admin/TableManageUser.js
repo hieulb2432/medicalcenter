@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './TableManageUser.scss';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils';
-import ModalEditUser from './ModalEditUser';
-
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 // import style manually
@@ -18,8 +16,6 @@ import 'react-markdown-editor-lite/lib/index.css';
 
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
-
-
 
 class TableManageUser extends Component {
 
@@ -38,7 +34,7 @@ class TableManageUser extends Component {
     }
 
     async componentDidMount() {
-        this.props.fetchUserRedux()
+        // await this.props.fetchUserRedux()
         
         let res = await getFilterUser({
             role: 'ALL'
@@ -48,13 +44,6 @@ class TableManageUser extends Component {
         if(res && res.errCode === 0 && resRole && resRole.errCode === 0) {
             let arr = res.roleUser
             let arrUserId = arr
-            // if(arr && !_.isEmpty(res.roleUser)){
-            //     if(arr && arr.length>0){
-            //         arr.map(item => {
-            //             arrUserId.push(item.id)
-            //         })
-            //     }
-            // }
 
             let dataRole = resRole.data
             if(dataRole && dataRole.length>0){
@@ -71,7 +60,7 @@ class TableManageUser extends Component {
                 listRole: dataRole ? dataRole : []
             })
         }
-        
+        await this.props.fetchUserRedux()
     }
 
     handleOnChangeSelect = async (e) => {
@@ -85,7 +74,6 @@ class TableManageUser extends Component {
                     usersRedux: res.roleUser,
                 })
             }
-        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -100,50 +88,8 @@ class TableManageUser extends Component {
         this.props.deleteUserRedux(user.id);
     }
 
-    handleSaveUser = () => {
-        let isValid = this.checkValidateInput();
-        if(isValid == false) return;
-            this.props.editUserRedux({
-                id: this.state.userEditId,
-                email: this.state.email,
-                password: this.state.password,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phoneNumber: this.state.phoneNumber,
-                gender: this.state.gender,
-                roleId: this.state.role,
-                positionId: this.state.position,
-                avatar: this.state.avatar
-            })
-      }
-
-    checkValidateInput = () => {
-    let isValid = true;
-    let arrCheck = [
-        'email',
-        'password',
-        'firstName',
-        'lastName',
-        'phoneNumber',
-        'address',
-    ];
-    for (let i = 0; i < arrCheck.length; i++) {
-        if (!this.state[arrCheck[i]]) {
-        isValid = false;
-        alert('This input is required: ' + arrCheck[i]);
-        break;
-        }
-    }
-    return isValid;
-    };
-
-
     handleEditUser = (user) => {
-    // this.setState({
-    //     isOpenModalUser: true
-    // })
-    this.props.handleEditUserFromParent(user)
+        this.props.handleEditUserFromParent(user)
     }
     
     toggleUserModal = () => {
@@ -152,40 +98,7 @@ class TableManageUser extends Component {
         })
     }
     
-    handleOnChangeImage = async (event) => {
-        let data = event.target.files;
-        let file = data[0];
-        if (file) {
-            let base64 = await CommonUtils.getBase64(file);
-            let objectUrl = URL.createObjectURL(file);
-            this.setState({
-                previewImgURL: objectUrl,
-                avatar: base64,
-            });
-        }
-        }; 
 
-    // handleEditUserFromParent = (user) => {
-    //     let imageBase64 = '';
-    //     if (user.image) {
-    //     imageBase64 = Buffer.from(user.image, 'base64').toString('binary');
-    //     }
-    //     this.setState({
-    //         email: user.email,
-    //         password: 'HASHCODE',
-    //         firstName: user.firstName,
-    //         lastName: user.lastName,
-    //         phoneNumber: user.phoneNumber,
-    //         address: user.address,
-    //         gender: user.gender,
-    //         role: user.roleId,
-    //         position: user.positionId,
-    //         avatar: '',
-    //         previewImgURL: imageBase64,
-    //         action: CRUD_ACTION.EDIT,
-    //         userEditId: user.id
-    //     })
-    //   }
     handleNextPage = () => {
         const { endIndex } = this.state;
         let arrUsers = this.state.usersRedux
@@ -251,14 +164,6 @@ class TableManageUser extends Component {
                                     <td>{user.address}</td>
                                     <td>{user['roleData.valueVi']}</td>
                                     <td>
-                                    {/* {isOpenModalUser &&
-                                        <ModalEditUser
-                                            isOpenModal = {this.state.isOpenModalUser}
-                                            toggle = {this.toggleUserModal}
-                                            handleEditUser = {this.handleEditUser}
-                                            handleEditUserFromParent={this.handleEditUserFromParent}
-                                        />
-                                    } */}
                                         <button
                                             className="btn-edit"
                                             onClick={() => {

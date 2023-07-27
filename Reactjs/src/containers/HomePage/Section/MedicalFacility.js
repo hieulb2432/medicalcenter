@@ -42,7 +42,6 @@ class MedicalFacility extends Component {
             <div className="section-container container">
               <div className="section-header">
                 <h2 className="title-section"><FormattedMessage id="homepage.health-facilities"/></h2>
-                {/* <button className="btn-section">Xem thêm</button> */}
               </div>
               <div className="section-content">
                 <Slider {...this.props.settings}>

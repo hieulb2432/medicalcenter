@@ -111,7 +111,7 @@ class ModalEditUser extends Component {
     for (let i = 0; i < arrCheck.length; i++) {
         if (!this.state[arrCheck[i]]) {
         isValid = false;
-        toast.error('This input is required: ' + arrCheck[i]);
+        toast.error('Thiếu trường thông tin ' + arrCheck[i]);
         break;
         }
     }
@@ -140,6 +140,7 @@ class ModalEditUser extends Component {
             toggle={()=>{toggle()}}
             className="modal-user-container"
             size="lg"
+            centered
           >
             <ModalHeader toggle={toggle}><FormattedMessage id="manage-user.add"/></ModalHeader>
             <ModalBody>
@@ -157,8 +158,8 @@ class ModalEditUser extends Component {
                         <label><FormattedMessage id="manage-user.password"/></label>
                         <input className='form-control' type='password'
                             value={'HASHCODE'}
-                            onChange={(event)=>{this.onChangeInput(event, 'password')}}
                             disabled={true}
+                            onChange={(event)=>{this.onChangeInput(event, 'password')}}
                         ></input>
                     </div>
                     <div className='col-6'>
@@ -262,10 +263,10 @@ class ModalEditUser extends Component {
             </ModalBody>
             <ModalFooter>
               <Button color="primary" className="px-3" onClick={this.handleSaveUser}>
-                Save
+                Lưu
               </Button>{' '}
               <Button className="px-3" onClick={toggle}>
-                Close
+                Đóng
               </Button>
             </ModalFooter>
           </Modal>
