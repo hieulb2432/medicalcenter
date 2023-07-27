@@ -192,14 +192,20 @@ let getHistoryAppointment = (email) => {
         })
         
         if(checkUser){
+          let fullCode = uuidv4()
+          let codeUser = fullCode.substring(0, 5).toUpperCase();
           await emailService.sendTokenEmail({
             email: checkUser.email,
-            id: checkUser.id
+            id: codeUser
           })
+          
+          checkUser.codeUser = codeUser;
+          await checkUser.save()
+          
           resolve({
             errCode: 0,
             errMessage: 'Succeed!',
-            id: checkUser.id
+            codeUser: checkUser.codeUser
           })
         }
       }
@@ -209,10 +215,10 @@ let getHistoryAppointment = (email) => {
   })
 }
 
-let getAllHistorySchedule = (email, id) => {
+let getAllHistorySchedule = (email, codeUser) => {
   return new Promise(async(resolve, reject) => {
     try{
-      if(!email || !id){
+      if(!email || !codeUser){
         resolve({
           errCode: 1,
           errMessage: 'Missing required parameters'
@@ -221,7 +227,7 @@ let getAllHistorySchedule = (email, id) => {
         let checkUser = await db.User.findOne({
           where: {
             email: email,
-            id: id
+            codeUser: codeUser
           },
           attributes: {
             exclude: ['password', 'gender', 'image', 'roleId', 'positionId'],
