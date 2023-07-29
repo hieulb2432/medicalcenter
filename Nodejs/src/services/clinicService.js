@@ -17,6 +17,7 @@ let createClinic = (data) => {
             name: data.name,
             address: data.address,
             image: data.imageBase64,
+            provinceId: data.selectedProvince.value,
             descriptionHTML: data.descriptionHTML,
             descriptionMarkdown: data.descriptionMarkdown
         })
@@ -34,7 +35,12 @@ let createClinic = (data) => {
 let getAllClinic = () => {
   return new Promise(async(resolve, reject) => {
     try{
-      let data = await db.Clinic.findAll()
+      let data = await db.Clinic.findAll({
+        include: [
+          {model: db.Allcode, as: 'provinceDataClinic', attributes: ['valueEn', 'valueVi']},
+        ], 
+        raw: true
+      })
       if(data && data.length > 0) {
         data.map((item) =>
             (item.image = Buffer.from(item.image, 'base64').toString('binary'))
@@ -143,6 +149,7 @@ let handleEditClinic = (data) => {
         clinic.address = data.address,
         clinic.descriptionHTML = data.descriptionHTML;
         clinic.descriptionMarkdown = data.descriptionMarkdown;
+        clinic.provinceId = data.provinceId;
         if (data.imageBase64) {
           clinic.image = data.imageBase64
         }
@@ -163,10 +170,69 @@ let handleEditClinic = (data) => {
   });
 };  
 
+let getFilterClinic = (location) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!location) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameter'
+        })
+      } else {
+            let listClinic = []
+            if(location === 'ALL'){
+              listClinic = await db.Clinic.findAll({
+                include: [
+                  {
+                    model: db.Allcode,
+                    as: 'provinceDataClinic',
+                    attributes: ['valueEn', 'valueVi'],
+                  }
+                ],
+                raw: true
+              }) 
+            } else{
+              // find user by role
+              listClinic = await db.Clinic.findAll({
+                where: {
+                  provinceId: location
+                },
+                include: [
+                  {
+                    model: db.Allcode,
+                    as: 'provinceDataClinic',
+                    attributes: ['valueEn', 'valueVi'],
+                  }
+                ],
+                raw: true
+              }) 
+            }
+          
+          listClinic.reverse();
+          if(listClinic && listClinic.length > 0) {
+            listClinic.map((item) =>
+                (item.image = Buffer.from(item.image, 'base64').toString('binary'))
+            );
+          }
+          resolve({
+            errCode: 0,
+            errMessage: 'OK',
+            listClinic
+          })
+
+
+      }
+    } catch(e) {
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
     createClinic: createClinic,
     getAllClinic: getAllClinic,
     getDetailClinicById: getDetailClinicById,
     handleDeleteClinic: handleDeleteClinic,
-    handleEditClinic: handleEditClinic
+    handleEditClinic: handleEditClinic,
+    getFilterClinic: getFilterClinic
 }

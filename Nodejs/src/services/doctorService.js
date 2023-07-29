@@ -95,10 +95,10 @@ let checkRequiredFields = (inputData) => {
     'contentMarkdown',
     'action',
     'selectedPrice',
-    'selectedPayment',
-    'selectedProvince',
-    'nameClinic',
-    'addressClinic',
+    // 'selectedPayment',
+    // 'selectedProvince',
+    // 'nameClinic',
+    // 'addressClinic',
     'note',
     'specialtyId',
   ];
@@ -161,10 +161,10 @@ let saveDetailInforDoctor = (inputData) => {
           // Update
             doctorInfor.doctorId = inputData.doctorId;
             doctorInfor.priceId = inputData.selectedPrice;
-            doctorInfor.provinceId = inputData.selectedProvince;
-            doctorInfor.paymentId = inputData.selectedPayment;
-            doctorInfor.nameClinic = inputData.nameClinic;
-            doctorInfor.addressClinic = inputData.addressClinic;
+            // doctorInfor.provinceId = inputData.selectedProvince;
+            // doctorInfor.paymentId = inputData.selectedPayment;
+            // doctorInfor.nameClinic = inputData.nameClinic;
+            // doctorInfor.addressClinic = inputData.addressClinic;
             doctorInfor.note = inputData.note;
             doctorInfor.specialtyId = inputData.specialtyId;
             doctorInfor.clinicId = inputData.clinicId;
@@ -174,10 +174,10 @@ let saveDetailInforDoctor = (inputData) => {
             await db.Doctor_Infor.create({
               doctorId: inputData.doctorId,
               priceId: inputData.selectedPrice,
-              provinceId: inputData.selectedProvince,
-              paymentId: inputData.selectedPayment,
-              nameClinic: inputData.nameClinic,
-              addressClinic: inputData.addressClinic,
+              // provinceId: inputData.selectedProvince,
+              // paymentId: inputData.selectedPayment,
+              // nameClinic: inputData.nameClinic,
+              // addressClinic: inputData.addressClinic,
               note: inputData.note,
               specialtyId: inputData.specialtyId,
               clinicId: inputData.clinicId
@@ -227,9 +227,9 @@ let getDetailDoctorById = (inputId) => {
                 exclude: ['id', 'doctorId'],
               }, 
               include: [
+                // {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
                 {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
-                {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
-                {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
+                // {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
               ]
             },
           ],
@@ -397,16 +397,16 @@ let getExtraInforDoctorById = (doctorId) => {
               as: 'priceTypeData',
               attributes: ['valueEn', 'valueVi'],
             },
-            {
-              model: db.Allcode,
-              as: 'provinceTypeData',
-              attributes: ['valueEn', 'valueVi'],
-            },
-            {
-              model: db.Allcode,
-              as: 'paymentTypeData',
-              attributes: ['valueEn', 'valueVi'],
-            }
+            // {
+            //   model: db.Allcode,
+            //   as: 'provinceTypeData',
+            //   attributes: ['valueEn', 'valueVi'],
+            // },
+            // {
+            //   model: db.Allcode,
+            //   as: 'paymentTypeData',
+            //   attributes: ['valueEn', 'valueVi'],
+            // }
           ],
           raw: false,
           nest: true,
@@ -734,6 +734,122 @@ let sendRemedy = (data) => {
   })
 }
 
+let createPrescription = (data) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!data.diagnostic){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let checkPrescription = await db.Prescription.findOne({
+          where: {
+            doctorId: data.doctorId,
+            patientId: data.patientId,
+            date: data.date,
+            timeType: data.timeType,
+          }, 
+          raw: false
+        })
+        console.log(checkPrescription)
+
+        if(!checkPrescription) {
+          await db.Prescription.create({
+              diagnostic: data.diagnostic,
+              drugId: data.drugId,
+              quantity: data.quantity,
+              note: data.note,
+              doctorAdvice: data.doctorAdvice,
+              doctorId: data.doctorId,
+              patientId: data.patientId,
+              date: data.date,
+              timeType: data.timeType,
+              quantity: JSON.stringify(data.dataDrug)
+          })
+        } else {
+          checkPrescription.diagnostic = data.diagnostic,
+          checkPrescription.drugId = data.drugId,
+          checkPrescription. quantity = data.quantity,
+          checkPrescription.note = data.note,
+          checkPrescription.doctorAdvice = data.doctorAdvice,
+          checkPrescription.quantity = JSON.stringify(data.dataDrug)
+          await checkPrescription.save();
+          resolve({
+            errCode: 0,
+            message: 'Update Prescription data successfully!',
+          });
+        }
+        resolve({
+            errCode: 0,
+            errMessage: 'OKKK'
+        })
+      }
+    } catch(e){
+      reject(e);
+    }
+  })
+}
+
+let getMedicalRecord = (patientId) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!patientId){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let data = await db.Prescription.findAll({
+          where: {
+            patientId: patientId
+          }, 
+          order: [['date', 'DESC']],
+          attributes: {
+            exclude: ['drugId', 'note', 'createdDate', 'updatedDate'],
+          },
+          include: [
+            {
+              model: db.User,
+              as: 'patientPrescriptionData',
+              attributes: ['firstName', 'lastName', 'address'],
+              include: [
+                {
+                  model: db.Allcode,
+                  as: 'genderData',
+                  attributes: ['valueEn', 'valueVi'],
+                }
+              ]
+            },
+            {
+              model: db.User,
+              as: 'doctorPrescriptionData',
+              attributes: ['firstName', 'lastName'],
+            },
+            {
+              model: db.Allcode,
+              as: 'timeTypePrescription',
+              attributes: ['valueEn', 'valueVi'],
+            },
+           
+          ],
+          raw: false,
+          nest: true,
+        })
+
+        if(!data) data ={};
+
+        resolve({
+          errCode: 0,
+          data: data
+        })
+      }
+    } catch(e) {
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -750,4 +866,7 @@ module.exports = {
     getInforUserBooking: getInforUserBooking,
     getScheduleCancel: getScheduleCancel,
     sendRemedy: sendRemedy,
+    createPrescription: createPrescription,
+    getMedicalRecord: getMedicalRecord,
+
 }
