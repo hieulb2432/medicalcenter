@@ -8,8 +8,12 @@ import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import HomeFooter from '../../HomePage/HomeFooter';
-import { getDetailClinicByIdService } from '../../../services/userService';
+import { getDetailClinicByIdService, getAllSpecialtyService } from '../../../services/userService';
 import _ from 'lodash';
+import Slider from 'react-slick';
+const MarkdownIt = require('markdown-it');
+const mdParser = new MarkdownIt(/* Markdown-it options */);
+
 class DetailClinic extends Component {
     constructor(props) {
         super(props);
@@ -20,6 +24,13 @@ class DetailClinic extends Component {
     }
 
     async componentDidMount() {
+        let res = await getAllSpecialtyService();
+        if(res && res.errCode === 0) {
+        this.setState({
+            dataSpecialty: res.data ? res.data : []
+        })
+        }
+
         if(this.props.match && this.props.match.params && this.props.match.params.id){
             let id = this.props.match.params.id
             let res = await getDetailClinicByIdService({
@@ -48,12 +59,19 @@ class DetailClinic extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshots) {
-        
     }
 
+    handleViewDetailSpecialty = (item) => {
+        if(this.props.history) {
+          this.props.history.push(`/detail-specialty/${item.id}`)
+        }
+      }
+
     render() {
-        let {arrDoctorId, dataDetailClinic} = this.state
+        let {arrDoctorId, dataDetailClinic, dataSpecialty } = this.state
         let {language} = this.props
+        const { item } = this.props;
+        console.log('sdfadf', item)
         return (
             <div className='detail-clinic-container'>
             <HomeHeader isShowBanner={false}/>
@@ -75,7 +93,38 @@ class DetailClinic extends Component {
                     }
                 </div>
 
-                {arrDoctorId && arrDoctorId.length>0 && 
+                <div className='detail-specialty'>
+                  {dataSpecialty && dataSpecialty.length > 0 && 
+                  dataSpecialty.map((item, index) => (
+                      <div className="each-specialty"
+                          key={index}
+                      >
+                          <div className='col-3 content-right' onClick={() => this.handleViewDetailSpecialty(item)}>
+                              <h3 className='specialty-name'>{item.name}</h3>
+                              <div className="bg-img section-specialty"
+                                  style={{ backgroundImage: `url(${item.image})` }} />
+
+                          </div>
+                          <div className='col-9 content-left'>
+                            {item && item.descriptionHTML && (
+                                <>
+                                <div
+                                    className={`description-html ${
+                                    item.descriptionHTML.split('\n').length > 11 ? 'truncated' : ''
+                                    }`}
+                                    dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}
+                                />
+                                <span className="detail-text mt-3" onClick={() => this.handleViewDetailSpecialty(item)}>Xem chi tiết</span>
+                                </>
+                            )}
+                          </div>
+
+                      </div>
+                  ))
+                  }
+                </div>
+
+                {/* {arrDoctorId && arrDoctorId.length>0 && 
                 arrDoctorId.map((item, index) => {
                     return(
                         <div className='each-doctor' key={index}>
@@ -104,7 +153,7 @@ class DetailClinic extends Component {
                         </div>
                     )
                 })
-                }
+                } */}
             </div>
             <HomeFooter />
             </div>

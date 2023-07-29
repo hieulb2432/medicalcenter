@@ -107,7 +107,7 @@ class TableManageUser extends Component {
             startIndex: endIndex + 1,
             endIndex: newEndIndex,
         });
-        };
+    };
 
     handlePrevPage = () => {
     const { startIndex } = this.state;

@@ -82,6 +82,7 @@ class ProfileDoctor extends Component {
 
     render() {
         let { dataProfile }= this.state
+        console.log('ssas',dataProfile)
         let {language, isShowDescriptionDoctor, 
             dataTime, isShowLinkDetail, isShowPrice,
             doctorId} = this.props

@@ -79,7 +79,7 @@
     "choose-date": "Chọn ngày",
     "save": "Lưu thông tin",
     "choose-schedule": "Chọn lịch khám",
-    "detail-schedule": "Doctor's Detail Schedule",
+    "detail-schedule": "Chi tiết lịch khám của bác sĩ",
     "stt": "STT",
     "time": "Thời gian",
     "action": "Thao tác",
@@ -176,7 +176,8 @@
         "close": "Đóng",
         "add-new": "Thêm mới",
         "edit": "Chỉnh sửa Thông tin Cơ Sở y tế",
-        "add": "Thêm mới Cơ sở y tế"
+        "add": "Thêm mới Cơ sở y tế",
+        "clinic-province": "Tỉnh thành"
     },
     "specialty": {
         "manage-specialty": "Quản lý Chuyên khoa",

@@ -9,7 +9,7 @@ import {withRouter} from 'react-router';
 class HomeFooter extends Component {
     returnToHome = () => {
         if(this.props.history) {
-            this.props.history.push(`/home`)
+            this.props.history.push(`/`)
           }
     }
 

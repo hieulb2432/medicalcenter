@@ -10,6 +10,7 @@ import * as actions from '../../../store/actions'
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import {getAllCodeService} from '../../../services/userService'
 import { toast } from 'react-toastify';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
@@ -25,11 +26,18 @@ class ModalEditClinic extends Component {
             imageBase64: this.props.clinic.image,
             descriptionHTML: this.props.clinic.descriptionHTML,
             descriptionMarkdown: this.props.clinic.descriptionMarkdown,
+            provinceId: this.props.clinic.provinceId,
+            listProvince: [],
         };
     }
 
-
-    componentDidMount() {
+    async componentDidMount() {
+        let resProvince = await getAllCodeService('PROVINCE');
+        if (resProvince && resProvince.errCode === 0) {
+              this.setState({
+                listProvince: resProvince.data
+              })
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -88,7 +96,9 @@ class ModalEditClinic extends Component {
     };
 
     render() {
-        const { toggle, clinic } = this.props;
+        const { toggle, clinic, language } = this.props;
+        let {listProvince} = this.state;
+        console.log(clinic)
         return (
           <Modal
             isOpen={this.props.isOpenModalEdit}
@@ -120,6 +130,21 @@ class ModalEditClinic extends Component {
                                 // value={this.state.previewImgURL}
                             >
                             </input>
+                        </div>
+                        <div className='col-6'>
+                            <label><FormattedMessage id="system.clinic.clinic-province"/></label>
+                                <select className="form-control"
+                                    onChange={(event)=>{this.handleOnChangeInput(event, 'provinceId')}}
+                                    value={this.state.provinceId}
+                                >
+                                    {listProvince && listProvince.length > 0 && listProvince.map((item, index) => {
+                                        return (
+                                            <option key = {index} value={item.keyMap}>
+                                                {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
                         </div>
                         <div className='col-6 form-group'>
                             <label><FormattedMessage id="system.clinic.clinic-address"/> <span style={{color: 'red'}}>*</span></label>

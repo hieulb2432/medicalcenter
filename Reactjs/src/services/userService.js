@@ -104,6 +104,10 @@ export const getAllClinicService = () => {
   return axios.get(`/api/get-all-clinic`);
 };
 
+export const getFilterClinic = (data) => {
+  return axios.get(`/api/get-filter-clinic?location=${data.location}`);
+};
+
 export const getDetailClinicByIdService = (data) => {
   return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`);
 };
@@ -150,6 +154,14 @@ export const getAllHistorySchedule = (email, id) => {
 
 export const getAllBooking = () => {
   return axios.get(`/api/get-all-booking`);
+};
+
+export const createNewPrescription = (data) => {
+  return axios.post('/api/create-prescription', data);
+};
+
+export const getMedicalRecord = (patientId) => {
+  return axios.get(`/api/get-medical-record?patientId=${patientId}`);
 };
 
 export { 

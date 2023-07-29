@@ -48,9 +48,9 @@ class HomePage extends Component {
             <>
                 <HomeHeader isShowBanner={true}/>
                 <Statistic/>
-                <Specialty settings={settings} />
+                {/* <Specialty settings={settings} /> */}
                 <MedicalFacility settings={settings} />
-                <OutstandingDoctor settings={settings} />
+                {/* <OutstandingDoctor settings={settings} /> */}
                 <SearchHistory />
                 <HomeFooter />
                 <Hotline />

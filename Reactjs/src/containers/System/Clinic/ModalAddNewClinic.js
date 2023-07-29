@@ -11,6 +11,8 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { toast } from 'react-toastify';
+import {getAllCodeService} from '../../../services/userService'
+import Select from 'react-select';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -24,17 +26,42 @@ class ModalAddNewClinic extends Component {
             imageBase64: '',
             descriptionHTML: '',
             descriptionMarkdown: '',
+            listProvince: [],
+            selectedProvince:'',
         };
     }
 
-
-    componentDidMount() {
+    async componentDidMount() {
+        let resProvince = await getAllCodeService('PROVINCE');
+        if (resProvince && resProvince.errCode === 0) {
+              this.setState({
+                listProvince: resProvince.data
+              })
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         
     }
 
+    buildDataInputSelect = async (inputData, type) => {
+        
+        let result = []
+        let {language} = this.props;
+        if(inputData && inputData.length > 0){
+            if(type === 'PROVINCE'){
+                inputData.map((item, index) => {
+                    let object = {};
+                    let labelVi = `${item.valueVi}`;
+                    let labelEn = `${item.valueEn}`;
+                    object.label = language === LANGUAGES.VI ? labelVi : labelEn 
+                    object.value = item.keyMap;
+                    result.push(object);        
+                });
+            }
+        }
+        return result
+    }
     checkValidateInput = () => {
         let isValid = true;
         let arrCheck = [
@@ -59,7 +86,7 @@ class ModalAddNewClinic extends Component {
         this.setState({
             ...stateCopy
         })
-    }
+        }
 
     handleOnChangeImage = async (event) => {
         let data = event.target.files;
@@ -80,6 +107,10 @@ class ModalAddNewClinic extends Component {
         });
         }
 
+    handleChangeSelectDoctorInfor = (selectedOption) => {
+        this.setState({ selectedProvince: selectedOption });
+        };
+
     handleSaveClinic = async () => {
         await this.props.fetchCreateNewClinic(this.state)
         let isValid = this.checkValidateInput();
@@ -88,7 +119,9 @@ class ModalAddNewClinic extends Component {
     }
 
     render() {
-        const { toggle } = this.props;
+        const { toggle, language } = this.props;
+        let {listProvince, selectedProvince} = this.state;
+        console.log(this.state);
         return (
           <Modal
             isOpen={this.props.isOpenModal}
@@ -115,6 +148,22 @@ class ModalAddNewClinic extends Component {
                                 onChange={(event)=> this.handleOnChangeImage(event)}
                             ></input>
                         </div>
+                        <div className='col-6 form-group'>
+                        <label>
+                            <FormattedMessage id="admin.manage-doctor.province" />
+                        </label>
+                        
+                        <Select
+                            value={this.state.selectedProvince}
+                            onChange={this.handleChangeSelectDoctorInfor}
+                            options={listProvince.map((item, index) => ({
+                                value: item.keyMap,
+                                label: language === LANGUAGES.VI ? item.valueVi : item.valueEn,
+                              }))}
+                            placeholder={<FormattedMessage id="admin.manage-doctor.province" />}
+                            name="selectedProvince"
+                        />
+                    </div>
                         <div className='col-6 form-group'>
                             <label><FormattedMessage id="system.clinic.clinic-address"/> <span style={{color: 'red'}}>*</span></label>
                             <input className='form-control' type='text'

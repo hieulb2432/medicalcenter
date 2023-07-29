@@ -91,6 +91,7 @@ class ManageClinic extends Component {
     render() {
         let {dataClinic, startIndex, endIndex} = this.state
         let {language} = this.props
+        console.log(dataClinic)
         return (
             <div>
                 <div className="clinic-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -124,6 +125,7 @@ class ManageClinic extends Component {
                             <tr>
                                 <th><FormattedMessage id="system.clinic.stt"/></th>
                                 <th><FormattedMessage id="system.clinic.clinic-name"/></th>
+                                <th><FormattedMessage id="system.clinic.clinic-province"/></th>
                                 <th><FormattedMessage id="system.clinic.clinic-address"/></th>
                                 <th><FormattedMessage id="system.clinic.clinic-information"/></th>
                                 <th><FormattedMessage id="system.clinic.clinic-action"/></th>
@@ -135,6 +137,7 @@ class ManageClinic extends Component {
                                     <tr key={index}>
                                         <td>{index+1}</td>
                                         <td>{item.name}</td>
+                                        <td>{item['provinceDataClinic.valueVi']}</td>
                                         <td>{item.address}</td>
                                         <td>
                                         <div

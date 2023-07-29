@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
-import { getAllClinicService } from '../../../services/userService';
+import { getAllClinicService, getFilterClinic, getAllCodeService } from '../../../services/userService';
 import './MedicalFacility.scss';
 import {withRouter} from 'react-router';
+import {LANGUAGES} from '../../../utils';
 import { FormattedMessage } from 'react-intl';
 
 class MedicalFacility extends Component {
@@ -16,17 +17,54 @@ class MedicalFacility extends Component {
   }
 
   async componentDidMount() {
-    let res = await getAllClinicService();
-    if(res && res.errCode === 0){
+  let resClinic = await getFilterClinic({
+      location: 'ALL'
+  })
+
+  let resProvince = await getAllCodeService('PROVINCE')
+  if(resClinic && resClinic.errCode === 0 && resProvince && resProvince.errCode === 0) {
+      // let arr = resClinic.listClinic
+      // let arrUserId = arr
+
+      let dataProvince = resProvince.data
+      if(dataProvince && dataProvince.length>0){
+          dataProvince.unshift({
+              createdAt: null,
+              keyMap: 'ALL',
+              type: 'PROVINCE',
+              valueVi: 'Tất cả',
+              valueEn: 'ALL',
+              });
+      }
       this.setState({
-        dataClinic: res.data ? res.data : []
-      });
+          dataClinic: resClinic.listClinic,
+          listProvince: dataProvince ? dataProvince : []
+      })
+  }
+
+
+    // let res = await getAllClinicService();
+    // if(res && res.errCode === 0){
+    //   this.setState({
+    //     dataClinic: res.data ? res.data : []
+    //   });
+    // }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshots) {}
+
+  handleOnChangeSelect = async (e) => {
+    let location = e.target.value
+    let res = await getFilterClinic({
+        location: location
+    })
+    
+    if(res && res.errCode === 0) {
+        this.setState({
+          dataClinic: res.listClinic,
+        })
     }
-  }
-
-  componentDidUpdate() {
-
-  }
+}
 
   handleViewDetailClinic = (clinic) => {
     if(this.props.history) {
@@ -36,7 +74,9 @@ class MedicalFacility extends Component {
     
   
   render() {
-    let { dataClinic } = this.state
+    let { dataClinic, listProvince } = this.state
+    let {language} = this.props
+    console.log(dataClinic)
         return (
             <div className="section-share section-medical-facility">
             <div className="section-container container">
@@ -44,6 +84,21 @@ class MedicalFacility extends Component {
                 <h2 className="title-section"><FormattedMessage id="homepage.health-facilities"/></h2>
               </div>
               <div className="section-content">
+              <div className='content-up'><FormattedMessage id="admin.manage-doctor.province"/>
+                    <div className='search-sp-clinic mb-3'>
+                          <select style={{width: '150px', height: '30px'}} onChange={(e)=> this.handleOnChangeSelect(e)}>
+                              {listProvince && listProvince.length > 0 &&
+                              listProvince.map((item, index) =>{
+                                  return (
+                                  <option key={index} value={item.keyMap}>
+                                      {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
+                                  </option>
+                                  )
+                              })
+                              }
+                          </select>
+                    </div>
+                </div>
                 <Slider {...this.props.settings}>
                   {dataClinic && dataClinic.length > 0 &&
                   dataClinic.map((item, index) => {

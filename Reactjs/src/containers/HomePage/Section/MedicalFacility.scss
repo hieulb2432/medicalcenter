@@ -7,3 +7,20 @@
       }
     }
   }
+
+  .section-share .section-medical-facility .section-container .container {
+      .section-content{
+        .content-up {
+          .search-sp-clinic {
+            select {
+              height: 30px;
+              padding: 5px 8px;
+              border: none;
+              outline: none;
+              border-radius: 3px;
+              cursor: pointer;
+            }
+          }
+        }
+    }
+  }

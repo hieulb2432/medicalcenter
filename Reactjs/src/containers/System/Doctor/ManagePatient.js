@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import DatePicker from '../../../components/Input/DatePicker'
-import {getAllPatientForDoctorService, postSendRemedyService} from '../../../services/userService'
+import {getAllPatientForDoctorService, postSendRemedyService, createNewPrescription, getMedicalRecord} from '../../../services/userService'
 import './ManagePatient.scss'
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
-import RemedyModal from './RemedyModal';
+import PrescriptionModal from './PrescriptionModal';
+import MedicalRecordModal from './MedicalRecordModal';
 import { toast } from 'react-toastify';
 import LoadingOverlay from 'react-loading-overlay'
 
@@ -16,9 +17,12 @@ class ManagePatient extends Component {
         this.state = {
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
-            isOpenRemedyModal: false,
             dataModal: {},
             isShowLoading: false,
+            isOpenPrescriptionModal: false,
+            isOpenMedicalRecord: false,
+            dataPrescriptionModal: {},
+            dataMedicalRecord: {}
         }
     }
 
@@ -43,7 +47,6 @@ class ManagePatient extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshots) {
-
     }
 
     handleOnChangeDatePicker = (date) => {
@@ -60,41 +63,53 @@ class ManagePatient extends Component {
             patientId: item.patientId,
             email: item.patientData.email,
             timeType: item.timeType,
-            patientName: item.patientData.firstName
+            date: item.date,
+            patientName: item.patientData.firstName,
+            patientAddress: item.patientData.address
         }
         this.setState({
-            isOpenRemedyModal: true,
-            dataModal: data
+            isOpenPrescriptionModal: true,
+            dataPrescriptionModal: data
         })
     }
 
-    closeRemedyModal = () => {
+    handelBtnMedical = async (item) => {
+        let dataMedicalRecord = await getMedicalRecord(item.patientId)
         this.setState({
-            isOpenRemedyModal: false,
-            dataModal: {}
+            isOpenMedicalRecord: true,
+            dataMedicalRecord: dataMedicalRecord
         })
     }
 
-    sendRemedy = async (dataChild) => {
-        let {dataModal} = this.state
+    closePrescriptionModal = () => {
+        this.setState({
+            isOpenPrescriptionModal: false,
+            dataPrescriptionModal: {}
+        })
+    }
+
+    createPrescription = async (data) => {
+        let {dataPrescriptionModal} = this.state
         this.setState({
             isShowLoading: true
         })
-        let res = await postSendRemedyService({
-            email: dataChild.email,
-            imgBase64: dataChild.imgBase64,
-            doctorId: dataModal.doctorId,
-            patientId: dataModal.patientId,
-            timeType: dataModal.timeType,
+        let res = await createNewPrescription({
+            diagnostic: data.diagnostic,
+            doctorAdvice: data.doctorAdvice,
+            doctorId: dataPrescriptionModal.doctorId,
+            patientId: dataPrescriptionModal.patientId,
+            timeType: dataPrescriptionModal.timeType,
+            date: dataPrescriptionModal.date,
+            patientName: dataPrescriptionModal.patientName,
             language: this.props.language,
-            patientName: dataModal.patientName,
+            dataDrug: data.data
         })
         if(res && res.errCode === 0){
             this.setState({
                 isShowLoading: false
             })
             toast.success('Gửi hóa đơn thành công')
-            this.closeRemedyModal()
+            this.closePrescriptionModal()
             await this.getDataPatient()
         } else {
             this.setState({
@@ -102,10 +117,18 @@ class ManagePatient extends Component {
             })
             toast.error('Gặp lỗi. Bạn vui lòng kiểm tra lại.')
         }
+       
+    }
+
+    closeMedicalRecord = () => {
+        this.setState({
+            isOpenMedicalRecord: false,
+        })
     }
 
     render() {
-        let {dataPatient, isOpenRemedyModal, dataModal} = this.state
+        let {dataPatient, isOpenPrescriptionModal, 
+            dataPrescriptionModal, isOpenMedicalRecord, dataMedicalRecord} = this.state
         let {currentDate} = this.state
         let {language} = this.props
         return (
@@ -155,9 +178,17 @@ class ManagePatient extends Component {
                                         <td>{gender}</td>
                                         <td>{item.patientData.address}</td>
                                         <td>
-                                            <button className='btn btn-primary'
+                                            <button className='btn btn-primary mr-3'
                                                 onClick={() => this.handleBtnConfirm(item)}
-                                            ><FormattedMessage id="manage-schedule.send-remedy"/>
+                                            >Tạo phiếu khám bệnh
+                                            </button>
+                                            <button className='btn btn-primary mr-3'
+                                                onClick={() => this.handelBtnMedical(item)}
+                                            >Xem hồ sơ bệnh án
+                                            </button>
+                                            <button className='btn btn-primary'
+                                                // onClick={() => this.handleBtnConfirm(item)}
+                                            >Lấy xét nghiệm
                                             </button>
                                         </td>
                                     </tr>
@@ -177,13 +208,20 @@ class ManagePatient extends Component {
                     </div>
                     </div>
                 </div>
-                <RemedyModal 
-                    isOpenModal= {isOpenRemedyModal}
-                    dataModal={dataModal}
-                    closeRemedyModal={this.closeRemedyModal}
-                    sendRemedy={this.sendRemedy}
+
+                <PrescriptionModal 
+                    isOpenModal= {isOpenPrescriptionModal}
+                    dataPrescriptionModal={dataPrescriptionModal}
+                    closePrescriptionModal={this.closePrescriptionModal}
+                    createPrescription={this.createPrescription}
                 />
                 
+                <MedicalRecordModal
+                    isOpenModal= {isOpenMedicalRecord}
+                    dataMedicalRecord={dataMedicalRecord}
+                    closeMedicalRecord={this.closeMedicalRecord}
+                    // createPrescription={this.createPrescription}
+                />
             </LoadingOverlay>
             </div>
         );

@@ -95,6 +95,7 @@ class DetailSpecialty extends Component {
     
     render() {
         let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
+        console.log(dataDetailSpecialty)
         let {language} = this.props
         return (
             <div className='detail-specialty-container'>
@@ -111,7 +112,7 @@ class DetailSpecialty extends Component {
                             </div>
                         }
                     </div>
-                    <div className='search-sp-doctor'>
+                    {/* <div className='search-sp-doctor'>
                         <select onChange={(e)=> this.handleOnChangeSelect(e)}>
                             {listProvince && listProvince.length > 0 &&
                             listProvince.map((item, index) =>{
@@ -123,7 +124,7 @@ class DetailSpecialty extends Component {
                             })
                             }
                         </select>
-                    </div>
+                    </div> */}
 
                     {arrDoctorId && arrDoctorId.length>0 && 
                     arrDoctorId.map((item, index) => {

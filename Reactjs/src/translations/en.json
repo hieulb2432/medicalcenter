@@ -163,7 +163,8 @@
             "close": "Close",
             "add-new": "Add New",
             "edit": "Edit Clinic's Information",
-            "add": "Add New Clinic"
+            "add": "Add New Clinic",
+            "clinic-province": "Clinic's Province"
         },
         "specialty": {
             "manage-specialty": "Manage Specialty",

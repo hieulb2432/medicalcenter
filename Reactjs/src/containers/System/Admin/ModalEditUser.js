@@ -133,6 +133,7 @@ class ModalEditUser extends Component {
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
         let language = this.props.language;
+        console.log(user)
 
         return (
           <Modal
