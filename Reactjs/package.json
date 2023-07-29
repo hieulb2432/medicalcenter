@@ -12,6 +12,7 @@
     "bootstrap": "^4.6.0",
     "connected-react-router": "^6.9.1",
     "fontkit": "^2.0.2",
+    "html2pdf.js": "^0.10.1",
     "lodash": "^4.17.21",
     "markdown-it": "^12.1.0",
     "moment": "^2.29.0",

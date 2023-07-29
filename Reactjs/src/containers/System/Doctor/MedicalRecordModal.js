@@ -8,8 +8,6 @@ import moment from 'moment';
 import {getAllCodeService, getMedicalRecord} from '../../../services/userService';
 import {CommonUtils, LANGUAGES} from '../../../utils'
 import './Prescription.scss';
-// import { PDFViewer, Document, Page, Text } from '@react-pdf/renderer';
-// import { create } from 'pdfkit';
 
 class MedicalRecordModal extends Component {
     constructor(props) {
@@ -28,7 +26,6 @@ class MedicalRecordModal extends Component {
 
     async componentDidMount() {
     }
-
 
     componentDidUpdate(prevProps, prevState, snapshots) {
     }
@@ -129,6 +126,7 @@ class MedicalRecordModal extends Component {
                     
                         })}
                     </div>
+
                 </ModalBody>
                 <ModalFooter>
                     {/* <Button color="primary" onClick={handleDownloadPDF}><label style={{ marginBottom: '0' }}>Tải PDF</label></Button> */}

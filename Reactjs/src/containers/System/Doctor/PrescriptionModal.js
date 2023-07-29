@@ -8,7 +8,7 @@ import moment from 'moment';
 import {getAllCodeService} from '../../../services/userService';
 import {CommonUtils, LANGUAGES} from '../../../utils'
 import './Prescription.scss';
-
+import html2pdf from 'html2pdf.js';
 
 class PrescriptionModal extends Component {
     constructor(props) {
@@ -35,6 +35,11 @@ class PrescriptionModal extends Component {
                 email: this.props.dataPrescriptionModal.email,
                 patientName: this.props.dataPrescriptionModal.patientName,
                 patientAddress: this.props.dataPrescriptionModal.patientAddress,
+                doctorFirstName: this.props.dataPrescriptionModal.doctorFirstName,
+                doctorLastName: this.props.dataPrescriptionModal.doctorLastName,
+                date: this.props.dataPrescriptionModal.date,
+                timeTypeVi: this.props.dataPrescriptionModal.timeTypeVi,
+                timeTypeEn: this.props.dataPrescriptionModal.timeTypeEn
             })
         }
 
@@ -125,10 +130,29 @@ class PrescriptionModal extends Component {
         }
     };
 
+  // Hàm để tải file PDF
+  handleDownloadPDF = () => {
+    const element = document.getElementById('pdf-content');
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: 'medical_record.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf()
+      .from(element)
+      .set(opt)
+      .save();
+      console.log('a')
+  }
+
     render() {
         let {isOpenModal, closePrescriptionModal, dataPrescriptionModal, language} = this.props;
-        let { data, listDrug, selectedDrug, selectedDrugInfo } = this.state;
-        console.log(selectedDrugInfo);
+        let { data, listDrug } = this.state;
+        console.log('data', dataPrescriptionModal)
+        let formattedDate = moment.unix(+this.state.date / 1000).format('DD/MM/YYYY')
         return (
             <Modal 
                 isOpen={isOpenModal} 
@@ -143,8 +167,21 @@ class PrescriptionModal extends Component {
                     </button>
                 </div>
                 <ModalBody>
+                <div id="pdf-content">
                     <div className='row'>
                         <div className='col-12 content-up'>
+                            <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin lịch khám</div>
+                            <div className='' style={{display: 'flex'}}>
+                                <div className='col-6 doctor-name' style={{display: 'flex'}}>
+                                    <div className=''>Bác sĩ</div>
+                                    <div className='col-7'>{this.state.doctorLastName} {this.state.doctorFirstName}</div>
+                                </div>
+                                <div className='col-6 date' style={{display: 'flex'}}>
+                                    <div className='col-5'>Thời gian khám</div>
+                                    <div className='col-7'>{this.state.timeTypeVi} {formattedDate}</div>
+                                </div>
+                            </div>
+
                             <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin bệnh nhân</div>
                             <div className='patient-name' style={{display: 'flex'}}>
                                 <div className='col-3'>Họ tên bệnh nhân</div>
@@ -224,12 +261,12 @@ class PrescriptionModal extends Component {
                                 ></input>
                             </div>
                         </div>
-
+                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={()=>this.createNewPrescription()}><label style={{marginBottom: '0'}}>Lưu</label></Button>{' '}
-                    <Button color="primary" onClick={()=>this.handleSendRemedy()}><label style={{marginBottom: '0'}}>In phiếu</label></Button>{' '}
+                    <Button color="primary" onClick={this.handleDownloadPDF}><label style={{ marginBottom: '0' }}>In phiếu</label></Button>{' '}
                     <Button color="secondary" onClick={closePrescriptionModal}><label style={{marginBottom: '0'}}>Hủy</label></Button>
                 </ModalFooter>
             </Modal>

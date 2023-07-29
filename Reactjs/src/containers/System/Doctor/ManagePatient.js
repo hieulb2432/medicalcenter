@@ -65,7 +65,11 @@ class ManagePatient extends Component {
             timeType: item.timeType,
             date: item.date,
             patientName: item.patientData.firstName,
-            patientAddress: item.patientData.address
+            patientAddress: item.patientData.address,
+            doctorFirstName: item.doctorDataUser.firstName,
+            doctorLastName: item.doctorDataUser.lastName,
+            timeTypeVi: item.timeTypeDataPatient.valueVi,
+            timeTypeEn: item.timeTypeDataPatient.valueEn
         }
         this.setState({
             isOpenPrescriptionModal: true,
@@ -131,6 +135,7 @@ class ManagePatient extends Component {
             dataPrescriptionModal, isOpenMedicalRecord, dataMedicalRecord} = this.state
         let {currentDate} = this.state
         let {language} = this.props
+        console.log('cehdjh',dataPatient)
         return (
             <div className='col-10'>
             <LoadingOverlay
