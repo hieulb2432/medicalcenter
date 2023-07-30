@@ -176,7 +176,6 @@ let getInforUserBooking = async (req, res) => {
 
 let getScheduleCancel = async (req, res) => {
     try{
-        console.log('a',req.query)
         let infor = await doctorService.getScheduleCancel(req.query.doctorId, req.query.date, req.query.timeType);
         return res.status(200).json(infor);
     } catch (e){
@@ -216,7 +215,6 @@ let createPrescription = async (req, res) => {
 
 let getMedicalRecord = async (req, res) => {
     try{
-        console.log('a',req.query)
         let infor = await doctorService.getMedicalRecord(req.query.patientId);
         return res.status(200).json(infor);
     } catch (e){
@@ -233,6 +231,72 @@ let editMedicalRecord = async (req, res) => {
     let message = await clinicService.editMedicalRecord(data);
     return res.status(200).json(message);
 };
+
+let createTest = async (req, res) => {
+    try{
+        let infor = await doctorService.createTest(req.body);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
+let getTest = async (req, res) => {
+    try{
+        let infor = await doctorService.getTest(req.query.doctorId, req.query.date);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
+let sendTest = async (req, res) => {
+    try{
+        let infor = await doctorService.sendTest(req.body);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
+let getTestDone = async (req, res) => {
+    try{
+        let infor = await doctorService.getTestDone(req.query.doctorId, req.query.date);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
+let getTestResult = async (req, res) => {
+    try{
+        let infor = await doctorService.getTestResult(req.query.doctorId, req.query.date, req.query.patientId, req.query.timeType);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
 
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
@@ -252,5 +316,10 @@ module.exports = {
     sendRemedy: sendRemedy,
     createPrescription: createPrescription,
     getMedicalRecord: getMedicalRecord,
-    editMedicalRecord: editMedicalRecord
+    editMedicalRecord: editMedicalRecord,
+    createTest: createTest,
+    getTest: getTest,
+    sendTest: sendTest,
+    getTestDone: getTestDone,
+    getTestResult: getTestResult
 }

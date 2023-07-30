@@ -756,8 +756,6 @@ let createPrescription = (data) => {
           }, 
           raw: false
         })
-        console.log(checkPrescription)
-
         if(!checkPrescription) {
           await db.Prescription.create({
               diagnostic: data.diagnostic,
@@ -769,7 +767,8 @@ let createPrescription = (data) => {
               patientId: data.patientId,
               date: data.date,
               timeType: data.timeType,
-              quantity: JSON.stringify(data.dataDrug)
+              quantity: JSON.stringify(data.dataDrug),
+              bookingId: data.bookingId,
           })
         } else {
           checkPrescription.diagnostic = data.diagnostic,
@@ -778,11 +777,22 @@ let createPrescription = (data) => {
           checkPrescription.note = data.note,
           checkPrescription.doctorAdvice = data.doctorAdvice,
           checkPrescription.quantity = JSON.stringify(data.dataDrug)
+          checkPrescription.bookingId = data.bookingId
           await checkPrescription.save();
           resolve({
             errCode: 0,
             message: 'Update Prescription data successfully!',
           });
+        }
+        let checkBooking = await db.Booking.findOne({
+          where: {
+            id: checkPrescription.bookingId
+          },
+          raw: false,
+        })
+        if (checkBooking) {
+          checkBooking.statusId = 'S3'
+          await checkBooking.save();
         }
         resolve({
             errCode: 0,
@@ -854,6 +864,253 @@ let getMedicalRecord = (patientId) => {
   })
 }
 
+let createTest = (data) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!data.order){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let checkBooking = await db.Booking.findOne({
+          where: {
+            doctorId: data.doctorId,
+            patientId: data.patientId,
+            date: data.date,
+            timeType: data.timeType,
+          }, 
+          raw: false
+        })
+
+        if(checkBooking) {
+          let checkTest = await db.Tests.findOne({
+            where: {
+              doctorId: data.doctorId,
+              patientId: data.patientId,
+              date: data.date,
+              timeType: data.timeType,
+            }, 
+            raw: false,
+          })
+          if(!checkTest) {
+            await db.Tests.create({
+              doctorId: data.doctorId,
+              patientId: data.patientId,
+              date: data.date,
+              timeType: data.timeType,
+              order: data.order,
+              bookingId: data.bookingId,
+              testStatusId: 'T1'
+            })
+          } 
+          else {
+            checkTest.doctorId = data.doctorId,
+            checkTest.patientId= data.patientId,
+            checkTest.date= data.date,
+            checkTest.timeType = data.timeType,
+            checkTest.order = data.order,
+            checkTest.bookingId = data.bookingId,
+            checkTest.testStatusId = 'T1'
+            await checkTest.save()
+            resolve({
+              errCode: 0,
+              message: 'Update Prescription data successfully!',
+            });
+          }
+          resolve({
+            errCode: 0,
+            message: 'Update Prescription data successfully!',
+          });
+        }
+        resolve({
+            errCode: 0,
+            errMessage: 'OKKK',
+        })
+      }
+    } catch(e){
+      reject(e);
+    }
+  })
+}
+
+let getTest = (doctorId, date) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!doctorId || !date){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let data = await db.Tests.findAll({
+          where: {
+            testStatusId: 'T1',
+            doctorId: doctorId,
+            date: date,
+          },
+          include: [
+            {
+              model: db.Booking, as: 'bookingData',
+              include: [
+                {model: db.User, as: 'patientData', attributes: ['firstName', 'lastName', 'address', 'id']},
+                {model: db.User, as: 'doctorDataUser', attributes: ['firstName', 'lastName']},
+                {
+                  model: db.Allcode, as: 'timeTypeDataPatient',
+                  attributes: ['valueVi', 'valueEn']
+                }
+              ]
+            },
+          ],
+          raw: false,
+          nest: true,
+        })
+        resolve({
+          errCode: 0,
+          data: data
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let sendTest = (data) => {
+  return new Promise(async(resolve, reject) => {
+    try{
+      if(!data.result || !data.testImage){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+          let checkTest = await db.Tests.findOne({
+            where: {
+              doctorId: data.doctorId,
+              patientId: data.patientId,
+              date: data.date,
+              timeType: data.timeType,
+            }, 
+            raw: false,
+          })
+          if(checkTest) {
+            checkTest.doctorId = data.doctorId,
+            checkTest.patientId= data.patientId,
+            checkTest.date= data.date,
+            checkTest.timeType = data.timeType,
+            checkTest.order = data.order,
+            checkTest.bookingId = data.bookingId,
+            checkTest.result = data.result,
+            checkTest.testStatusId = 'T2',
+            checkTest.testImage = data.testImage
+            await checkTest.save()
+            resolve({
+              errCode: 0,
+              message: 'Update Prescription data successfully!',
+            });
+          }
+          resolve({
+            errCode: 0,
+            message: 'Update Prescription data successfully!',
+          });
+        
+        resolve({
+            errCode: 0,
+            errMessage: 'OKKK',
+        })
+      }
+    } catch(e){
+      reject(e);
+    }
+  })
+}
+
+let getTestDone = (doctorId, date) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!doctorId || !date){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let data = await db.Tests.findAll({
+          where: {
+            testStatusId: 'T2',
+            doctorId: doctorId,
+            date: date,
+          },
+          include: [
+            {
+              model: db.Booking, as: 'bookingData',
+              include: [
+                {model: db.User, as: 'patientData', attributes: ['firstName', 'lastName', 'address', 'id']},
+                {model: db.User, as: 'doctorDataUser', attributes: ['firstName', 'lastName']},
+                {
+                  model: db.Allcode, as: 'timeTypeDataPatient',
+                  attributes: ['valueVi', 'valueEn']
+                }
+              ]
+            },
+          ],
+          raw: false,
+          nest: true,
+        })
+        resolve({
+          errCode: 0,
+          data: data
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let getTestResult = (timeType, date, patientId, doctorId) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!timeType || !date || !patientId || !doctorId){
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let checkData = await db.Tests.findOne({
+          where: {
+            timeType: timeType,
+            date: date,
+            patientId: patientId,
+            doctorId: doctorId
+          },
+          include: [
+            {
+              model: db.Booking, as: 'bookingData',
+              include: [
+                {model: db.User, as: 'patientData', attributes: ['firstName', 'lastName', 'address', 'id']},
+                {model: db.User, as: 'doctorDataUser', attributes: ['firstName', 'lastName']},
+                {
+                  model: db.Allcode, as: 'timeTypeDataPatient',
+                  attributes: ['valueVi', 'valueEn']
+                }
+              ]
+            },
+          ],
+          raw: false,
+          nest: true,
+        })
+        resolve({
+          errCode: 0,
+          data: checkData
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -872,5 +1129,9 @@ module.exports = {
     sendRemedy: sendRemedy,
     createPrescription: createPrescription,
     getMedicalRecord: getMedicalRecord,
-
+    createTest: createTest,
+    getTest: getTest,
+    sendTest: sendTest,
+    getTestDone: getTestDone,
+    getTestResult: getTestResult
 }
