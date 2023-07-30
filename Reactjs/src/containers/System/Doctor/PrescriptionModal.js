@@ -39,7 +39,8 @@ class PrescriptionModal extends Component {
                 doctorLastName: this.props.dataPrescriptionModal.doctorLastName,
                 date: this.props.dataPrescriptionModal.date,
                 timeTypeVi: this.props.dataPrescriptionModal.timeTypeVi,
-                timeTypeEn: this.props.dataPrescriptionModal.timeTypeEn
+                timeTypeEn: this.props.dataPrescriptionModal.timeTypeEn,
+                
             })
         }
 
@@ -96,17 +97,6 @@ class PrescriptionModal extends Component {
         })
     }
 
-    handleOnChangeImage = async (event) => {
-        let data = event.target.files;
-        let file = data[0];
-        if (file) {
-            let base64 = await CommonUtils.getBase64(file);
-            this.setState({
-                imgBase64: base64,
-          });
-        }
-    };    
-
     createNewPrescription = () => {
         this.props.createPrescription(this.state)
     }
@@ -130,28 +120,27 @@ class PrescriptionModal extends Component {
         }
     };
 
-  // Hàm để tải file PDF
-  handleDownloadPDF = () => {
-    const element = document.getElementById('pdf-content');
-    const opt = {
-      margin: [10, 10, 10, 10],
-      filename: 'medical_record.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
+    // Hàm để tải file PDF
+    handleDownloadPDF = () => {
+        const element = document.getElementById('pdf-content');
+        const opt = {
+        margin: [10, 10, 10, 10],
+        filename: 'medical_record.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
-    html2pdf()
-      .from(element)
-      .set(opt)
-      .save();
-      console.log('a')
-  }
+        html2pdf()
+        .from(element)
+        .set(opt)
+        .save();
+        console.log('a')
+    }
 
     render() {
         let {isOpenModal, closePrescriptionModal, dataPrescriptionModal, language} = this.props;
         let { data, listDrug } = this.state;
-        console.log('data', dataPrescriptionModal)
         let formattedDate = moment.unix(+this.state.date / 1000).format('DD/MM/YYYY')
         return (
             <Modal 

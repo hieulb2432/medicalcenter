@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import DatePicker from '../../../components/Input/DatePicker'
-import {getAllPatientForDoctorService, postSendRemedyService, createNewPrescription, getMedicalRecord} from '../../../services/userService'
+import {getAllPatientForDoctorService, createNewPrescription,
+    getMedicalRecord, createTest, getTestResult} from '../../../services/userService'
 import './ManagePatient.scss'
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
 import PrescriptionModal from './PrescriptionModal';
 import MedicalRecordModal from './MedicalRecordModal';
+import TestModal from './TestModal';
 import { toast } from 'react-toastify';
 import LoadingOverlay from 'react-loading-overlay'
+import TestResultModal from './TestResultModal';
 
 class ManagePatient extends Component {
     constructor(props) {
@@ -21,8 +24,12 @@ class ManagePatient extends Component {
             isShowLoading: false,
             isOpenPrescriptionModal: false,
             isOpenMedicalRecord: false,
+            isOpenTestModal: false,
+            isopenTestResultModal: false,
             dataPrescriptionModal: {},
-            dataMedicalRecord: {}
+            dataMedicalRecord: {},
+            dataTestModal: {},
+            dataTestResultModal: {},
         }
     }
 
@@ -69,7 +76,8 @@ class ManagePatient extends Component {
             doctorFirstName: item.doctorDataUser.firstName,
             doctorLastName: item.doctorDataUser.lastName,
             timeTypeVi: item.timeTypeDataPatient.valueVi,
-            timeTypeEn: item.timeTypeDataPatient.valueEn
+            timeTypeEn: item.timeTypeDataPatient.valueEn,
+            bookingId: item.id
         }
         this.setState({
             isOpenPrescriptionModal: true,
@@ -82,6 +90,40 @@ class ManagePatient extends Component {
         this.setState({
             isOpenMedicalRecord: true,
             dataMedicalRecord: dataMedicalRecord
+        })
+    }
+
+    handleBtnTest = async (item) => {
+        let data = {
+            doctorId: item.doctorId,
+            patientId: item.patientId,
+            timeType: item.timeType,
+            date: item.date,
+            patientName: item.patientData.firstName,
+            patientAddress: item.patientData.address,
+            doctorFirstName: item.doctorDataUser.firstName,
+            doctorLastName: item.doctorDataUser.lastName,
+            timeTypeVi: item.timeTypeDataPatient.valueVi,
+            timeTypeEn: item.timeTypeDataPatient.valueEn,
+            bookingId: item.id
+        }
+        this.setState({
+            isOpenTestModal: true,
+            dataTestModal: data
+        })
+    }
+
+    handleBtnTestResult = async (item) => {
+        let dataTestResultModal = await getTestResult(item.patientId, item.date, item.doctorId, item.timeType)
+        this.setState({
+            isopenTestResultModal: true,
+            dataTestResultModal: dataTestResultModal
+        })
+    }
+
+    closeTestResultModal = () => {
+        this.setState({
+            isopenTestResultModal: false,
         })
     }
 
@@ -106,7 +148,8 @@ class ManagePatient extends Component {
             date: dataPrescriptionModal.date,
             patientName: dataPrescriptionModal.patientName,
             language: this.props.language,
-            dataDrug: data.data
+            dataDrug: data.data,
+            bookingId: dataPrescriptionModal.bookingId
         })
         if(res && res.errCode === 0){
             this.setState({
@@ -121,7 +164,35 @@ class ManagePatient extends Component {
             })
             toast.error('Gặp lỗi. Bạn vui lòng kiểm tra lại.')
         }
-       
+    }
+  
+    createTest = async (data) => {
+        let {dataTestModal} = this.state
+        this.setState({
+            isShowLoading: true
+        })
+        let res = await createTest({
+            doctorId: dataTestModal.doctorId,
+            patientId: dataTestModal.patientId,
+            timeType: dataTestModal.timeType,
+            date: dataTestModal.date,
+            bookingId: dataTestModal.bookingId,
+            order: data.order,
+            language: this.props.language,
+        })
+        if(res && res.errCode === 0){
+            this.setState({
+                isShowLoading: false
+            })
+            toast.success('Gửi hóa đơn thành công')
+            this.closeTestModal()
+            await this.getDataPatient()
+        } else {
+            this.setState({
+                isShowLoading: false
+            })
+            toast.error('Gặp lỗi. Bạn vui lòng kiểm tra lại.')
+        }
     }
 
     closeMedicalRecord = () => {
@@ -130,12 +201,21 @@ class ManagePatient extends Component {
         })
     }
 
+    closeTestModal = () => {
+        this.setState({
+            isOpenTestModal: false,
+        })
+    }
+
     render() {
-        let {dataPatient, isOpenPrescriptionModal, 
-            dataPrescriptionModal, isOpenMedicalRecord, dataMedicalRecord} = this.state
+        let {dataPatient, isOpenPrescriptionModal, dataPrescriptionModal,
+            isOpenMedicalRecord, dataMedicalRecord, isOpenTestModal, dataTestModal,
+            isopenTestResultModal, dataTestResultModal, item
+        } = this.state
         let {currentDate} = this.state
         let {language} = this.props
-        console.log('cehdjh',dataPatient)
+        console.log(item)
+        // console.log(item)
         return (
             <div className='col-10'>
             <LoadingOverlay
@@ -191,9 +271,13 @@ class ManagePatient extends Component {
                                                 onClick={() => this.handelBtnMedical(item)}
                                             >Xem hồ sơ bệnh án
                                             </button>
+                                            <button className='btn btn-primary mr-3'
+                                                onClick={() => this.handleBtnTest(item)}
+                                            >Yêu cầu xét nghiệm
+                                            </button>
                                             <button className='btn btn-primary'
-                                                // onClick={() => this.handleBtnConfirm(item)}
-                                            >Lấy xét nghiệm
+                                                onClick={() => this.handleBtnTestResult(item)}
+                                            >Xem xét nghiệm
                                             </button>
                                         </td>
                                     </tr>
@@ -225,8 +309,21 @@ class ManagePatient extends Component {
                     isOpenModal= {isOpenMedicalRecord}
                     dataMedicalRecord={dataMedicalRecord}
                     closeMedicalRecord={this.closeMedicalRecord}
-                    // createPrescription={this.createPrescription}
                 />
+
+                <TestModal 
+                    isOpenModal= {isOpenTestModal}
+                    dataTestModal={dataTestModal}
+                    closeTestModal={this.closeTestModal}
+                    createTest={this.createTest}
+                />
+
+                <TestResultModal 
+                    isOpenModal= {isopenTestResultModal}
+                    dataTestResultModal={dataTestResultModal}
+                    closeTestResultModal={this.closeTestResultModal}
+                />
+                
             </LoadingOverlay>
             </div>
         );

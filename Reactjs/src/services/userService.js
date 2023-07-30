@@ -160,8 +160,28 @@ export const createNewPrescription = (data) => {
   return axios.post('/api/create-prescription', data);
 };
 
+export const createTest = (data) => {
+  return axios.post('/api/create-test', data);
+};
+
 export const getMedicalRecord = (patientId) => {
   return axios.get(`/api/get-medical-record?patientId=${patientId}`);
+};
+
+export const getTest = (data) => {
+  return axios.get(`/api/get-test?doctorId=${data.doctorId}&date=${data.date}`);
+};
+
+export const sendTest = (data) => {
+  return axios.post('/api/send-test', data);
+};
+
+export const getTestDone = (data) => {
+  return axios.get(`/api/get-test-done?doctorId=${data.doctorId}&date=${data.date}`);
+};
+
+export const getTestResult = (doctorId, date, timeType, patientId) => {
+  return axios.get(`/api/get-test-result?doctorId=${doctorId}&date=${date}&timeType=${timeType}&patientId=${patientId}`);
 };
 
 export { 

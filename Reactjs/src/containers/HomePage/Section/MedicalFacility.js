@@ -76,7 +76,6 @@ class MedicalFacility extends Component {
   render() {
     let { dataClinic, listProvince } = this.state
     let {language} = this.props
-    console.log(dataClinic)
         return (
             <div className="section-share section-medical-facility">
             <div className="section-container container">

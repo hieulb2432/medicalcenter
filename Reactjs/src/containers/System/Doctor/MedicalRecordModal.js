@@ -32,7 +32,6 @@ class MedicalRecordModal extends Component {
 
     render() {
         let {isOpenModal, closeMedicalRecord, dataMedicalRecord} = this.props;
-        console.log('aasd',dataMedicalRecord);
 
         return (
             <Modal 

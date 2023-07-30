@@ -58,6 +58,10 @@ class Login extends Component {
                     redirectPath = '/doctor/manage-schedule';
                     navigate(`${redirectPath}`)
                 }
+                if(role === USER_ROLE.TESTSTAFF) {
+                    redirectPath = '/teststaff/manage-test';
+                    navigate(`${redirectPath}`)
+                }
                 this.props.userLoginSuccess(data.user)
             }
         } catch (err) {

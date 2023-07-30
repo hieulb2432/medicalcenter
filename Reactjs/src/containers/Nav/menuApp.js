@@ -58,3 +58,21 @@ export const doctorMenu = [
     ],
   },
 ];
+
+export const testStaffMenu = [
+  {
+    name: 'menu.admin.manage-user',
+    menus: [
+      {
+        //Quản lý xét nghiệm bệnh nhân
+        name: 'menu.doctor.manage-schedule',
+        link: '/teststaff/manage-test',
+      },
+      {
+        //Quản lý xét nghiệm bệnh nhân đã xong
+        name: 'menu.doctor.manage-schedule',
+        link: '/teststaff/manage-test-done',
+      },
+    ],
+  },
+];

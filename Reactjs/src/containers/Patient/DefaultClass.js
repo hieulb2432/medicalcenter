@@ -13,7 +13,6 @@ class DefaultClass extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshots) {
-
     }
 
     render() {
