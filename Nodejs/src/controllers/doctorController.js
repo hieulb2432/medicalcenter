@@ -286,7 +286,7 @@ let getTestDone = async (req, res) => {
 
 let getTestResult = async (req, res) => {
     try{
-        let infor = await doctorService.getTestResult(req.query.doctorId, req.query.date, req.query.patientId, req.query.timeType);
+        let infor = await doctorService.getTestResult(req.query.bookingId);
         return res.status(200).json(infor);
     } catch (e){
         console.log(e);

@@ -1068,10 +1068,10 @@ let getTestDone = (doctorId, date) => {
   })
 }
 
-let getTestResult = (timeType, date, patientId, doctorId) => {
+let getTestResult = (bookingId) => {
   return new Promise(async(resolve, reject) => {
     try {
-      if(!timeType || !date || !patientId || !doctorId){
+      if(!bookingId){
         resolve({
           errCode: 1,
           errMessage: 'Missing required parameters'
@@ -1079,10 +1079,7 @@ let getTestResult = (timeType, date, patientId, doctorId) => {
       } else {
         let checkData = await db.Tests.findOne({
           where: {
-            timeType: timeType,
-            date: date,
-            patientId: patientId,
-            doctorId: doctorId
+            bookingId: bookingId,
           },
           include: [
             {
@@ -1090,10 +1087,7 @@ let getTestResult = (timeType, date, patientId, doctorId) => {
               include: [
                 {model: db.User, as: 'patientData', attributes: ['firstName', 'lastName', 'address', 'id']},
                 {model: db.User, as: 'doctorDataUser', attributes: ['firstName', 'lastName']},
-                {
-                  model: db.Allcode, as: 'timeTypeDataPatient',
-                  attributes: ['valueVi', 'valueEn']
-                }
+                {model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueVi', 'valueEn']}
               ]
             },
           ],
