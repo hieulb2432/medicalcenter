@@ -11,7 +11,6 @@ import Select from 'react-select';
 import { LANGUAGES } from '../../../utils';
 import * as actions from '../../../store/actions';
 import SeeTestFromStaffModal from './SeeTestFromStaffModal';
-import { sendTest } from '../../../services/userService';
 
 class DefaultClass extends Component {
     constructor(props) {
@@ -135,7 +134,7 @@ class DefaultClass extends Component {
         return (
             <div className='col-10 manage-patient-container'>
             <div className='patient-title mt-4' style={{color: '#ff5400'}}>
-            <FormattedMessage id="manage-schedule.manage-patient"/>
+            <FormattedMessage id="menu.teststaff.test-done-page"/>
             </div>
             <div className='schedule-container mt-3'>
                 <div className='row'>
@@ -145,7 +144,6 @@ class DefaultClass extends Component {
                             onChange={this.handleOnChangeDatePicker}
                             className='form-control'
                             value={currentDate}
-
                         />
                 </div>
                 <div className='col-3 form-group'>

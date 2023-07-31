@@ -180,8 +180,8 @@ export const getTestDone = (data) => {
   return axios.get(`/api/get-test-done?doctorId=${data.doctorId}&date=${data.date}`);
 };
 
-export const getTestResult = (doctorId, date, timeType, patientId) => {
-  return axios.get(`/api/get-test-result?doctorId=${doctorId}&date=${date}&timeType=${timeType}&patientId=${patientId}`);
+export const getTestResult = (bookingId) => {
+  return axios.get(`/api/get-test-result?bookingId=${bookingId}`);
 };
 
 export { 

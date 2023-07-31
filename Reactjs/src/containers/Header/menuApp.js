@@ -38,7 +38,7 @@ export const adminMenu = [
 
 export const doctorMenu = [
   {
-    name: 'menu.admin.manage-user',
+    name: 'menu.doctor.doctor-page',
     menus: [
       {
         //Quản lý kế hoạch khám bệnh của bác sĩ

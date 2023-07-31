@@ -24,9 +24,15 @@
           "manage-specialty": "Manage specialties"
         },
         "doctor": {
+            "doctor-page": "Doctor's Manage Page",
             "manage-schedule": "Manage Doctor's Schedule",
             "manage-patient": "Manage Doctor's Patient",
             "manage-patient-success": "Manage Doctor's Success Patient"
+        },
+        "teststaff" : {
+            "teststaff-page": "Test Staff's Manage Page",
+            "testing-page": "Testing Patient Manage",
+            "test-done-page": "Tested Patient Manage"
         }
     },
     "manage-user": {

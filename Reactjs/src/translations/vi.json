@@ -37,9 +37,15 @@
             "manage-specialty": "Quản lý chuyên khoa"
         }, 
         "doctor": {
+            "doctor-page": "Trang quản lý của bác sĩ",
             "manage-schedule": "Quản lý kế hoạch khám bệnh",
             "manage-patient": "Quản lý bệnh nhân khám bệnh",
             "manage-patient-success": "Quản lý bệnh nhân hoàn thành khám"
+        },
+        "teststaff" : {
+            "teststaff-page": "Trang nhân viên xét nghiệm",
+            "testing-page": "Quản lý bệnh nhân đang xét nghiệm",
+            "test-done-page": "Quản lý bệnh nhân đã xét nghiệm"
         }
 },
 "manage-user": {

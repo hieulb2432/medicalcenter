@@ -38,7 +38,7 @@ export const adminMenu = [
 
 export const doctorMenu = [
   {
-    name: 'menu.admin.manage-user',
+    name: 'menu.doctor.doctor-page',
     menus: [
       {
         //Quản lý kế hoạch khám bệnh của bác sĩ
@@ -61,16 +61,16 @@ export const doctorMenu = [
 
 export const testStaffMenu = [
   {
-    name: 'menu.admin.manage-user',
+    name: 'menu.teststaff.teststaff-page',
     menus: [
       {
         //Quản lý xét nghiệm bệnh nhân
-        name: 'menu.doctor.manage-schedule',
+        name: 'menu.teststaff.testing-page',
         link: '/teststaff/manage-test',
       },
       {
         //Quản lý xét nghiệm bệnh nhân đã xong
-        name: 'menu.doctor.manage-schedule',
+        name: 'menu.teststaff.test-done-page',
         link: '/teststaff/manage-test-done',
       },
     ],

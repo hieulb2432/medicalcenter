@@ -114,7 +114,7 @@ class ManagePatient extends Component {
     }
 
     handleBtnTestResult = async (item) => {
-        let dataTestResultModal = await getTestResult(item.patientId, item.date, item.doctorId, item.timeType)
+        let dataTestResultModal = await getTestResult(item.id)
         this.setState({
             isopenTestResultModal: true,
             dataTestResultModal: dataTestResultModal
@@ -210,12 +210,10 @@ class ManagePatient extends Component {
     render() {
         let {dataPatient, isOpenPrescriptionModal, dataPrescriptionModal,
             isOpenMedicalRecord, dataMedicalRecord, isOpenTestModal, dataTestModal,
-            isopenTestResultModal, dataTestResultModal, item
+            isopenTestResultModal, dataTestResultModal,
         } = this.state
         let {currentDate} = this.state
         let {language} = this.props
-        console.log(item)
-        // console.log(item)
         return (
             <div className='col-10'>
             <LoadingOverlay
@@ -232,11 +230,10 @@ class ManagePatient extends Component {
                         <div className='col-3 form-group'>
                             <label><FormattedMessage id="manage-schedule.choose-date"/></label>
                             <DatePicker
-                                    onChange={this.handleOnChangeDatePicker}
-                                    className='form-control'
-                                    value={currentDate}
-
-                                />
+                                onChange={this.handleOnChangeDatePicker}
+                                className='form-control'
+                                value={currentDate}
+                            />
                         </div>
                         <div className='col-12 table-manage-patient'>
                         <table style={{width:'100%'}}>
@@ -262,22 +259,22 @@ class ManagePatient extends Component {
                                         <td>{item.patientData.firstName}</td>
                                         <td>{gender}</td>
                                         <td>{item.patientData.address}</td>
-                                        <td>
+                                        <td style={{textAlign: 'center'}}>
                                             <button className='btn btn-primary mr-3'
-                                                onClick={() => this.handleBtnConfirm(item)}
-                                            >Tạo phiếu khám bệnh
+                                                onClick={() => this.handleBtnTest(item)}
+                                            >Yêu cầu xét nghiệm
+                                            </button>
+                                            <button className='btn btn-primary mr-3'
+                                                onClick={() => this.handleBtnTestResult(item)}
+                                            >Xem xét nghiệm
                                             </button>
                                             <button className='btn btn-primary mr-3'
                                                 onClick={() => this.handelBtnMedical(item)}
                                             >Xem hồ sơ bệnh án
                                             </button>
-                                            <button className='btn btn-primary mr-3'
-                                                onClick={() => this.handleBtnTest(item)}
-                                            >Yêu cầu xét nghiệm
-                                            </button>
                                             <button className='btn btn-primary'
-                                                onClick={() => this.handleBtnTestResult(item)}
-                                            >Xem xét nghiệm
+                                                onClick={() => this.handleBtnConfirm(item)}
+                                            >Tạo phiếu khám bệnh
                                             </button>
                                         </td>
                                     </tr>
@@ -290,7 +287,6 @@ class ManagePatient extends Component {
                                     </td>
                                 </tr>
                             }
-                                
                             </tbody>
                         </table>
                         </div>

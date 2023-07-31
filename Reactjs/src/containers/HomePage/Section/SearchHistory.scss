@@ -65,7 +65,7 @@
             .user-history-title {}
             .user-history-content {
                 .table-manage-patient {
-                    th, td {
+                    td {
                         text-align: left;
                         padding: 8px;
                     }
@@ -75,6 +75,8 @@
                     th {
                         background-color: #06a9b1;
                         color: white;
+                        text-align: center;
+                        padding: 8px;
                     }
             
                     .btn-primary {

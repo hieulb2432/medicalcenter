@@ -152,7 +152,7 @@ class DefaultClass extends Component {
         return (
             <div className='col-10 manage-patient-container'>
             <div className='patient-title mt-4' style={{color: '#ff5400'}}>
-            <FormattedMessage id="manage-schedule.manage-patient"/>
+            <FormattedMessage id="menu.teststaff.testing-page"/>
             </div>
             <div className='schedule-container mt-3'>
                 <div className='row'>

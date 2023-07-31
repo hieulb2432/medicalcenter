@@ -21,12 +21,12 @@ class TestResultModal extends Component {
 
     render() {
         let {isOpenModal, dataTestResultModal, closeTestResultModal} = this.props;
-        // let formattedDate = moment.unix(+dataTestResultModal.date / 1000).format('DD/MM/YYYY')
+        let formattedDate = moment.unix(dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? +dataTestResultModal.data.bookingData.date / 1000 : '').format('DD/MM/YYYY')
 
-        // let imageBase64 = '';
-        // if (dataTestResultModal.testImage) {
-        //     imageBase64 = Buffer.from(dataTestResultModal.testImage, 'base64').toString('binary');
-        // }
+        let imageBase64 = '';
+        if (dataTestResultModal.data && dataTestResultModal.data.testImage) {
+            imageBase64 = Buffer.from(dataTestResultModal.data.testImage, 'base64').toString('binary');
+        } else {imageBase64 = ''}
         return (
             <Modal 
                 isOpen={isOpenModal} 
@@ -46,15 +46,15 @@ class TestResultModal extends Component {
                             <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin bệnh nhân</div>
                             <div className='patient-name' style={{display: 'flex'}}>
                                 <div className='col-3'>Mã bệnh nhân</div>
-                                <div className='col-9'>{dataTestResultModal? dataTestResultModal.patientId : ''}</div>
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.patientId : ''}</div>
                             </div>
                             <div className='patient-email' style={{display: 'flex'}}>
                                 <div className='col-3'>Họ và tên</div>
-                                <div className='col-9'>{dataTestResultModal? dataTestResultModal.firstNamePatient  : ''}</div>
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.patientData.firstName  : ''}</div>
                             </div>
                             <div className='patient-address' style={{display: 'flex'}}>
                                 <div className='col-3'>Địa chỉ</div>
-                                <div className='col-9'>{dataTestResultModal? dataTestResultModal.addressPatient : ''}</div>
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.patientData.address : ''}</div>
                             </div>
                         <hr></hr>
                         </div>
@@ -62,11 +62,11 @@ class TestResultModal extends Component {
                         <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin lịch khám</div>
                             <div className='patient-name' style={{display: 'flex'}}>
                                 <div className='col-3'>Bác sĩ</div>
-                                <div className='col-9'>{dataTestResultModal.lastNameDoctor} {dataTestResultModal.firstNameDoctor}</div>
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.doctorDataUser.lastName : ''} {dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.doctorDataUser.lastName : ''}</div>
                             </div>
                             <div className='patient-email' style={{display: 'flex'}}>
                                 <div className='col-3'>Thời gian khám</div>
-                                {/* <div className='col-9'>{dataTestResultModal? dataTestResultModal.timeTypeVi : ''} {formattedDate}</div> */}
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.timeTypeDataPatient.valueVi : ''} {formattedDate}</div>
                             </div>
                             <hr></hr>
                         </div>
@@ -74,18 +74,18 @@ class TestResultModal extends Component {
                         <div style={{fontSize: '15px', fontWeight: 'bold'}}>Xét nghiệm</div>
                             <div className='patient-test' style={{display: 'flex'}}>
                                 <div className='col-3'>Chỉ định xét nghiệm</div>
-                                {/* <div className='col-9'>{dataTestResultModal? dataTestResultModal.order : ''}</div> */}
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.order : ''}</div>
                             </div>
 
                             <div className='patient-test-image' style={{display: 'flex'}}>
                                 <div className='col-3'>Ảnh xét nghiệm</div>
-                                {/* <div className='thumbnail-image' style={{backgroundImage: `url(${imageBase64})`}}></div> */}
+                                <div className='thumbnail-image' style={{backgroundImage: `url(${imageBase64})`}}></div>
                                      
                             </div>
 
                             <div className='patient-result' style={{display: 'flex'}}>
                                 <div className='col-3'>Kết luận</div>
-                                {/* <div className='col-9'>{dataTestResultModal? dataTestResultModal.result : ''}</div> */}
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.result : ''}</div>
                             </div>
                         </div>
                     </div>
