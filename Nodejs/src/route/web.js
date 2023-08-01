@@ -31,10 +31,8 @@ let initWebRouters = (app) => {
     router.get('/api/get-list-patient-for-one-doctor', doctorController.getListPatientForOneDoctor);
     router.get('/api/get-infor-user-booking', doctorController.getInforUserBooking);
     router.get('/api/get-schedule-cancel', doctorController.getScheduleCancel);
-    router.post('/api/send-remedy', doctorController.sendRemedy);
     router.post('/api/create-prescription', doctorController.createPrescription);
     router.get('/api/get-medical-record', doctorController.getMedicalRecord);
-    router.put('/api/edit-medical-record', doctorController.editMedicalRecord);
     router.post('/api/create-test', doctorController.createTest);
     router.get('/api/get-test', doctorController.getTest);
     router.post('/api/send-test', doctorController.sendTest);

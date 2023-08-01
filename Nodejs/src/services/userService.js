@@ -117,7 +117,6 @@ let getAllUsers = (userId) => {
     });
 };
 
-
 let createNewUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {

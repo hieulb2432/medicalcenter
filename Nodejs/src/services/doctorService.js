@@ -702,42 +702,6 @@ let getScheduleCancel = (doctorId, date, timeType) => {
   })
 }
 
-let sendRemedy = (data) => {
-  return new Promise(async(resolve, reject) => {
-    try {
-      if(!data.email || !data.doctorId || !data.patientId 
-        || !data.timeType || !data.imgBase64){
-        resolve({
-          errCode: 1,
-          errMessage: 'Missing required parameters'
-        })
-      } else {
-        // Update patient status
-        let appointment = await db.Booking.findOne({
-          where: {
-            statusId: 'S2',
-            doctorId: data.doctorId,
-            patientId: data.patientId,
-            timeType: data.timeType
-          },
-          raw: false
-        })
-        if(appointment){
-          appointment.statusId = 'S3';
-          await appointment.save();
-        }
-        await emailService.sendAttachment(data)
-        resolve({
-          errCode: 0,
-          errMessage: 'OK'
-        })
-      }
-    } catch (e) {
-      reject(e)
-    }
-  })
-}
-
 let createPrescription = (data) => {
   return new Promise(async(resolve, reject) => {
     try{
@@ -1120,7 +1084,6 @@ module.exports = {
     getListPatientForOneDoctor: getListPatientForOneDoctor,
     getInforUserBooking: getInforUserBooking,
     getScheduleCancel: getScheduleCancel,
-    sendRemedy: sendRemedy,
     createPrescription: createPrescription,
     getMedicalRecord: getMedicalRecord,
     createTest: createTest,

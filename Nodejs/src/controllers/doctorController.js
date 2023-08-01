@@ -187,19 +187,6 @@ let getScheduleCancel = async (req, res) => {
     }
 }
 
-let sendRemedy = async (req, res) => {
-    try{
-        let infor = await doctorService.sendRemedy(req.body);
-        return res.status(200).json(infor);
-    } catch (e){
-        console.log(e);
-        return res.status(200).json({
-            errCode: -1,
-            errMessage: 'Error from server'
-        })
-    }
-}
-
 let createPrescription = async (req, res) => {
     try{
         let infor = await doctorService.createPrescription(req.body);
@@ -225,12 +212,6 @@ let getMedicalRecord = async (req, res) => {
         })
     }
 }
-
-let editMedicalRecord = async (req, res) => {
-    let data = req.body;
-    let message = await clinicService.editMedicalRecord(data);
-    return res.status(200).json(message);
-};
 
 let createTest = async (req, res) => {
     try{
@@ -297,7 +278,6 @@ let getTestResult = async (req, res) => {
     }
 }
 
-
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -313,10 +293,8 @@ module.exports = {
     getListPatientForOneDoctor: getListPatientForOneDoctor,
     getInforUserBooking: getInforUserBooking,
     getScheduleCancel: getScheduleCancel,
-    sendRemedy: sendRemedy,
     createPrescription: createPrescription,
     getMedicalRecord: getMedicalRecord,
-    editMedicalRecord: editMedicalRecord,
     createTest: createTest,
     getTest: getTest,
     sendTest: sendTest,
