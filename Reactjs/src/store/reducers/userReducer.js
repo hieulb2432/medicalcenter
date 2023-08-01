@@ -3,6 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
   isLoggedIn: false,
   userInfo: null,
+  clinicId: 0
 };
 
 const userReducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const userReducer = (state = initialState, action) => {
         isLoggedIn: false,
         userInfo: null,
       };
+      case actionTypes.SET_CLINICID:
+        return {
+            ...state,
+            clinicId: action.clinicId,
+        }
     default:
       return state;
   }

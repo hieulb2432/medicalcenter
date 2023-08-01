@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './SearchHistory.scss'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {getHistoryAppointment, getAllHistorySchedule, checkUserEmail} from '../../../services/userService'
+import {getHistoryAppointment, getAllHistorySchedule, checkUserEmail, getMedicalRecord} from '../../../services/userService'
 import moment from 'moment';
+import MedicalRecordModal from '../../System/Doctor/MedicalRecordModal';
 import { toast } from 'react-toastify';
 
 class SearchHistory extends Component {
@@ -18,6 +19,8 @@ class SearchHistory extends Component {
             isOpenHistory: false,
             startIndex: 0,
             endIndex: 9,
+            dataMedicailRecord: {},
+            isOpenMedicalRecord: false,
         }
     }
 
@@ -90,6 +93,17 @@ class SearchHistory extends Component {
         }
       }
     }
+
+    handleMedicalRecord = async () => {
+      const { dataHistory } = this.state;
+      let res = await getMedicalRecord(dataHistory.id);
+      if (res && res.errCode === 0) {
+        this.setState({
+          isOpenMedicalRecord: true,
+          dataMedicailRecord: res,
+        });
+      }
+    };
     
     handleGetCode = async() => {
       let isValidGetCode =await this.checkValidateInputGetCode();
@@ -106,6 +120,12 @@ class SearchHistory extends Component {
         isOpenHistory: !this.state.isOpenHistory
       });
     }
+
+    closeMedicalRecord = () => {
+      this.setState({
+          isOpenMedicalRecord: false,
+      })
+  }
 
     handleNextPage = () => {
       const { endIndex } = this.state;
@@ -129,7 +149,8 @@ class SearchHistory extends Component {
     };
 
     render() {
-      let {dataHistory, isOpenHistory, startIndex, endIndex} = this.state
+      let {dataHistory, isOpenHistory, startIndex, endIndex, dataMedicailRecord, isOpenMedicalRecord} = this.state
+      console.log(dataHistory.id, dataMedicailRecord)
         return (
             <>
                 <div className="container">
@@ -181,7 +202,17 @@ class SearchHistory extends Component {
                   <div>
                     <div className="search-info-user">
                       <div className="user-info">
+                        <div className='user-infor-up' style={{display: 'flex', justifyContent: 'space-between'}}>
                         <div className="user-info-title">Thông tin bệnh nhân</div>
+                        <div>
+                          <Button
+                            color="primary"
+                            className="px-3"
+                            onClick={this.handleMedicalRecord}
+                          > Xem hồ sơ bệnh án 
+                          </Button>
+                        </div>
+                        </div>
                         <hr></hr>
                         <div className="user-info-content">
                               <div className="user-info-name">
@@ -210,7 +241,8 @@ class SearchHistory extends Component {
                                           <th>Ngày</th>
                                           <th>Thời gian</th>
                                           <th>Bác sĩ</th>
-                                          <th>Địa chỉ phòng khám</th>
+                                          <th>Chuyên khoa</th>
+                                          <th>Cở sở y tế</th>
                                           <th>Trạng thái lịch</th>
                                       </tr>
                                       {dataHistory.patientData && dataHistory.patientData.length > 0? 
@@ -222,14 +254,15 @@ class SearchHistory extends Component {
                                           <td>{formattedDate}</td>
                                           <td>{item.timeTypeDataPatient.valueVi}</td>
                                           <td>{item.doctorDataUser.lastName} {item.doctorDataUser.firstName}</td>
-                                          <td>{item.doctorDataUser.Doctor_Infor.nameClinic}</td>
+                                          <td>{item.doctorDataUser.Doctor_Infor.specialtyData.name}</td>
+                                          <td>{item.doctorDataUser.Doctor_Infor.clinicData.name}</td>
                                           <td>{item.statusIdData.valueVi}</td>
                                         </tr>
                                         )
                                       })
                                       :
                                       <tr>
-                                          <td colSpan='6' style={{textAlign: "center"}}>
+                                          <td colSpan='9' style={{textAlign: "center"}}>
                                               Không có dữ liệu
                                           </td>
                                       </tr>
@@ -255,6 +288,11 @@ class SearchHistory extends Component {
                 </div>
 
                 </div>
+                <MedicalRecordModal
+                    isOpenModal= {isOpenMedicalRecord}
+                    dataMedicalRecord={dataMedicailRecord}
+                    closeMedicalRecord={this.closeMedicalRecord}
+                />
               </div>
               
             </>

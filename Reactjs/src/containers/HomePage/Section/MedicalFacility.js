@@ -78,8 +78,8 @@ class MedicalFacility extends Component {
     let {language} = this.props
         return (
             <div className="section-share section-medical-facility">
-            <div className="section-container container">
-              <div className="section-header">
+            <div className="container">
+              <div className="section-header" style={{marginBottom:'-10px'}}>
                 <h2 className="title-section"><FormattedMessage id="homepage.health-facilities"/></h2>
               </div>
               <div className="section-content">

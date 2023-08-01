@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import * as actions from '../../../store/actions';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../../utils';
 import './DetailClinic.scss'
@@ -33,6 +34,7 @@ class DetailClinic extends Component {
 
         if(this.props.match && this.props.match.params && this.props.match.params.id){
             let id = this.props.match.params.id
+            this.props.setClinicId(id)
             let res = await getDetailClinicByIdService({
                 id: id,
                 location: 'ALL'
@@ -169,6 +171,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        setClinicId: (clinicId) => dispatch(actions.setClinicId(clinicId)),
     };
 };
 

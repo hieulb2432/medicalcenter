@@ -16,3 +16,8 @@ export const userLoginFail = () => ({
 export const processLogout = () => ({
     type: actionTypes.PROCESS_LOGOUT,
   });
+
+  export const setClinicId = (clinicId) => ({
+    type: actionTypes.SET_CLINICID,
+    clinicId: clinicId,
+  }); 

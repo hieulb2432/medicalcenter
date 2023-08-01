@@ -141,7 +141,8 @@ class PrescriptionModal extends Component {
     render() {
         let {isOpenModal, closePrescriptionModal, dataPrescriptionModal, language} = this.props;
         let { data, listDrug } = this.state;
-        let formattedDate = moment.unix(+this.state.date / 1000).format('DD/MM/YYYY')
+        console.log('this.state', this.state)
+        let formattedDate = moment.unix(+dataPrescriptionModal.date / 1000).format('DD/MM/YYYY')
         return (
             <Modal 
                 isOpen={isOpenModal} 
@@ -163,26 +164,26 @@ class PrescriptionModal extends Component {
                             <div className='' style={{display: 'flex'}}>
                                 <div className='col-6 doctor-name' style={{display: 'flex'}}>
                                     <div className=''>Bác sĩ</div>
-                                    <div className='col-7'>{this.state.doctorLastName} {this.state.doctorFirstName}</div>
+                                    <div className='col-7'>{dataPrescriptionModal.doctorLastName} {dataPrescriptionModal.doctorFirstName}</div>
                                 </div>
                                 <div className='col-6 date' style={{display: 'flex'}}>
                                     <div className='col-5'>Thời gian khám</div>
-                                    <div className='col-7'>{this.state.timeTypeVi} {formattedDate}</div>
+                                    <div className='col-7'>{dataPrescriptionModal.timeTypeVi} {formattedDate}</div>
                                 </div>
                             </div>
 
                             <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin bệnh nhân</div>
                             <div className='patient-name' style={{display: 'flex'}}>
                                 <div className='col-3'>Họ tên bệnh nhân</div>
-                                <div className='col-9'>{this.state.patientName}</div>
+                                <div className='col-9'>{dataPrescriptionModal.patientName}</div>
                             </div>
                             <div className='patient-email' style={{display: 'flex'}}>
                                 <div className='col-3'>Địa chỉ email</div>
-                                <div className='col-9'>{this.state.email}</div>
+                                <div className='col-9'>{dataPrescriptionModal.email}</div>
                             </div>
                             <div className='patient-address' style={{display: 'flex'}}>
                                 <div className='col-3'>Địa chỉ cụ thể</div>
-                                <div className='col-9'>{this.state.patientAddress}</div>
+                                <div className='col-9'>{dataPrescriptionModal.patientAddress}</div>
                             </div>
                         </div>
                         <div className='col-12 content-midle mt-3'>

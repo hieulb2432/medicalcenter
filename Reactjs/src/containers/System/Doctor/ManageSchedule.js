@@ -17,7 +17,8 @@ class ManageSchedule extends Component {
         super(props);
         this.state = {
             listDoctors: [],
-            currentDate: '',
+            // currentDate: '',
+            currentDate: moment(new Date()).startOf('day').valueOf(),
             rangeTime: [],
             inDay: true,
             bookingData: {},
@@ -28,6 +29,7 @@ class ManageSchedule extends Component {
 
     async componentDidMount() {
         this.props.fetchAllScheduleTime();
+        this.getDataPatient()
         this.setState({
             checkToday: true,
         })
@@ -215,6 +217,7 @@ class ManageSchedule extends Component {
     render() {
         const { currentDate, rangeTime, dataPatient, checkToday} = this.state;
         const { language, user} = this.props;
+        console.log('language: ', currentDate)
         let nameVi, nameEn
         if(user) {
             nameVi = `${user.lastName} ${user.firstName}`;

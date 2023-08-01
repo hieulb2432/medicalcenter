@@ -128,7 +128,6 @@ class MedicalRecordModal extends Component {
 
                 </ModalBody>
                 <ModalFooter>
-                    {/* <Button color="primary" onClick={handleDownloadPDF}><label style={{ marginBottom: '0' }}>Tải PDF</label></Button> */}
                     <Button color="secondary" onClick={closeMedicalRecord}><label style={{marginBottom: '0'}}>Hủy</label></Button>
                 </ModalFooter>
             </Modal>

@@ -80,6 +80,8 @@ const actionTypes = Object.freeze({
 
     EDIT_SPECIALTY_SUCCESS: 'EDIT_SPECIALTY_SUCCESS',
     EDIT_SPECIALTY_FAILED: 'EDIT_SPECIALTY_FAILED',
+
+    SET_CLINICID: 'SET_CLINICID'
 })
 
 export default actionTypes;
