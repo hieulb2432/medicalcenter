@@ -52,7 +52,7 @@ let getAllSpecialty = () => {
   })
 }
 
-let getDetailSpecialtyById = (inputId, location) => {
+let getDetailSpecialtyById = (inputId, location, clinicId) => {
   return new Promise(async(resolve, reject) => {
     try{
       if(!inputId || !location) {
@@ -74,7 +74,8 @@ let getDetailSpecialtyById = (inputId, location) => {
             if(location === 'ALL'){
               doctorSpecialty = await db.Doctor_Infor.findAll({
                 where: {
-                  specialtyId: inputId
+                  specialtyId: inputId,
+                  clinicId: clinicId,
                 },
                 attributes: ['doctorId', 'provinceId'],
               }) 
@@ -88,6 +89,7 @@ let getDetailSpecialtyById = (inputId, location) => {
                 attributes: ['doctorId', 'provinceId'],
               }) 
             }
+            console.log('abc', doctorSpecialty)
             data.doctorSpecialty = doctorSpecialty
           } else data = {}
           resolve({

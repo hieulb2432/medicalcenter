@@ -46,6 +46,7 @@ let initWebRouters = (app) => {
     router.get('/api/get-history-appointment', patientController.getHistoryAppointment);
     router.get('/api/get-all-history-schedule', patientController.getAllHistorySchedule);
     router.get('/api/get-all-booking', patientController.getAllBooking);
+    router.get('/api/get-booking-cancel-for-patient', patientController.getBookingCancelForPatient);
 
     router.post('/api/create-new-specialty', specialtyController.createSpecialty);
     router.get('/api/get-all-specialty', specialtyController.getAllSpecialty);

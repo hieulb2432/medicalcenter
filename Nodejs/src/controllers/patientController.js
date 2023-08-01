@@ -68,10 +68,24 @@ let getAllBooking = async (req, res) => {
     }
 }
 
+let getBookingCancelForPatient = async (req, res) => {
+    try{
+        let infor = await patientService.getBookingCancelForPatient(req.query.bookingId);
+        return res.status(200).json(infor);
+    } catch (e){
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
 module.exports = {
     postBookAppointment: postBookAppointment,
     postVerifyBookAppointment: postVerifyBookAppointment,
     getHistoryAppointment: getHistoryAppointment,
     getAllHistorySchedule: getAllHistorySchedule,
-    getAllBooking: getAllBooking
+    getAllBooking: getAllBooking,
+    getBookingCancelForPatient: getBookingCancelForPatient
 }

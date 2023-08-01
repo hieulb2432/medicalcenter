@@ -160,6 +160,9 @@ let deleteUser = (userId) => {
       let user = await db.User.findOne({
         where: { id: userId },
       });
+      let userDoctor = await db.Doctor_Infor.findOne({
+        where: { doctorId: userId },
+      })
       if (!user) {
         resolve({
           errCode: 2,
@@ -169,6 +172,11 @@ let deleteUser = (userId) => {
       await db.User.destroy({
         where: { id: userId },
       });
+      if(userDoctor) {
+        await db.Doctor_Infor.destroy({
+          where: { doctorId: userId },
+        });
+      }
       resolve({
         errCode: 0,
         message: 'The user is deleted!',
