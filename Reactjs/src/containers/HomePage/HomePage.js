@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HomeHeader from './HomeHeader';
-import Specialty from './Section/Specialty';
 import MedicalFacility from './Section/MedicalFacility';
-import OutstandingDoctor from './Section/OutstandingDoctor';
 import SearchHistory from './Section/SearchHistory';
 import HomeFooter from './HomeFooter';
 import Hotline from './Hotline';
@@ -48,9 +46,7 @@ class HomePage extends Component {
             <>
                 <HomeHeader isShowBanner={true}/>
                 <Statistic/>
-                {/* <Specialty settings={settings} /> */}
                 <MedicalFacility settings={settings} />
-                {/* <OutstandingDoctor settings={settings} /> */}
                 <SearchHistory />
                 <HomeFooter />
                 <Hotline />

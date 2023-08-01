@@ -23,9 +23,6 @@ class MedicalFacility extends Component {
 
   let resProvince = await getAllCodeService('PROVINCE')
   if(resClinic && resClinic.errCode === 0 && resProvince && resProvince.errCode === 0) {
-      // let arr = resClinic.listClinic
-      // let arrUserId = arr
-
       let dataProvince = resProvince.data
       if(dataProvince && dataProvince.length>0){
           dataProvince.unshift({
@@ -41,14 +38,6 @@ class MedicalFacility extends Component {
           listProvince: dataProvince ? dataProvince : []
       })
   }
-
-
-    // let res = await getAllClinicService();
-    // if(res && res.errCode === 0){
-    //   this.setState({
-    //     dataClinic: res.data ? res.data : []
-    //   });
-    // }
   }
 
   componentDidUpdate(prevProps, prevState, snapshots) {}

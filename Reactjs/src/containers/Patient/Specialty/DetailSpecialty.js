@@ -64,36 +64,6 @@ class DetailSpecialty extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshots) {    
     }
-
-    // handleOnChangeSelect = async (e) => {
-    //     if(this.props.match && this.props.match.params && this.props.match.params.id){
-    //         let id = this.props.match.params.id
-    //         let location = e.target.value
-            
-    //         let res = await getDetailSpecialtyByIdService({
-    //             id: id,
-    //             location: location
-    //         })
-            
-    //         if(res && res.errCode === 0) {
-    //             let data = res.data
-    //             let arrDoctorId = []
-    //             if(data && !_.isEmpty(res.data)){
-    //                 let arr = data.doctorSpecialty;
-    //                 if(arr && arr.length>0){
-    //                     arr.map(item => {
-    //                         arrDoctorId.push(item.doctorId)
-    //                     })
-    //                 }
-    //             }
-                
-    //             this.setState({
-    //                 dataDetailSpecialty: res.data,
-    //                 arrDoctorId: arrDoctorId,
-    //             })
-    //         }
-    //     }
-    // }
     
     render() {
         let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
@@ -114,19 +84,6 @@ class DetailSpecialty extends Component {
                             </div>
                         }
                     </div>
-                    {/* <div className='search-sp-doctor'>
-                        <select onChange={(e)=> this.handleOnChangeSelect(e)}>
-                            {listProvince && listProvince.length > 0 &&
-                            listProvince.map((item, index) =>{
-                                return (
-                                <option key={index} value={item.keyMap}>
-                                    {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
-                                </option>
-                                )
-                            })
-                            }
-                        </select>
-                    </div> */}
 
                     {arrDoctorId && arrDoctorId.length>0 && 
                     arrDoctorId.map((item, index) => {

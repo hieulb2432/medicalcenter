@@ -57,12 +57,6 @@ class DoctorExtraInfor extends Component {
                     <div className='text-address'>
                         <FormattedMessage id="patient.extra-infor-doctor.text-address" />
                     </div>
-                    {/* <div className='name-clinic'>
-                        {extraInfor && extraInfor.nameClinic ? extraInfor.nameClinic : ''}
-                    </div>
-                    <div className='detail-address'>
-                        {extraInfor && extraInfor.addressClinic ? extraInfor.addressClinic : ''}
-                    </div> */}
                 </div>
 
                 <div className='content-down'>
@@ -129,13 +123,6 @@ class DoctorExtraInfor extends Component {
                                     {extraInfor && extraInfor.note ? extraInfor.note : ''}
                                 </div>
                             </div>
-                            {/* <div className='payment'>
-                                <FormattedMessage id="patient.extra-infor-doctor.payment" />
-                                {language === LANGUAGES.VI && extraInfor && extraInfor.paymentTypeData ? 
-                                    extraInfor.paymentTypeData.valueVi 
-                                    :
-                                    extraInfor.paymentTypeData.valueEn }
-                            </div> */}
                             <div className='hide-price'>
                                 <span
                                     onClick={() => this.showHideDetailIndor(false)}

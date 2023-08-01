@@ -10,6 +10,7 @@ class TestResultModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isImageModalOpen: false,
         }
     }
 
@@ -17,6 +18,14 @@ class TestResultModal extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshots) {
+    }
+
+    openImageModal = () => {
+        this.setState({ isImageModalOpen: true });
+    }
+    
+    closeImageModal = () => {
+        this.setState({ isImageModalOpen: false });
     }
 
     render() {
@@ -28,6 +37,13 @@ class TestResultModal extends Component {
             imageBase64 = Buffer.from(dataTestResultModal.data.testImage, 'base64').toString('binary');
         } else {imageBase64 = ''}
         return (
+            <>
+            <Modal isOpen={this.state.isImageModalOpen} toggle={this.closeImageModal} centered>
+                <ModalHeader toggle={this.closeImageModal}>Hình ảnh xét nghiệm</ModalHeader>
+                <ModalBody>
+                    <img src={imageBase64} alt="Xét nghiệm" style={{ width: '100%' }} />
+                </ModalBody>
+            </Modal>
             <Modal 
                 isOpen={isOpenModal} 
                 className={'booking-modal-container'}
@@ -70,6 +86,7 @@ class TestResultModal extends Component {
                             </div>
                             <hr></hr>
                         </div>
+                        {dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData && dataTestResultModal.data.result?
                         <div className='col-12 content-down'>
                         <div style={{fontSize: '15px', fontWeight: 'bold'}}>Xét nghiệm</div>
                             <div className='patient-test' style={{display: 'flex'}}>
@@ -79,7 +96,9 @@ class TestResultModal extends Component {
 
                             <div className='patient-test-image' style={{display: 'flex'}}>
                                 <div className='col-3'>Ảnh xét nghiệm</div>
-                                <div className='thumbnail-image' style={{backgroundImage: `url(${imageBase64})`}}></div>
+                                <div className='thumbnail-image' style={{backgroundImage: `url(${imageBase64})`}}
+                                    onClick={this.openImageModal}
+                                ></div>
                                      
                             </div>
 
@@ -88,6 +107,9 @@ class TestResultModal extends Component {
                                 <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.result : ''}</div>
                             </div>
                         </div>
+                        : 
+                        <div style={{textAlign: 'center', width: '100%'}}>Chưa có kết quả xét nghiệm</div>
+                        }
                     </div>
 
                 </ModalBody>
@@ -95,6 +117,7 @@ class TestResultModal extends Component {
                     <Button color="secondary" onClick={closeTestResultModal}><label style={{marginBottom: '0'}}>Hủy</label></Button>
                 </ModalFooter>
             </Modal>
+            </>
         );
     }
 }

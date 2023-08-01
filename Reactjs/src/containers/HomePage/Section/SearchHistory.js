@@ -27,7 +27,6 @@ class SearchHistory extends Component {
     async componentDidMount() {}
 
     componentDidUpdate(prevProps, prevState, snapshots) {
-
     }
 
     handleOnChangeInput = (event, id) => {
@@ -37,7 +36,7 @@ class SearchHistory extends Component {
         this.setState({
           ...copyState,
         })
-      }
+    }
 
     checkValidateInput = () => {
       let isValid = true;
@@ -125,7 +124,7 @@ class SearchHistory extends Component {
       this.setState({
           isOpenMedicalRecord: false,
       })
-  }
+    }
 
     handleNextPage = () => {
       const { endIndex } = this.state;
@@ -150,7 +149,6 @@ class SearchHistory extends Component {
 
     render() {
       let {dataHistory, isOpenHistory, startIndex, endIndex, dataMedicailRecord, isOpenMedicalRecord} = this.state
-      console.log(dataHistory.id, dataMedicailRecord)
         return (
             <>
                 <div className="container">

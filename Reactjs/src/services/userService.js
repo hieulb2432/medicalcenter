@@ -132,10 +132,6 @@ export const getListPatientForOneDoctorService = (data) => {
   return axios.get(`/api/get-list-patient-for-one-doctor?doctorId=${data.doctorId}&date=${data.date}`);
 };
 
-export const postSendRemedyService = (data) => {
-  return axios.post('/api/send-remedy', data);
-};
-
 export const getInforUserBooking = (doctorId, date, timeType) => {
   return axios.get(`/api/get-infor-user-booking?doctorId=${doctorId}&date=${date}&timeType=${timeType}`);
 };

@@ -8,7 +8,7 @@ import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authenticati
 import { path } from '../utils'
 
 import Login from './Auth/Login';
-import Header from './Header/Header';
+// import Header from './Header/Header';
 import System from '../routes/System';
 import DetailDoctor from './Patient/Doctor/DetailDoctor';
 import Doctor from '../routes/Doctor'

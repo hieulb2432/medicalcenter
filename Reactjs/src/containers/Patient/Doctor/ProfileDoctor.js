@@ -38,7 +38,6 @@ class ProfileDoctor extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshots) {
         if(this.props.doctorId !== prevProps.doctorId){
-            // this.getInforDoctor(this.props.doctorId)
         }
 
         if(this.props.doctorId !== prevProps.doctorId){

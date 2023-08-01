@@ -161,8 +161,8 @@ class TableManageUser extends Component {
                                     <td>{user.lastName} {user.firstName}</td>
                                     <td>{user.phoneNumber}</td>
                                     <td>{user.address}</td>
-                                    <td>{user['roleData.valueVi']}</td>
-                                    <td>
+                                    <td style={{textAlign: 'center'}}>{user['roleData.valueVi']}</td>
+                                    <td style={{textAlign: 'center'}}>
                                         <button
                                             className="btn-edit"
                                             onClick={() => {
