@@ -1,5 +1,5 @@
 .doctor-schedule-container {
-    border-right: 1px solid #ddd;
+    // border-right: 1px solid #ddd;
   
     .all-schedule {
       select {
@@ -24,6 +24,7 @@
         }
       }
       .time-content {
+        margin-top: 10px;
         display: flex;
         gap: 15px;
         flex-wrap: wrap;

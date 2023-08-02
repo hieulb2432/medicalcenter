@@ -17,8 +17,7 @@ class ManageSchedule extends Component {
         super(props);
         this.state = {
             listDoctors: [],
-            // currentDate: '',
-            currentDate: moment(new Date()).startOf('day').valueOf(),
+            currentDate: '',
             rangeTime: [],
             inDay: true,
             bookingData: {},
@@ -29,9 +28,11 @@ class ManageSchedule extends Component {
 
     async componentDidMount() {
         this.props.fetchAllScheduleTime();
-        this.getDataPatient()
+        // this.checkTime(this.props.allScheduleTime);
+        // this.getDataPatient()
         this.setState({
             checkToday: true,
+            currentDate: moment(new Date()).startOf('day').valueOf(),
         })
     }
 
@@ -238,7 +239,7 @@ class ManageSchedule extends Component {
                                 className='form-control'
                                 style={{ marginTop: '20px' }}                                
                                 value={currentDate}
-                                minDate={today}
+                                // minDate={new Date()}
                             />
                         </div>
                         <div className='col-9 pick-hour-container'>

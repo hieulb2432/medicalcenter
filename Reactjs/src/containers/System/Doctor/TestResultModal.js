@@ -78,7 +78,7 @@ class TestResultModal extends Component {
                         <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin lịch khám</div>
                             <div className='patient-name' style={{display: 'flex'}}>
                                 <div className='col-3'>Bác sĩ</div>
-                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.doctorDataUser.lastName : ''} {dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.doctorDataUser.lastName : ''}</div>
+                                <div className='col-9'>{dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.doctorDataUser.lastName : ''} {dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? dataTestResultModal.data.bookingData.doctorDataUser.firstName : ''}</div>
                             </div>
                             <div className='patient-email' style={{display: 'flex'}}>
                                 <div className='col-3'>Thời gian khám</div>

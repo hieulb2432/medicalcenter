@@ -73,7 +73,6 @@ class DetailClinic extends Component {
         let {arrDoctorId, dataDetailClinic, dataSpecialty } = this.state
         let {language} = this.props
         const { item } = this.props;
-        console.log('sdfadf', item)
         return (
             <div className='detail-clinic-container'>
             <HomeHeader isShowBanner={false}/>
@@ -125,37 +124,6 @@ class DetailClinic extends Component {
                   ))
                   }
                 </div>
-
-                {/* {arrDoctorId && arrDoctorId.length>0 && 
-                arrDoctorId.map((item, index) => {
-                    return(
-                        <div className='each-doctor' key={index}>
-                            <div className='dt-content-left'>
-                                <div className='profile-doctor'>
-                                    <ProfileDoctor 
-                                        doctorId={item}
-                                        isShowDescriptionDoctor={true}
-                                        isShowLinkDetail={true}
-                                        isShowPrice={false}
-                                    />
-                                </div>
-                            </div>
-                            <div className='dt-content-right'>
-                                <div className='doctor-schedule'>
-                                    <DoctorSchedule 
-                                            doctorIdFromParent={item}
-                                    />
-                                </div>
-                                <div className="doctor-extra-infor">
-                                    <DoctorExtraInfor 
-                                            doctorIdFromParent={item} 
-                                    />
-                                </div>
-                            </div>  
-                        </div>
-                    )
-                })
-                } */}
             </div>
             <HomeFooter />
             </div>

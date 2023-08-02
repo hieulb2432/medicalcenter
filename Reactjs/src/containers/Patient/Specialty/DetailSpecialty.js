@@ -5,7 +5,7 @@ import { LANGUAGES } from '../../../utils';
 import './DetailSpecialty.scss'
 import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
-import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
+// import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import HomeFooter from '../../HomePage/HomeFooter';
 import { getDetailSpecialtyByIdService, getAllCodeService } from '../../../services/userService';
@@ -28,7 +28,6 @@ class DetailSpecialty extends Component {
                 location: 'ALL',
                 clinicId: this.props.clinicId
             })
-            console.log(this.props.clinicId)
 
             let resProvince = await getAllCodeService('PROVINCE')
             if(res && res.errCode === 0 && resProvince && resProvince.errCode === 0) {
@@ -67,7 +66,6 @@ class DetailSpecialty extends Component {
     
     render() {
         let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
-        console.log('abc',dataDetailSpecialty)
         let {language} = this.props
         return (
             <div className='detail-specialty-container'>
@@ -88,8 +86,8 @@ class DetailSpecialty extends Component {
                     {arrDoctorId && arrDoctorId.length>0 && 
                     arrDoctorId.map((item, index) => {
                         return(
-                            <div className='each-doctor' key={index}>
-                                <div className='dt-content-left'>
+                            <div className='row each-doctor' key={index}>
+                                <div className='col-12 dt-content-left'>
                                     <div className='profile-doctor'>
                                         <ProfileDoctor 
                                             doctorId={item}
@@ -99,17 +97,17 @@ class DetailSpecialty extends Component {
                                         />
                                     </div>
                                 </div>
-                                <div className='dt-content-right'>
+                                <div className='col-12 dt-content-right'>
                                     <div className='doctor-schedule'>
                                         <DoctorSchedule 
                                                 doctorIdFromParent={item}
                                         />
                                     </div>
-                                    <div className="doctor-extra-infor">
+                                    {/* <div className="doctor-extra-infor">
                                         <DoctorExtraInfor 
                                                 doctorIdFromParent={item} 
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>  
                             </div>
                         )

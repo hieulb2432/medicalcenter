@@ -180,6 +180,10 @@ export const getTestResult = (bookingId) => {
   return axios.get(`/api/get-test-result?bookingId=${bookingId}`);
 };
 
+export const getBookingCancelForPatient = (bookingId) => {
+  return axios.get(`/api/get-booking-cancel-for-patient?bookingId=${bookingId}`);
+};
+
 export { 
   handleLoginApi,
 }

@@ -108,20 +108,25 @@ class ProfileDoctor extends Component {
                                                 {dataProfile.Markdown.description}
                                             </span>    
                                         }
+                                        {isShowLinkDetail === true && 
+                                            <div className='view-detail-doctor'>
+                                                <Link to={`/detail-doctor/${doctorId}`}>Xem chi tiết</Link>
+                                            </div>
+                                        }
                                     </>
                                     :
                                     <>
                                         {this.renderTimeBooking(dataTime)}
+                                        {isShowLinkDetail === true && 
+                                            <div className='view-detail-doctor'>
+                                                <Link to={`/detail-doctor/${doctorId}`}>Xem chi tiết</Link>
+                                            </div>
+                                        }
                                     </>
                                     }
                                 </div>
                             </div>
                     </div>
-                {isShowLinkDetail === true && 
-                    <div className='view-detail-doctor'>
-                        <Link to={`/detail-doctor/${doctorId}`}>Xem thêm</Link>
-                    </div>
-                }
                 {isShowPrice == true &&
                     <div className='price'>
                     <FormattedMessage id="patient.booking-modal.price" />

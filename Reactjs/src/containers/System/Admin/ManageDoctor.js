@@ -36,7 +36,7 @@ class ManageDoctor extends Component {
             selectedPrice: '',
             selectedClinic: '',
             selectedSpecialty: '',
-            note:'',
+            // note:'',
             clinicId:'',
             specialtyId:'',
         }
@@ -147,7 +147,7 @@ class ManageDoctor extends Component {
             // selectedProvince: this.state.selectedProvince.value,
             // nameClinic: this.state.nameClinic,
             // addressClinic: this.state.addressClinic,
-            note: this.state.note,
+            // note: this.state.note,
             clinicId: this.state.selectedClinic && this.state.selectedClinic.value ? this.state.selectedClinic.value : '',
             specialtyId: this.state.selectedSpecialty && this.state.selectedSpecialty.value ? this.state.selectedSpecialty.value : ''
 
@@ -168,7 +168,7 @@ class ManageDoctor extends Component {
             if(res.data.Doctor_Infor) {
                 // addressClinic = res.data.Doctor_Infor.addressClinic;
                 // nameClinic = res.data.Doctor_Infor.nameClinic;
-                note = res.data.Doctor_Infor.note;
+                // note = res.data.Doctor_Infor.note;
 
                 // paymentId = res.data.Doctor_Infor.paymentId;
                 priceId = res.data.Doctor_Infor.priceId;
@@ -205,7 +205,7 @@ class ManageDoctor extends Component {
                 hasOldData: true,
                 // addressClinic: addressClinic,
                 // nameClinic: nameClinic,
-                note: note,
+                // note: note,
 
                 // selectedPayment: selectedPayment,
                 // selectedProvince: selectedProvince,
@@ -221,7 +221,7 @@ class ManageDoctor extends Component {
                 hasOldData: false,
                 // addressClinic: '',
                 // nameClinic: '',
-                note: '',
+                // note: '',
                 // selectedPayment: '',
                 selectedPrice: '',
                 // selectedProvince: '',
@@ -305,10 +305,6 @@ class ManageDoctor extends Component {
                         />
                     </div>
 
-                    
-                </div>
-
-                <div className='more-infor-extra row'>
                     <div className='col-4 form-group'>
                         <label>
                             <FormattedMessage id="admin.manage-doctor.price" />
@@ -321,7 +317,22 @@ class ManageDoctor extends Component {
                             name="selectedPrice"
                         />
                     </div>
-                    <div className='col-4 form-group'>
+                </div>
+
+                <div className='more-infor-extra row'>
+                    {/* <div className='col-4 form-group'>
+                        <label>
+                            <FormattedMessage id="admin.manage-doctor.price" />
+                        </label>
+                        <Select
+                            value={this.state.selectedPrice}
+                            onChange={this.handleChangeSelectDoctorInfor}
+                            options={this.state.listPrice}
+                            placeholder={<FormattedMessage id="admin.manage-doctor.price" />}
+                            name="selectedPrice"
+                        />
+                    </div> */}
+                    {/* <div className='col-4 form-group'>
                         <label>
                             <FormattedMessage id="admin.manage-doctor.note" />
                         </label>
@@ -329,14 +340,14 @@ class ManageDoctor extends Component {
                             onChange={(event)=> this.handleOnChangeText(event, 'note')}
                             value ={this.state.note}
                         ></input>
-                    </div>
+                    </div> */}
                 </div>
 
                 
 
                 <div className='manage-doctor-editor'>
                     <MdEditor 
-                        style={{ height: '350px' }}
+                        style={{ height: '450px' }}
                         renderHTML={text => mdParser.render(text)}
                         onChange={this.handleEditorChange} 
                         value={this.state.contentMarkdown}

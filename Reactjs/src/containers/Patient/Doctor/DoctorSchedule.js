@@ -194,12 +194,12 @@ class DoctorSchedule extends Component {
                     </div>
                 
                     <div className='all-available-time'>
-                            <div className='text-calendar'>
+                            {/* <div className='text-calendar'>
                                 <span>
                                     <i className="fas fa-calendar-alt"></i>
                                     <FormattedMessage id="patient.detail-doctor.schedule" />
                                 </span>
-                            </div>
+                            </div> */}
                             <div className='time-content'>
                                 {allFreezeTime && allFreezeTime.length > 0 || allAvailableTime && allAvailableTime.length > 0 ?
                                 <>

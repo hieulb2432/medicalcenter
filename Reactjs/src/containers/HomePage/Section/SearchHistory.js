@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './SearchHistory.scss'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {getHistoryAppointment, getAllHistorySchedule, checkUserEmail, getMedicalRecord} from '../../../services/userService'
+import {getHistoryAppointment, getAllHistorySchedule, checkUserEmail, getMedicalRecord,
+  getBookingCancelForPatient} from '../../../services/userService'
 import moment from 'moment';
 import MedicalRecordModal from '../../System/Doctor/MedicalRecordModal';
 import { toast } from 'react-toastify';
@@ -21,6 +22,7 @@ class SearchHistory extends Component {
             endIndex: 9,
             dataMedicailRecord: {},
             isOpenMedicalRecord: false,
+            isTimeGreaterThan15Minutes: false,
         }
     }
 
@@ -146,6 +148,40 @@ class SearchHistory extends Component {
         endIndex: newEndIndex,
       });
     };
+    
+    handleCancel = async (item) => {
+      let {isGreaterThan15Minutes} = this.state;
+      const timeTypeToHourMap = {
+        T1: 8,
+        T2: 9,
+        T3: 10,
+        T4: 11,
+        T5: 13,
+        T6: 14,
+        T7: 15,
+        T8: 16,
+      };
+      const startTimeHour = timeTypeToHourMap[item.timeType]; // Lấy giá trị giờ bắt đầu của timeType từ đối tượng ánh xạ timeTypeToHourMap
+      const startTime = `1970-01-01T${startTimeHour}:00`;
+      const startTimeObject = new Date(startTime);
+
+      const currentTime = new Date();
+      const differenceInMinutes = (startTimeObject - currentTime) / (1000 * 60);
+      
+      
+      this.setState({ 
+        isGreaterThan15Minutes: differenceInMinutes > 15 
+      });
+
+      if (isGreaterThan15Minutes) {
+        let res = await getBookingCancelForPatient(item.id)
+        if(res && res.errCode === 0) {
+          toast.success('Hủy lịch khám thành công!');
+        } else {
+            toast.error('Không thể hủy lịch khám này!');
+        }
+      }
+    }
 
     render() {
       let {dataHistory, isOpenHistory, startIndex, endIndex, dataMedicailRecord, isOpenMedicalRecord} = this.state
@@ -242,6 +278,7 @@ class SearchHistory extends Component {
                                           <th>Chuyên khoa</th>
                                           <th>Cở sở y tế</th>
                                           <th>Trạng thái lịch</th>
+                                          <th>Thao tác</th>
                                       </tr>
                                       {dataHistory.patientData && dataHistory.patientData.length > 0? 
                                         dataHistory.patientData.slice(startIndex, endIndex + 1).map((item, index) => {
@@ -255,6 +292,13 @@ class SearchHistory extends Component {
                                           <td>{item.doctorDataUser.Doctor_Infor.specialtyData.name}</td>
                                           <td>{item.doctorDataUser.Doctor_Infor.clinicData.name}</td>
                                           <td>{item.statusIdData.valueVi}</td>
+                                          {item.statusId === 'S1' || item.statusId === 'S2' ? (
+                                            <td style={{ textAlign: 'center' }}>
+                                              <Button onClick={() => this.handleCancel(item)}>Hủy lịch</Button>
+                                            </td>
+                                          ) : (
+                                            <td style={{ textAlign: 'center' }}>-</td>
+                                          )}
                                         </tr>
                                         )
                                       })
