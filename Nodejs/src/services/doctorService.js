@@ -95,11 +95,7 @@ let checkRequiredFields = (inputData) => {
     'contentMarkdown',
     'action',
     'selectedPrice',
-    // 'selectedPayment',
-    // 'selectedProvince',
-    // 'nameClinic',
-    // 'addressClinic',
-    'note',
+    // 'note',
     'specialtyId',
   ];
   let isValid = true;
@@ -161,11 +157,7 @@ let saveDetailInforDoctor = (inputData) => {
           // Update
             doctorInfor.doctorId = inputData.doctorId;
             doctorInfor.priceId = inputData.selectedPrice;
-            // doctorInfor.provinceId = inputData.selectedProvince;
-            // doctorInfor.paymentId = inputData.selectedPayment;
-            // doctorInfor.nameClinic = inputData.nameClinic;
-            // doctorInfor.addressClinic = inputData.addressClinic;
-            doctorInfor.note = inputData.note;
+            // doctorInfor.note = inputData.note;
             doctorInfor.specialtyId = inputData.specialtyId;
             doctorInfor.clinicId = inputData.clinicId;
             await doctorInfor.save();
@@ -174,16 +166,11 @@ let saveDetailInforDoctor = (inputData) => {
             await db.Doctor_Infor.create({
               doctorId: inputData.doctorId,
               priceId: inputData.selectedPrice,
-              // provinceId: inputData.selectedProvince,
-              // paymentId: inputData.selectedPayment,
-              // nameClinic: inputData.nameClinic,
-              // addressClinic: inputData.addressClinic,
-              note: inputData.note,
+              // note: inputData.note,
               specialtyId: inputData.specialtyId,
               clinicId: inputData.clinicId
             });
         }
-        
         resolve({
           errCode: 0,
           errMessage: 'Save data successfully'
@@ -227,9 +214,7 @@ let getDetailDoctorById = (inputId) => {
                 exclude: ['id', 'doctorId'],
               }, 
               include: [
-                // {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
                 {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
-                // {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
               ]
             },
           ],
@@ -266,7 +251,6 @@ let bulkCreateSchedule = (data) => {
         let schedule = data.arrSchedule
         if(schedule && schedule.length > 0) {
           schedule = schedule.map(item => {
-            // item.maxNumber = MAX_NUMBER_SCHEDULE
             return item;
 
           })
@@ -397,16 +381,6 @@ let getExtraInforDoctorById = (doctorId) => {
               as: 'priceTypeData',
               attributes: ['valueEn', 'valueVi'],
             },
-            // {
-            //   model: db.Allcode,
-            //   as: 'provinceTypeData',
-            //   attributes: ['valueEn', 'valueVi'],
-            // },
-            // {
-            //   model: db.Allcode,
-            //   as: 'paymentTypeData',
-            //   attributes: ['valueEn', 'valueVi'],
-            // }
           ],
           raw: false,
           nest: true,
@@ -750,7 +724,7 @@ let createPrescription = (data) => {
         }
         let checkBooking = await db.Booking.findOne({
           where: {
-            id: checkPrescription.bookingId
+            id: data.bookingId
           },
           raw: false,
         })

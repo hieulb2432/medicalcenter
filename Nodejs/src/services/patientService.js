@@ -240,7 +240,7 @@ let getAllHistorySchedule = (email, codeUser) => {
             },
             { model: db.Booking,
               // order: [['date', 'ASC']],
-              as: 'patientData', attributes: ['date', 'timeType', 'updatedAt', 'statusId'], 
+              as: 'patientData', attributes: ['date', 'timeType', 'updatedAt', 'statusId', 'id'], 
               include: [
                 {model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']},
                 {model: db.Allcode, as: 'statusIdData', attributes: ['valueEn', 'valueVi']},
@@ -290,61 +290,38 @@ let getAllBooking = () => {
   })
 }
 
-// let getBookingCancelForPatient = (bookingId) => {
-//   return new Promise(async(resolve, reject) => {
-//     try {
-//       if(!bookingId) {
-//         resolve({
-//           errCode: 1,
-//           errMessage: 'Missing required parameters'
-//         })
-//       } else {
-//         // const quaterHour = 15 * 60 * 1000
-//         let userBookingInfor1 = await db.Booking.findOne({
-//           where: {
-//             id: bookingId,
-//             statusId: ['S2','S3','S1'],
-//           },
-//           order: [['createdAt', 'DESC']],
-//           raw: false,
-//         });
+let getBookingCancelForPatient = (bookingId) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!bookingId) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        // const quaterHour = 15 * 60 * 1000
+        let checkCancel = await db.Booking.findOne({
+          where: {
+            id: bookingId,
+            statusId: ['S2','S1'],
+          },
+          raw: false,
+        });
 
-//         let userBookingInfor2 = await db.Booking.findOne({
-//           where: {
-//             doctorId: doctorId,
-//             date: date,
-//             timeType: timeType,
-//             statusId: ['S4'],
-//           },
-//           order: [['createdAt', 'DESC']],
-//           raw: false,
-//         });
-
-//         if(userBookingInfor1.statusId === 'S1' || userBookingInfor1.statusId === 'S2') {
-//           userBookingInfor1.statusId = 'S5';
-//           await userBookingInfor1.save();
-//           let userEmail = await db.User.findOne({
-//             where: {
-//               id: userBookingInfor1.patientId
-//             }, 
-//             raw: true
-//           })
-//           await emailService.sendCancelEmail(userBookingInfor1, userEmail.email)
-//         } else if (userBookingInfor2.statusId === 'S4') {
-//           userBookingInfor2.statusId = 'S5';
-//           await userBookingInfor2.save();
-//         }
-//         resolve({
-//           errCode: 0,
-//           data1: userBookingInfor1,
-//           data2: userBookingInfor2,
-//         })
-//       }
-//     } catch (e) {
-//       reject(e)
-//     }
-//   })
-// }
+        if (checkCancel) {
+          checkCancel.statusId = 'S4'
+          await checkCancel.save()
+        }
+        resolve({
+          errCode: 0,
+          data: checkCancel,
+        })
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
 
 module.exports = {
     postBookAppointment: postBookAppointment,
@@ -352,5 +329,5 @@ module.exports = {
     getHistoryAppointment: getHistoryAppointment,
     getAllHistorySchedule: getAllHistorySchedule,
     getAllBooking: getAllBooking,
-    // getBookingCancelForPatient: getBookingCancelForPatient
+    getBookingCancelForPatient: getBookingCancelForPatient
 }
