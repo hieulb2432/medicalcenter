@@ -124,27 +124,6 @@ let saveDetailInforDoctor = (inputData) => {
           errMessage: `Missing parameter ${checkObj.element}`
         })
       } else {
-        // Update && Insert to Markdown table
-        if (inputData.action === 'CREATE') {
-          await db.Markdown.create({
-            contentHTML: inputData.contentHTML,
-            contentMarkdown: inputData.contentMarkdown,
-            description: inputData.description,
-            doctorId: inputData.doctorId,
-          });
-        } else if (inputData.action === 'EDIT') {
-          let doctorMarkdown = await db.Markdown.findOne({
-            where: { doctorId: inputData.doctorId },
-            raw: false,
-          });
-          if (doctorMarkdown) {
-            doctorMarkdown.contentHTML = inputData.contentHTML;
-            doctorMarkdown.contentMarkdown = inputData.contentMarkdown;
-            doctorMarkdown.description = inputData.description;
-            doctorMarkdown.updateAt = new Date();
-            await doctorMarkdown.save();
-          }
-        }
         // Update && Insert to Doctor Infor table
         let doctorInfor = await db.Doctor_Infor.findOne({
           where: {
@@ -157,16 +136,20 @@ let saveDetailInforDoctor = (inputData) => {
           // Update
             doctorInfor.doctorId = inputData.doctorId;
             doctorInfor.priceId = inputData.selectedPrice;
-            // doctorInfor.note = inputData.note;
             doctorInfor.specialtyId = inputData.specialtyId;
             doctorInfor.clinicId = inputData.clinicId;
+            doctorInfor.contentHTML = inputData.contentHTML;
+            doctorInfor.contentMarkdown = inputData.contentMarkdown;
+            doctorInfor.description = inputData.description;
             await doctorInfor.save();
         } else {
           // Create
             await db.Doctor_Infor.create({
+              contentHTML: inputData.contentHTML,
+            contentMarkdown: inputData.contentMarkdown,
+            description: inputData.description,
               doctorId: inputData.doctorId,
               priceId: inputData.selectedPrice,
-              // note: inputData.note,
               specialtyId: inputData.specialtyId,
               clinicId: inputData.clinicId
             });
@@ -199,10 +182,6 @@ let getDetailDoctorById = (inputId) => {
             exclude: ['password'],
           },
           include: [
-            {
-              model: db.Markdown,
-              attributes: ['description', 'contentHTML', 'contentMarkdown']
-            },
             {
               model: db.Allcode,
               as: 'positionData',
@@ -417,10 +396,6 @@ let getProfileDoctorById = (doctorId) => {
           },
           include: [
             {
-              model: db.Markdown,
-              attributes: ['description', 'contentHTML', 'contentMarkdown']
-            },
-            {
               model: db.Allcode,
               as: 'positionData',
               attributes: ['valueEn', 'valueVi'],
@@ -433,7 +408,7 @@ let getProfileDoctorById = (doctorId) => {
               include: [
                 {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
                 {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
-                {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
+                // {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
               ]
             },
           ],

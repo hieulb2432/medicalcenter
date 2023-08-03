@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       Prescription.belongsTo(models.User, { foreignKey: 'doctorId', targetKey: 'id', as: 'doctorPrescriptionData' });
       Prescription.belongsTo(models.Allcode, {foreignKey: 'timeType', targetKey: 'keyMap', as: 'timeTypePrescription'});
       Prescription.belongsTo(models.Booking, {foreignKey: 'bookingId'})
-      Prescription.hasMany(models.Tests, {foreignKey: 'prescriptionId', as: 'prescriptionData'});
+      // Prescription.hasMany(models.Tests, {foreignKey: 'prescriptionId', as: 'prescriptionData'});
 
     }
   };
@@ -26,12 +26,12 @@ module.exports = (sequelize, DataTypes) => {
     diagnostic: DataTypes.STRING,
     drugId: DataTypes.STRING,
     quantity: DataTypes.TEXT('long'),
-    note: DataTypes.STRING,
+    // note: DataTypes.STRING,
     doctorAdvice: DataTypes.STRING,
     timeType: DataTypes.STRING,
     date: DataTypes.STRING,
     bookingId: DataTypes.INTEGER,
-    order: DataTypes.STRING, 
+    // order: DataTypes.STRING, 
   }, {
     sequelize,
     modelName: 'Prescription',

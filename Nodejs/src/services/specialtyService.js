@@ -89,7 +89,6 @@ let getDetailSpecialtyById = (inputId, location, clinicId) => {
                 attributes: ['doctorId', 'provinceId'],
               }) 
             }
-            console.log('abc', doctorSpecialty)
             data.doctorSpecialty = doctorSpecialty
           } else data = {}
           resolve({
