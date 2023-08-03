@@ -39,12 +39,12 @@
         "doctor": {
             "doctor-page": "Trang quản lý của bác sĩ",
             "manage-schedule": "Quản lý kế hoạch khám bệnh",
-            "manage-patient": "Quản lý bệnh nhân khám bệnh",
-            "manage-patient-success": "Quản lý bệnh nhân hoàn thành khám"
+            "manage-patient": "Danh sách khám bệnh",
+            "manage-patient-success": "Danh sách lịch khám hoàn thành"
         },
         "teststaff" : {
             "teststaff-page": "Trang nhân viên xét nghiệm",
-            "testing-page": "Quản lý bệnh nhân đang xét nghiệm",
+            "testing-page": "Quản lý bệnh nhân xét nghiệm",
             "test-done-page": "Quản lý bệnh nhân đã xét nghiệm"
         }
 },
@@ -99,8 +99,8 @@
     "close": "Đóng",
     "gender": "Giới tính",
     "address": "Địa chỉ",
-    "manage-patient": "Quản lý bệnh nhân đã đặt lịch khám",
-    "manage-success-patient": "Quản lý bệnh nhân đã hoàn thành lịch khám",
+    "manage-patient": "Danh sách khám bệnh",
+    "manage-success-patient": "Danh sách lịch khám hoàn thành",
     "send-remedy": "Gửi hóa đơn",
     "no-data": "Không có dữ liệu",
     "upload": "Chọn hóa đơn",

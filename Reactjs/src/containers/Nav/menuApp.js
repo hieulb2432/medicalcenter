@@ -6,7 +6,13 @@ export const adminMenu = [
           {
             name: 'menu.admin.crud-redux',
             link: '/system/manage-user',
-          },
+          }
+        ],
+      },
+      {
+        //Quản lý người dùng
+        name: 'menu.admin.manage-user',
+        menus: [
           {
             name: 'menu.admin.manage-doctor',
             link: '/system/manage-doctor',
@@ -45,11 +51,21 @@ export const doctorMenu = [
         name: 'menu.doctor.manage-schedule',
         link: '/doctor/manage-schedule',
       },
+    ],
+  },
+  {
+    name: 'menu.doctor.doctor-page',
+    menus: [
       {
         //Quản lý benh nhan khám bệnh của bác sĩ
         name: 'menu.doctor.manage-patient',
         link: '/doctor/manage-patient',
       },
+    ],
+  },
+  {
+    name: 'menu.doctor.doctor-page',
+    menus: [
       {
         //Quản lý benh nhan đã hoàn thành khám
         name: 'menu.doctor.manage-patient-success',
@@ -68,6 +84,11 @@ export const testStaffMenu = [
         name: 'menu.teststaff.testing-page',
         link: '/teststaff/manage-test',
       },
+    ],
+  },
+  {
+    name: 'menu.teststaff.teststaff-page',
+    menus: [
       {
         //Quản lý xét nghiệm bệnh nhân đã xong
         name: 'menu.teststaff.test-done-page',

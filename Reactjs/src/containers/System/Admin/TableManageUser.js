@@ -4,18 +4,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './TableManageUser.scss';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils';
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
-// import style manually
 import {getFilterUser, getAllCodeService} from '../../../services/userService'
 import _ from 'lodash';
-import 'react-markdown-editor-lite/lib/index.css';
-
-// Register plugins if required
-// MdEditor.use(YOUR_PLUGINS_HERE);
-
-// Initialize a markdown parser
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class TableManageUser extends Component {
 

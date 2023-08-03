@@ -84,6 +84,7 @@ class ProfileDoctor extends Component {
         let {language, isShowDescriptionDoctor, 
             dataTime, isShowLinkDetail, isShowPrice,
             doctorId} = this.props
+            console.log(dataProfile)
         let nameVi, nameEn
         if(dataProfile && dataProfile.positionData) {
             nameVi = `${dataProfile.positionData?.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
@@ -103,9 +104,9 @@ class ProfileDoctor extends Component {
                                 <div className='down'>
                                     {isShowDescriptionDoctor === true ?
                                     <>
-                                        {dataProfile.Markdown && dataProfile.Markdown.description && 
+                                        {dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.description && 
                                             <span>
-                                                {dataProfile.Markdown.description}
+                                                {dataProfile.Doctor_Infor.description}
                                             </span>    
                                         }
                                         {isShowLinkDetail === true && 

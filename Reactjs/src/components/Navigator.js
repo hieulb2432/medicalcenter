@@ -27,7 +27,7 @@ class Menu extends Component {
     render() {
         const { name, active, link, children, onClick, hasSubMenu, onLinkClick } = this.props;
         return (
-            <li className={"menu" + (hasSubMenu ? " has-sub-menu" : "") + ("") + (active ? " active" : "")}>
+            <li className={"menu" + (hasSubMenu ? " has-sub-menu" : " ") + ("") + (active ? " active" : "")}>
                 {hasSubMenu ? (
                     <Fragment>
                         <span
@@ -37,9 +37,9 @@ class Menu extends Component {
                             aria-expanded={"false"}
                         >
                             <FormattedMessage id={name} />
-                            <div className="icon-right">
+                            {/* <div className="icon-right">
                                 <i className="fas fa-angle-right"></i>
-                            </div>
+                            </div> */}
                         </span>
                         <div>
                             <ul className="sub-menu-list list-unstyled">
@@ -47,12 +47,22 @@ class Menu extends Component {
                             </ul>
                         </div>
                     </Fragment>
-                ) : (
-                    
-                        <Link to={link} className="menu-link" onClick={onLinkClick}>
+                ) 
+                : 
+                (
+                        <Link to={link} className="menu-group menu-link" onClick={onLinkClick}>
+                             <span
+                            style={{textDecoration: 'none'}}
+                            data-toggle="collapse"
+                            className={"menu-group-name"}
+                            onClick={onClick}
+                            aria-expanded={"false"}
+                            >
                             <FormattedMessage id={name} />
+                        </span>
                         </Link>
-                    )}
+                    )
+                }
             </li>
         );
     }
@@ -171,51 +181,68 @@ class Navigator extends Component {
         };
     };
 
-    render() {
-        const { menus, location, onLinkClick } = this.props;
-        return (
-            <Fragment>
-                <ul className="navigator-menu list-unstyled">
-                    {
-                        menus.map((group, groupIndex) => {
-                            return (
-                                <Fragment key={groupIndex}>
-                                    <MenuGroupWithRouter name={group.name}>
-                                        {group.menus ? (
-                                            group.menus.map((menu, menuIndex) => {
-                                                const isMenuHasSubMenuActive = this.isMenuHasSubMenuActive(location, menu.subMenus, menu.link);
-                                                const isSubMenuOpen = this.state.expandedMenu[groupIndex + '_' + menuIndex] === true;
-                                                return (
-                                                    <MenuWithRouter
-                                                        key={menuIndex}
-                                                        active={isMenuHasSubMenuActive}
-                                                        name={menu.name}
-                                                        link={menu.link}
-                                                        hasSubMenu={menu.subMenus}
-                                                        isOpen={isSubMenuOpen}
-                                                        onClick={() => this.toggle(groupIndex, menuIndex)}
-                                                        onLinkClick={onLinkClick}
-                                                    >
-                                                        {menu.subMenus && menu.subMenus.map((subMenu, subMenuIndex) => (
-                                                            <SubMenuWithRouter
-                                                                key={subMenuIndex}
-                                                                name={subMenu.name}
-                                                                link={subMenu.link}
-                                                                onClick={this.closeOtherExpand}
-                                                                onLinkClick={onLinkClick}
-                                                            />
-                                                        ))}
-                                                    </MenuWithRouter>
-                                                );
-                                            })
-                                        ) : null}
-                                    </MenuGroupWithRouter>
-                                </Fragment>
-                            );
-                        })
-                    }
-                </ul>
+render() {
+    const { menus, location, onLinkClick } = this.props;
+    return (
+      <Fragment>
+        <ul className="navigator-menu list-unstyled">
+          {menus.map((group, groupIndex) => (
+            <Fragment key={groupIndex}>
+              {group.menus ? (
+                group.menus.length === 1 ? ( // Kiểm tra xem có 1 subMenu hay nhiều subMenu
+                  // Hiển thị subMenu thay thế cho menu
+                  <MenuWithRouter
+                    key={groupIndex}
+                    active={this.isMenuHasSubMenuActive(location, group.menus[0].subMenus, group.menus[0].link)}
+                    name={group.menus[0].name}
+                    link={group.menus[0].link}
+                    hasSubMenu={group.menus[0].subMenus}
+                    isOpen={this.state.expandedMenu[groupIndex + '_0'] === true}
+                    onClick={() => this.toggle(groupIndex, 0)}
+                    onLinkClick={onLinkClick}
+                  >
+                    {group.menus[0].subMenus && group.menus[0].subMenus.map((subMenu, subMenuIndex) => (
+                      <SubMenuWithRouter
+                        key={subMenuIndex}
+                        name={subMenu.name}
+                        link={subMenu.link}
+                        onClick={this.closeOtherExpand}
+                        onLinkClick={onLinkClick}
+                      />
+                    ))}
+                  </MenuWithRouter>
+                ) : (
+                  // Hiển thị menu với nhiều subMenu
+                  <MenuGroupWithRouter name={group.name}>
+                    {group.menus.map((menu, menuIndex) => (
+                      <MenuWithRouter
+                        key={menuIndex}
+                        active={this.isMenuHasSubMenuActive(location, menu.subMenus, menu.link)}
+                        name={menu.name}
+                        link={menu.link}
+                        hasSubMenu={menu.subMenus}
+                        isOpen={this.state.expandedMenu[groupIndex + '_' + menuIndex] === true}
+                        onClick={() => this.toggle(groupIndex, menuIndex)}
+                        onLinkClick={onLinkClick}
+                      >
+                        {menu.subMenus && menu.subMenus.map((subMenu, subMenuIndex) => (
+                          <SubMenuWithRouter
+                            key={subMenuIndex}
+                            name={subMenu.name}
+                            link={subMenu.link}
+                            onClick={this.closeOtherExpand}
+                            onLinkClick={onLinkClick}
+                          />
+                        ))}
+                      </MenuWithRouter>
+                    ))}
+                  </MenuGroupWithRouter>
+                )
+              ) : null}
             </Fragment>
+          ))}
+        </ul>
+      </Fragment>
         );
     }
 }

@@ -148,9 +148,9 @@ class SearchHistory extends Component {
         endIndex: newEndIndex,
       });
     };
-    
+
     handleCancel = async (item) => {
-      let {isGreaterThan15Minutes} = this.state;
+      let { isTimeGreaterThan15Minutes } = this.state;
       const timeTypeToHourMap = {
         T1: 8,
         T2: 9,
@@ -161,28 +161,36 @@ class SearchHistory extends Component {
         T7: 15,
         T8: 16,
       };
-      const startTimeHour = timeTypeToHourMap[item.timeType]; // Lấy giá trị giờ bắt đầu của timeType từ đối tượng ánh xạ timeTypeToHourMap
-      const startTime = `1970-01-01T${startTimeHour}:00`;
-      const startTimeObject = new Date(startTime);
-
+      const startTimeHour = timeTypeToHourMap[item.timeType];
+    
+      // Lấy ngày tháng năm hiện tại
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cần cộng thêm 1
+      const currentDay = currentDate.getDate();
+    
+      // Chuỗi định dạng giờ mới
+      const startTime = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}T${startTimeHour}:00`;
+    
+      const startTimeObject = new Date(startTime); // Chuyển chuỗi "yyyy-mm-ddThh:mm" thành đối tượng Date
       const currentTime = new Date();
       const differenceInMinutes = (startTimeObject - currentTime) / (1000 * 60);
-      
-      
+    
       this.setState({ 
-        isGreaterThan15Minutes: differenceInMinutes > 15 
+        isTimeGreaterThan15Minutes: differenceInMinutes > 15 
       });
-
-      if (isGreaterThan15Minutes) {
+      console.log(differenceInMinutes, isTimeGreaterThan15Minutes, startTimeObject, currentTime)
+    
+      if (isTimeGreaterThan15Minutes) {
         let res = await getBookingCancelForPatient(item.id)
-        if(res && res.errCode === 0) {
+        if (res && res.errCode === 0) {
           toast.success('Hủy lịch khám thành công!');
         } else {
-            toast.error('Không thể hủy lịch khám này!');
+          toast.error('Lịch khám này đã hoàn thành hoặc đã hủy. Không thể hủy lịch khám này!');
         }
       }
     }
-
+    
     render() {
       let {dataHistory, isOpenHistory, startIndex, endIndex, dataMedicailRecord, isOpenMedicalRecord} = this.state
         return (
