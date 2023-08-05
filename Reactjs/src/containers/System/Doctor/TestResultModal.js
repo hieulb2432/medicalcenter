@@ -31,14 +31,13 @@ class TestResultModal extends Component {
     render() {
         let {isOpenModal, dataTestResultModal, closeTestResultModal} = this.props;
         let formattedDate = moment.unix(dataTestResultModal && dataTestResultModal.data && dataTestResultModal.data.bookingData? +dataTestResultModal.data.bookingData.date / 1000 : '').format('DD/MM/YYYY')
-
         let imageBase64 = '';
         if (dataTestResultModal.data && dataTestResultModal.data.testImage) {
             imageBase64 = Buffer.from(dataTestResultModal.data.testImage, 'base64').toString('binary');
         } else {imageBase64 = ''}
         return (
             <>
-            <Modal isOpen={this.state.isImageModalOpen} toggle={this.closeImageModal} centered>
+            <Modal isOpen={this.state.isImageModalOpen} toggle={this.closeImageModal} centered style={{maxWidth: '700px', maxHeight: '500px'}}>
                 <ModalHeader toggle={this.closeImageModal}>Hình ảnh xét nghiệm</ModalHeader>
                 <ModalBody>
                     <img src={imageBase64} alt="Xét nghiệm" style={{ width: '100%' }} />
@@ -57,6 +56,7 @@ class TestResultModal extends Component {
                     </button>
                 </div>
                 <ModalBody>
+                    {dataTestResultModal && dataTestResultModal.data?
                     <div className='row'>
                         <div className='col-12 content-up'>
                             <div style={{fontSize: '15px', fontWeight: 'bold'}}>Thông tin bệnh nhân</div>
@@ -111,6 +111,9 @@ class TestResultModal extends Component {
                         <div style={{textAlign: 'center', width: '100%'}}>Chưa có kết quả xét nghiệm</div>
                         }
                     </div>
+                    :
+                    <div style={{textAlign: 'center', width: '100%'}}>Chưa có kết quả xét nghiệm</div>
+                    }
 
                 </ModalBody>
                 <ModalFooter>

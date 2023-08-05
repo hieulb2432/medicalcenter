@@ -155,7 +155,7 @@ class ManagePatient extends Component {
             this.setState({
                 isShowLoading: false
             })
-            toast.success('Gửi hóa đơn thành công')
+            toast.success('Tạo đơn thuốc thành công')
             this.closePrescriptionModal()
             await this.getDataPatient()
         } else {
@@ -184,7 +184,7 @@ class ManagePatient extends Component {
             this.setState({
                 isShowLoading: false
             })
-            toast.success('Gửi hóa đơn thành công')
+            toast.success('Gửi xét nghiệm thành công')
             this.closeTestModal()
             await this.getDataPatient()
         } else {
@@ -214,7 +214,7 @@ class ManagePatient extends Component {
         } = this.state
         let {currentDate} = this.state
         let {language} = this.props
-        console.log("language", dataMedicalRecord)
+        console.log("language", dataPrescriptionModal)
         return (
             <div className='col-10'>
             <LoadingOverlay

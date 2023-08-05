@@ -51,14 +51,14 @@ class ModalBookingInfo extends Component {
           isUpdate: true
         })
         toast.success('Hủy lịch khám thành công. Đã gửi email tới bệnh nhân!');
-        // this.props.closeBookingModal();
+        this.props.toggle();
       } else {
           toast.error('Lịch khám này đã hoàn thành hoặc đã hủy. Không thể hủy lịch khám này!');
       }
     }
 
     render() {
-        const { isOpen, toggle, bookingData, doctorId, date, timeType} = this.props;
+        const { isOpen, toggle, bookingData, doctorId, date, timeType, } = this.props;
         const {patientInfor} = this.state;
         return (
           <Modal
@@ -79,6 +79,7 @@ class ModalBookingInfo extends Component {
                                     <th><label><FormattedMessage id="manage-schedule.email"/></label></th>
                                     <th><label><FormattedMessage id="manage-schedule.time"/></label></th>
                                     <th><label><FormattedMessage id="manage-schedule.status"/></label></th>
+                                    <th style={{textAlign: "center"}}>Thao tác</th>
                                 </tr>
                                 {patientInfor && patientInfor.data.length > 0 ? 
                                     patientInfor?.data.map((item, index) => {
@@ -90,6 +91,13 @@ class ModalBookingInfo extends Component {
                                         <td>{item['patientData.email']}</td>
                                         <td>{item['timeTypeDataPatient.valueVi']}</td>
                                         <td>{item['statusIdData.valueVi']}</td>
+                                        {item.statusId === 'S1' || item.statusId === 'S2'? (<td><Button color="primary" className="px-3" 
+                                          style={{textAlign: "center"}}
+                                          onClick={this.cancelBooking}
+                                          >
+                                            <label style={{marginBottom: '0', cursor: 'pointer'}}><FormattedMessage id="manage-schedule.cancel"/></label>
+                                          </Button></td>)
+                                            : (<div style={{textAlign: "center"}}>-</div>)}
                                     </tr>
                                     )
                                 })
@@ -107,13 +115,13 @@ class ModalBookingInfo extends Component {
             </ModalBody>
 
             <ModalFooter>
-              <Button color="primary" className="px-3" 
+              {/* <Button color="primary" className="px-3" 
               onClick={this.cancelBooking}
               >
-                <label><FormattedMessage id="manage-schedule.cancel"/></label>
-              </Button>{' '}
+                <label style={{marginBottom: '0'}}><FormattedMessage id="manage-schedule.cancel"/></label>
+              </Button>{' '} */}
               <Button className="px-3" onClick={toggle}>
-              <label><FormattedMessage id="manage-schedule.close"/></label>
+              <label style={{marginBottom: '0', cursor: 'pointer'}}><FormattedMessage id="manage-schedule.close"/></label>
               </Button>
             </ModalFooter>
           </Modal>

@@ -239,7 +239,6 @@ let getAllHistorySchedule = (email, codeUser) => {
               attributes: ['valueEn', 'valueVi'],
             },
             { model: db.Booking,
-              // order: [['date', 'ASC']],
               as: 'patientData', attributes: ['date', 'timeType', 'updatedAt', 'statusId', 'id'], 
               include: [
                 {model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']},
@@ -260,7 +259,6 @@ let getAllHistorySchedule = (email, codeUser) => {
           ],
           raw: false
         })
-        
         if(checkUser){
           resolve({
             errCode: 0,

@@ -22,7 +22,6 @@ class SearchHistory extends Component {
             endIndex: 9,
             dataMedicailRecord: {},
             isOpenMedicalRecord: false,
-            isTimeGreaterThan15Minutes: false,
         }
     }
 
@@ -84,7 +83,7 @@ class SearchHistory extends Component {
         if(this.state.userId == this.state.dataHistoryCode) {
           let res = await getAllHistorySchedule(this.state.email, this.state.dataHistoryCode);
           let data = res.data;
-          data.patientData = data.patientData.sort((a, b) => +a.date - +b.date)
+          data.patientData = data.patientData.sort((a, b) => +a.date - +b.date).reverse()
             this.setState({
               dataHistory: data,
               isOpenHistory: true
@@ -150,7 +149,6 @@ class SearchHistory extends Component {
     };
 
     handleCancel = async (item) => {
-      let { isTimeGreaterThan15Minutes } = this.state;
       const timeTypeToHourMap = {
         T1: 8,
         T2: 9,
@@ -162,38 +160,35 @@ class SearchHistory extends Component {
         T8: 16,
       };
       const startTimeHour = timeTypeToHourMap[item.timeType];
-    
-      // Lấy ngày tháng năm hiện tại
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cần cộng thêm 1
-      const currentDay = currentDate.getDate();
-    
+      const date = moment.unix(+item.date/1000)
+      const currentDay = date.date(); 
+      const currentMonth = date.month() + 1;
+      const currentYear = date.year(); 
+      
+
       // Chuỗi định dạng giờ mới
       const startTime = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}T${startTimeHour}:00`;
+
+      const startTimeObject = moment(startTime, "YYYY-MM-DDTHH:mm");
+      const timestamp = startTimeObject.valueOf();
+
+      const currentTimeDate = moment();
+      const currentTime = currentTimeDate.valueOf();
+      const differenceInMinutes = (timestamp - currentTime) / (1000 * 60);
     
-      const startTimeObject = new Date(startTime); // Chuyển chuỗi "yyyy-mm-ddThh:mm" thành đối tượng Date
-      const currentTime = new Date();
-      const differenceInMinutes = (startTimeObject - currentTime) / (1000 * 60);
-    
-      this.setState({ 
-        isTimeGreaterThan15Minutes: differenceInMinutes > 15 
-      });
-      console.log(differenceInMinutes, isTimeGreaterThan15Minutes, startTimeObject, currentTime)
-    
-      if (isTimeGreaterThan15Minutes) {
+      if (differenceInMinutes > 15) {
         let res = await getBookingCancelForPatient(item.id)
         if (res && res.errCode === 0) {
           toast.success('Hủy lịch khám thành công!');
         } else {
-          toast.error('Lịch khám này đã hoàn thành hoặc đã hủy. Không thể hủy lịch khám này!');
+          toast.error('Lỗi')
         }
-      }
+      } else {toast.error('Lịch khám này đã hoàn thành hoặc đã hủy. Không thể hủy lịch khám này!');}
     }
     
     render() {
       let {dataHistory, isOpenHistory, startIndex, endIndex, dataMedicailRecord, isOpenMedicalRecord} = this.state
-        return (
+      return (
             <>
                 <div className="container">
                 <div className="row g-3">

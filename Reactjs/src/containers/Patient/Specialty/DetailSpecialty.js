@@ -62,6 +62,7 @@ class DetailSpecialty extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshots) {    
+        
     }
     
     render() {

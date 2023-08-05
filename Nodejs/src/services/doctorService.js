@@ -638,7 +638,7 @@ let getScheduleCancel = (doctorId, date, timeType) => {
         } else if (userBookingInfor2.statusId === 'S4') {
           userBookingInfor2.statusId = 'S5';
           await userBookingInfor2.save();
-        }
+        } 
         resolve({
           errCode: 0,
           data1: userBookingInfor1,

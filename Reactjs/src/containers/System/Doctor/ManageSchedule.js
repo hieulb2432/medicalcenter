@@ -218,7 +218,6 @@ class ManageSchedule extends Component {
     render() {
         const { currentDate, rangeTime, dataPatient, checkToday} = this.state;
         const { language, user} = this.props;
-        console.log('language: ', currentDate)
         let nameVi, nameEn
         if(user) {
             nameVi = `${user.lastName} ${user.firstName}`;
