@@ -1,14 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './ManageSchedule.scss'
 import { FormattedMessage } from 'react-intl'
-import Select from 'react-select';
-import {CRUD_ACTION, LANGUAGES, dateFormat} from '../../../utils'
+import { LANGUAGES } from '../../../utils'
 import * as actions from '../../../store/actions';
 import DatePicker from '../../../components/Input/DatePicker'
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import _, { range, result } from 'lodash';
+import _ from 'lodash';
 import {saveBulkSchecduleDoctorService, getListPatientForOneDoctorService} from '../../../services/userService'
 import ModalBookingInfo from './ModalBookingInfo';
 
@@ -238,7 +237,7 @@ class ManageSchedule extends Component {
                                 className='form-control'
                                 style={{ marginTop: '20px' }}                                
                                 value={currentDate}
-                                // minDate={new Date()}
+                                // minDate={today}
                             />
                         </div>
                         <div className='col-9 pick-hour-container'>

@@ -16,7 +16,6 @@ class TableManageUser extends Component {
             action: '',
             isOpenModalUser: false,
             previewImgURL: '',
-            isOpen: false, // Xem prview ảnh
             startIndex: 0,
             endIndex: 12,
             listRole: []

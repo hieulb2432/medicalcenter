@@ -256,7 +256,6 @@ let getFilterUser = (role) => {
   return new Promise(async(resolve, reject) => {
     try{
       if(!role) {
-        
         resolve({
           errCode: 1,
           errMessage: 'Missing required parameter'
@@ -296,14 +295,12 @@ let getFilterUser = (role) => {
                 raw: true
               }) 
             }
-          roleUser.reverse();
+          // roleUser.reverse();
           resolve({
             errCode: 0,
             errMessage: 'OK',
             roleUser
           })
-
-
       }
     } catch(e) {
       reject(e)

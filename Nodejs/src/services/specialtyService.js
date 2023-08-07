@@ -52,10 +52,10 @@ let getAllSpecialty = () => {
   })
 }
 
-let getDetailSpecialtyById = (inputId, location, clinicId) => {
+let getDetailSpecialtyById = (inputId, clinicId) => {
   return new Promise(async(resolve, reject) => {
     try{
-      if(!inputId || !location) {
+      if(!inputId) {
         
         resolve({
           errCode: 1,
@@ -63,39 +63,27 @@ let getDetailSpecialtyById = (inputId, location, clinicId) => {
         })
       } else {
         let data = await db.Specialty.findOne({
+          where: {
+            id: inputId
+          }, 
+          attributes: ['descriptionHTML', 'descriptionMarkdown'],
+        })
+        if(data){
+          let doctorSpecialty = []
+          doctorSpecialty = await db.Doctor_Infor.findAll({
             where: {
-              id: inputId
-            }, 
-            attributes: ['descriptionHTML', 'descriptionMarkdown'],
-          })
-
-          if(data){
-            let doctorSpecialty = []
-            if(location === 'ALL'){
-              doctorSpecialty = await db.Doctor_Infor.findAll({
-                where: {
-                  specialtyId: inputId,
-                  clinicId: clinicId,
-                },
-                attributes: ['doctorId', 'provinceId'],
-              }) 
-            } else{
-              // find doctor by location
-              doctorSpecialty = await db.Doctor_Infor.findAll({
-                where: {
-                  specialtyId: inputId,
-                  provinceId: location
-                },
-                attributes: ['doctorId', 'provinceId'],
-              }) 
-            }
-            data.doctorSpecialty = doctorSpecialty
-          } else data = {}
-          resolve({
-            errCode: 0,
-            errMessage: 'OK',
-            data
-          })
+              specialtyId: inputId,
+              clinicId: clinicId,
+            },
+            attributes: ['doctorId'],
+          }) 
+          data.doctorSpecialty = doctorSpecialty
+        } else data = {}
+        resolve({
+          errCode: 0,
+          errMessage: 'OK',
+          data
+        })
       }
     } catch(e) {
       reject(e)

@@ -15,7 +15,6 @@ class DetailSpecialty extends Component {
         this.state = {
             arrDoctorId: [],
             dataDetailSpecialty: {},
-            listProvince: []
         }
     }
 
@@ -24,12 +23,10 @@ class DetailSpecialty extends Component {
             let id = this.props.match.params.id
             let res = await getDetailSpecialtyByIdService({
                 id: id,
-                location: 'ALL',
                 clinicId: this.props.clinicId
             })
 
-            let resProvince = await getAllCodeService('PROVINCE')
-            if(res && res.errCode === 0 && resProvince && resProvince.errCode === 0) {
+            if(res && res.errCode === 0) {
                 let data = res.data
                 let arrDoctorId = []
                 if(data && !_.isEmpty(res.data)){
@@ -40,28 +37,15 @@ class DetailSpecialty extends Component {
                         })
                     }
                 }
-
-                let dataProvince = resProvince.data
-                if(dataProvince && dataProvince.length>0){
-                    dataProvince.unshift({
-                        createdAt: null,
-                        keyMap: 'ALL',
-                        type: 'PROVINCE',
-                        valueVi: 'Toàn quốc',
-                        valueEn: 'ALL',
-                      });
-                }
                 this.setState({
                     dataDetailSpecialty: res.data,
                     arrDoctorId: arrDoctorId,
-                    listProvince: dataProvince ? dataProvince : []
                 })
             }
         }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshots) {    
-        
     }
     
     render() {
@@ -100,7 +84,7 @@ class DetailSpecialty extends Component {
                                 <div className='col-12 dt-content-right'>
                                     <div className='doctor-schedule'>
                                         <DoctorSchedule 
-                                                doctorIdFromParent={item}
+                                            doctorIdFromParent={item}
                                         />
                                     </div>
                                 </div>  

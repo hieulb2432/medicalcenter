@@ -77,7 +77,7 @@ export const getAllSpecialtyService = () => {
 };
 
 export const getDetailSpecialtyByIdService = (data) => {
-  return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}&clinicId=${data.clinicId}`);
+  return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&clinicId=${data.clinicId}`);
 };
 
 export const handleDeleteSpecialty = (id) => {

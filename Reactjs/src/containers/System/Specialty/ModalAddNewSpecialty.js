@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-// import { emitter } from '../../../utils/emitter';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
@@ -61,7 +60,6 @@ class ModalAddNewSpecialty extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            // let objectUrl = URL.createObjectURL(file);
             this.setState({
                 imageBase64: base64,
             });
@@ -76,10 +74,10 @@ class ModalAddNewSpecialty extends Component {
     }
 
     handleSaveClinic = async () => {
-    await this.props.fetchCreateNewSpecialty(this.state)
-    let isValid = this.checkValidateInput();
-    if(isValid == false) return;
-    this.props.toggle()
+        await this.props.fetchCreateNewSpecialty(this.state)
+        let isValid = this.checkValidateInput();
+        if(isValid == false) return;
+        this.props.toggle()
     }
 
     render() {

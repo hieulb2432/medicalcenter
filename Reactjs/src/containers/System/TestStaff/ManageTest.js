@@ -71,7 +71,7 @@ class DefaultClass extends Component {
 
     handleChangeSelect = async (selectedDoctor) => {
         this.setState({ selectedDoctor })
-      };
+    };
 
     getTestByDoctor = async () => {
         let {selectedDoctor, currentDate} = this.state;
@@ -85,7 +85,6 @@ class DefaultClass extends Component {
             return;
         }
         
-
         let res = await getTest({
             doctorId: selectedDoctor.value,
             date: formatedDate
@@ -161,7 +160,6 @@ class DefaultClass extends Component {
                             onChange={this.handleOnChangeDatePicker}
                             className='form-control'
                             value={currentDate}
-
                         />
                 </div>
                 <div className='col-3 form-group'>

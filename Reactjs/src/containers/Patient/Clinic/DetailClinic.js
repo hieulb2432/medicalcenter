@@ -13,7 +13,7 @@ class DetailClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            arrDoctorId: [],
+            // arrDoctorId: [],
             dataDetailClinic: {},
         }
     }
@@ -31,24 +31,24 @@ class DetailClinic extends Component {
             this.props.setClinicId(id)
             let res = await getDetailClinicByIdService({
                 id: id,
-                location: 'ALL'
+                // location: 'ALL'
             })
 
             if(res && res.errCode === 0) {
-                let data = res.data
-                let arrDoctorId = []
-                if(data && !_.isEmpty(res.data)){
-                    let arr = data.doctorClinic;
-                    if(arr && arr.length>0){
-                        arr.map(item => {
-                            arrDoctorId.push(item.doctorId)
-                        })
-                    }
-                }
+                // let data = res.data
+                // let arrDoctorId = []
+                // if(data && !_.isEmpty(res.data)){
+                //     let arr = data.doctorClinic;
+                //     if(arr && arr.length>0){
+                //         arr.map(item => {
+                //             arrDoctorId.push(item.doctorId)
+                //         })
+                //     }
+                // }
 
                 this.setState({
                     dataDetailClinic: res.data,
-                    arrDoctorId: arrDoctorId,
+                    // arrDoctorId: arrDoctorId,
                 })
             }
         }

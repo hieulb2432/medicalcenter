@@ -68,35 +68,13 @@ class UserRedux extends Component {
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
             })
         }
-
-        // if(prevProps.listUsers !== this.props.listUsers) {
-        //     let arrGenders = this.props.genderRedux;
-        //     let arrRoles = this.props.roleRedux;
-        //     let arrPositions = this.props.positionRedux;
-
-        //     this.setState({
-        //         email: '',
-        //         password: '',
-        //         firstName: '',
-        //         lastName: '',
-        //         phoneNumber: '',
-        //         address: '',
-        //         gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
-        //         role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
-        //         position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
-        //         // avatar: '',
-        //         image: '',
-        //         previewImgURL: '',
-        //         action: CRUD_ACTION.CREATE,
-        //     })
-        // }
     }
 
     handleEditUserFromParent = (user) => {
-    this.setState({
-        isOpenModalEditUser: true
-    })
-    this.setState({currentUser: user})
+        this.setState({
+            isOpenModalEditUser: true
+        })
+        this.setState({currentUser: user})
     }
 
     handleAddNewUser = () => {
@@ -116,6 +94,7 @@ class UserRedux extends Component {
             isOpenModalEditUser: !this.state.isOpenModalEditUser,
         })
     }
+    
     render() {
         let {isOpenModalUser} = this.state;
         let {language} = this.props

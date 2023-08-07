@@ -59,14 +59,14 @@ class ModalEditClinic extends Component {
                 imageBase64: base64,
             });
         }
-        };
+    };
     
     handleEditorChange = ({ html, text }) => {
         this.setState({
             descriptionHTML: html,
             descriptionMarkdown: text,
         });
-        }
+    }
 
     handleSaveClinic = async () => {
         await this.props.editClinic(this.state)

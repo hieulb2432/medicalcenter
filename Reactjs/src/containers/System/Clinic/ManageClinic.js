@@ -40,12 +40,12 @@ class ManageClinic extends Component {
         this.setState({
             isOpenNewClinic: true
         })
-      }
+    }
       
     toggleClinicModal = () => {
-            this.setState({
-                isOpenNewClinic: !this.state.isOpenNewClinic,
-            })
+        this.setState({
+            isOpenNewClinic: !this.state.isOpenNewClinic,
+        })
     }
   
     handleEditClinic = (clinic) => {
@@ -57,10 +57,11 @@ class ManageClinic extends Component {
     }
         
     toggleClinicModalEdit = () => {
-            this.setState({
-                isOpenEditClinic: !this.state.isOpenEditClinic,
-            })
-        }
+        this.setState({
+            isOpenEditClinic: !this.state.isOpenEditClinic,
+        })
+    }
+
     handleNextPage = () => {
     const { endIndex } = this.state;
     const newEndIndex = Number(Math.min(+endIndex + 5, +this.state.dataClinic.length - 1));

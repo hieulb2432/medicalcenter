@@ -223,6 +223,20 @@ class ModalEditUser extends Component {
                     </div>
                     <div className='col-3'>
                         <label><FormattedMessage id="manage-user.position"/></label>
+                        {this.state.roleId === 'R1' || this.state.roleId === 'R3' || this.state.roleId === 'R4' ?
+                        <select className="form-control"
+                        onChange={(event)=>{this.onChangeInput(event, 'positionId')}}
+                        value={this.state.positionId}
+                            >
+                                {positions && positions.length > 0 && positions.map((item, index) => {
+                                    return (
+                                        <option key = {index} value={item.keyMap[0]}>
+                                            {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                            :
                             <select className="form-control"
                                 onChange={(event)=>{this.onChangeInput(event, 'positionId')}}
                                 value={this.state.positionId}
@@ -235,6 +249,7 @@ class ModalEditUser extends Component {
                                     )
                                 })}
                             </select>
+                        }
                     </div>
                     <div className='col-3'>
                         <label><FormattedMessage id="manage-user.image"/></label>

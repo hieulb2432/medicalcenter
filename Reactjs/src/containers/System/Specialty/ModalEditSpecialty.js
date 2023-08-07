@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-// import { emitter } from '../../../utils/emitter';
 import 'react-image-lightbox/style.css';
-import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
+import {CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
@@ -23,7 +22,6 @@ class ModalEditSpecialty extends Component {
             imageBase64: this.props.specialty.image,
             descriptionHTML: this.props.specialty.descriptionHTML,
             descriptionMarkdown: this.props.specialty.descriptionMarkdown,
-            // previewImgURL: Buffer.from(this.props.specialty.image, 'base64').toString('binary')
         };
     }
 
@@ -32,7 +30,6 @@ class ModalEditSpecialty extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        
     }
 
     handleOnChangeInput = (event, id) => {
@@ -48,19 +45,18 @@ class ModalEditSpecialty extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            // let objectUrl = URL.createObjectURL(file);
             this.setState({
                 imageBase64: base64,
             });
         }
-        };
+    };
 
     handleEditorChange = ({ html, text }) => {
         this.setState({
             descriptionHTML: html,
             descriptionMarkdown: text,
         });
-        }
+    }
 
     handleSaveSpecialty = async () => {
         await this.props.editSpecialty(this.state)

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
-import MarkdownIt from 'markdown-it';
 import 'react-markdown-editor-lite/lib/index.css';
 import * as actions from '../../../store/actions';
 import './ManageSpecialty.scss';
@@ -32,23 +31,23 @@ class ManageSpecialty extends Component {
                 dataSpecialty: this.props.allSpecialty,
             });
         }
-        }
+    }
 
     handleDeleteUser = async (id) => {
         await this.props.deleteSpecialty(id)
-        }
+    }
 
     handleAddNewSpecialty = () => {
         this.setState({
             isOpenNewSpecialty: true
         })
-        }
+    }
       
     toggleSpecialtyModal = () => {
-            this.setState({
-                isOpenNewSpecialty: !this.state.isOpenNewSpecialty,
-            })
-        }
+        this.setState({
+            isOpenNewSpecialty: !this.state.isOpenNewSpecialty,
+        })
+    }
         
     handleEditSpecialty = (specialty) => {
         this.setState({
@@ -56,13 +55,13 @@ class ManageSpecialty extends Component {
         })
 
         this.setState({currentSpecialty: specialty})
-        }
+    }
         
     toggleSpecialtyModalEdit = () => {
-            this.setState({
-                isOpenEditSpecialty: !this.state.isOpenEditSpecialty,
-            })
-        }
+        this.setState({
+            isOpenEditSpecialty: !this.state.isOpenEditSpecialty,
+        })
+    }
 
     handleNextPage = () => {
         const { endIndex } = this.state;
@@ -73,7 +72,7 @@ class ManageSpecialty extends Component {
             startIndex: endIndex + 1,
             endIndex: newEndIndex,
         });
-        };
+    };
 
     handlePrevPage = () => {
         const { startIndex } = this.state;
@@ -84,7 +83,7 @@ class ManageSpecialty extends Component {
             startIndex: newStartIndex,
             endIndex: newEndIndex,
         });
-        };
+    };
 
     render() {
         let {dataSpecialty, startIndex, endIndex} = this.state
@@ -102,7 +101,6 @@ class ManageSpecialty extends Component {
                 <ModalAddNewSpecialty
                     isOpenModal = {this.state.isOpenNewSpecialty}
                     toggle = {this.toggleSpecialtyModal}
-                    handleSaveUser = {this.handleSaveSpecialty}
                 />
                 }
 
@@ -155,7 +153,7 @@ class ManageSpecialty extends Component {
                                                 <i className="fas fa-trash"></i>
                                             </button>
                                         </td>
-                                </tr>
+                                    </tr>
                                 )
                             })}
                         </tbody>

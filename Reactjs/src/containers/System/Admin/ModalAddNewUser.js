@@ -34,7 +34,6 @@ class ModalAddNewUser extends Component {
             action: '',
             userEditId: '',
         };
-
     }
 
     componentDidMount() {
@@ -141,7 +140,6 @@ class ModalAddNewUser extends Component {
     }
     return isValid;
     };
-    
 
     onChangeInput = (event, id) => {
         let copyState = {...this.state}
@@ -158,17 +156,8 @@ class ModalAddNewUser extends Component {
         let positions = this.state.positionArr;
         let language = this.props.language;
 
-        let {
-            email,
-            password,
-            firstName,
-            lastName,
-            phoneNumber,
-            address,
-            gender,
-            role,
-            position
-          } = this.state;
+        let { email, password, firstName, lastName, phoneNumber,
+            address, gender, role, position } = this.state;
         return (
           <Modal
             isOpen={this.props.isOpenModal}
@@ -255,6 +244,20 @@ class ModalAddNewUser extends Component {
                     </div>
                     <div className='col-3'>
                         <label><FormattedMessage id="manage-user.position"/></label>
+                        {role === 'R1' || role === 'R3' || role === 'R4' ?
+                         <select className="form-control"
+                         onChange={(event)=>{this.onChangeInput(event, 'position')}}
+                         value={position}
+                            >
+                                {positions && positions.length > 0 && positions.map((item, index) => {
+                                    return (
+                                        <option key = {index} value={item.keyMap[0]}>
+                                            {language === LANGUAGES.VI ? item.valueVi: item.valueEn}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                            :
                             <select className="form-control"
                                 onChange={(event)=>{this.onChangeInput(event, 'position')}}
                                 value={position}
@@ -267,6 +270,7 @@ class ModalAddNewUser extends Component {
                                     )
                                 })}
                             </select>
+                            }
                     </div>
                     <div className='col-3'>
                         <label><FormattedMessage id="manage-user.image"/></label>

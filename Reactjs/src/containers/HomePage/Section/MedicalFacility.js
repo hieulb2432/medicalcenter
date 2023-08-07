@@ -37,7 +37,7 @@ class MedicalFacility extends Component {
           dataClinic: resClinic.listClinic,
           listProvince: dataProvince ? dataProvince : []
       })
-  }
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshots) {}

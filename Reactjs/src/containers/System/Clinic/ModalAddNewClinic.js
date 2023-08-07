@@ -60,6 +60,7 @@ class ModalAddNewClinic extends Component {
         }
         return result
     }
+
     checkValidateInput = () => {
         let isValid = true;
         let arrCheck = [
@@ -76,7 +77,7 @@ class ModalAddNewClinic extends Component {
             }
         }
         return isValid;
-        };
+    };
 
     handleOnChangeInput = (event, id) => {
         let stateCopy = {...this.state}
@@ -84,30 +85,29 @@ class ModalAddNewClinic extends Component {
         this.setState({
             ...stateCopy
         })
-        }
+    }
 
     handleOnChangeImage = async (event) => {
         let data = event.target.files;
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            // let objectUrl = URL.createObjectURL(file);
             this.setState({
                 imageBase64: base64,
             });
         }
-        };
+    };
     
     handleEditorChange = ({ html, text }) => {
         this.setState({
             descriptionHTML: html,
             descriptionMarkdown: text,
         });
-        }
+    }
 
     handleChangeSelectDoctorInfor = (selectedOption) => {
         this.setState({ selectedProvince: selectedOption });
-        };
+    };
 
     handleSaveClinic = async () => {
         await this.props.fetchCreateNewClinic(this.state)

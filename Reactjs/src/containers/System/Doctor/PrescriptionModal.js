@@ -51,7 +51,6 @@ class PrescriptionModal extends Component {
             })}
     }
 
-
     componentDidUpdate(prevProps, prevState, snapshots) {
         if(this.props.dataPrescriptionModal !== prevProps.dataPrescriptionModal){
             this.setState({
