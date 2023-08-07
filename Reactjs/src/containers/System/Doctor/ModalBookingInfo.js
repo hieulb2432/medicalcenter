@@ -58,7 +58,7 @@ class ModalBookingInfo extends Component {
     }
 
     render() {
-        const { isOpen, toggle, bookingData, doctorId, date, timeType, } = this.props;
+        const { toggle } = this.props;
         const {patientInfor} = this.state;
         return (
           <Modal

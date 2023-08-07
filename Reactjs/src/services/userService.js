@@ -32,8 +32,8 @@ export const getAllCodeService = (inputType) => {
   return axios.get(`/api/allcode?type=${inputType}`);
 }
 
-export const getTopDoctorHomeService = (limit) => {
-  return axios.get(`/api/top-doctor-home?limit=${limit}`);
+export const getTopDoctorHomeService = () => {
+  return axios.get(`/api/top-doctor-home`);
 };
 
 export const getAllDoctorsService = () => {
@@ -54,10 +54,6 @@ export const saveBulkSchecduleDoctorService = (data) => {
 
 export const getScheduleDoctorByDateService = (doctorId, date) => {
   return axios.get(`/api/get-schedue-doctor-by-date?doctorId=${doctorId}&date=${date}`);
-};
-
-export const getExtraInforDoctorsService = (doctorId) => {
-  return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`);
 };
 
 export const getProfileDoctorByIdService = (doctorId) => {

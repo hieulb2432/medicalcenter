@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import {handleLoginApi} from '../../services/userService';
 import login_image from '../../assets/Login/login_image.png';
 import _ from 'lodash';
-import { KeyCodeUtils, LanguageUtils, USER_ROLE } from "../../utils";
+import { USER_ROLE } from "../../utils";
 
 class Login extends Component {
     constructor(props) {
@@ -47,7 +47,7 @@ class Login extends Component {
                 })
             }
             if(data && data.errCode === 0) {
-                let {userInfo, navigate} = this.props;
+                let {navigate} = this.props;
             let redirectPath = '';
                 let role = data.user.roleId;
                 if(role === USER_ROLE.ADMIN) {
@@ -107,7 +107,7 @@ class Login extends Component {
       };
 
     render() {
-        const { username, password, isShowPassword, errMessage } = this.state;
+        const {errMessage } = this.state;
         return (
             <div className="login-background">
                 <div className='content-left'>

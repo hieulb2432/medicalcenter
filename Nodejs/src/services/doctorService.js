@@ -4,11 +4,10 @@ import _ from 'lodash';
 import emailService from '../services/emailService'
 const { Op } = require("sequelize");
 
-let getTopDoctorHome = (limitInput) => {
+let getTopDoctorHome = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let users = await db.User.findAll({ 
-                limit: limitInput,
                 where: {roleId: 'R2'},
                 order: [['createdAt', 'DESC']],
                 attributes: {
@@ -66,7 +65,6 @@ let checkRequiredFields = (inputData) => {
     'contentMarkdown',
     'action',
     'selectedPrice',
-    // 'note',
     'specialtyId',
   ];
   let isValid = true;
@@ -202,7 +200,6 @@ let bulkCreateSchedule = (data) => {
         if(schedule && schedule.length > 0) {
           schedule = schedule.map(item => {
             return item;
-
           })
         }
 
@@ -309,46 +306,6 @@ let getScheduleByDate = (doctorId, date) => {
   })
 }
 
-let getExtraInforDoctorById = (doctorId) => {
-  return new Promise(async(resolve, reject) => {
-    try{
-      if(!doctorId){
-        resolve({
-          errCode: 1,
-          errMessage: 'Missing required parameters'
-        })
-      } else {
-        let data = await db.Doctor_Infor.findOne({
-          where: {
-            doctorId:doctorId,
-          },
-          attributes: {
-            exclude: ['doctorId', 'id']
-          },
-          include: [
-            {
-              model: db.Allcode,
-              as: 'priceTypeData',
-              attributes: ['valueEn', 'valueVi'],
-            },
-          ],
-          raw: false,
-          nest: true,
-        })
-
-      if (!data) data = {};
-      
-      resolve({
-          errCode: 0,
-          data: data,
-        });
-      }
-    } catch(e){
-      reject(e)
-    }
-  })
-}
-
 let getProfileDoctorById = (doctorId) => {
   return new Promise(async(resolve, reject) => {
     try {
@@ -379,7 +336,6 @@ let getProfileDoctorById = (doctorId) => {
               include: [
                 {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
                 {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
-                // {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
               ]
             },
           ],
@@ -996,7 +952,6 @@ module.exports = {
     getDetailDoctorById: getDetailDoctorById,
     bulkCreateSchedule: bulkCreateSchedule,
     getScheduleByDate: getScheduleByDate,
-    getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
     getListPatientForDoctor: getListPatientForDoctor,
     getListSuccessPatient: getListSuccessPatient,

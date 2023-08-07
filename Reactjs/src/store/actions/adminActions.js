@@ -4,7 +4,6 @@ import {getAllCodeService, createNewUserService,
   getTopDoctorHomeService, getAllDoctorsService,
   saveDetailDoctorService, getAllSpecialtyService, createNewSpecialty, handleDeleteSpecialty, handleEditSpecialty,
   getAllClinicService, handleDeleteClinic, handleEditClinic, createNewClinic,
-  getListPatientForOneDoctorService
 } from '../../services/userService';
 import { toast } from 'react-toastify';
 
@@ -196,7 +195,7 @@ export const editUserFailed = () => ({
 export const fetchTopDoctor = () => {
     return async (dispatch) => {
       try {
-        let res = await getTopDoctorHomeService('');
+        let res = await getTopDoctorHomeService();
         if (res && res.errCode === 0) {
           dispatch({
             type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
@@ -290,12 +289,10 @@ export const fetchAllScheduleTime = () => {
     return async (dispatch) => {
       try {
         let resPrice = await getAllCodeService('PRICE');
-        let resPayment = await getAllCodeService('PAYMENT');
         let resProvince = await getAllCodeService('PROVINCE');
         let resSpecialty = await getAllSpecialtyService();
         let resClinic = await getAllClinicService();
         if (resPrice && resPrice.errCode === 0
-            && resPayment && resPayment.errCode === 0
             && resProvince && resProvince.errCode === 0
             && resSpecialty && resSpecialty.errCode === 0
             && resClinic && resClinic.errCode === 0
@@ -303,7 +300,6 @@ export const fetchAllScheduleTime = () => {
               let data = {
                 resPrice: resPrice.data,
                 resProvince: resProvince.data,
-                resPayment: resPayment.data,
                 resSpecialty: resSpecialty.data,
                 resClinic: resClinic.data,
               }

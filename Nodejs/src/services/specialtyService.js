@@ -96,8 +96,6 @@ let getDetailSpecialtyById = (inputId, location, clinicId) => {
             errMessage: 'OK',
             data
           })
-
-
       }
     } catch(e) {
       reject(e)

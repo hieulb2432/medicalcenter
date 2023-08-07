@@ -124,6 +124,7 @@ class DoctorSchedule extends Component {
             }
             return newArr;
     }
+
     handleOnChangeSelect = async (event) => {
         if(this.props.doctorIdFromParent && this.props.doctorIdFromParent !== -1){
             let doctorId = this.props.doctorIdFromParent
@@ -166,6 +167,7 @@ class DoctorSchedule extends Component {
                 allAvailableTime: res.dataAvailable,
                 allFreezeTime: res.dataFreeze ? res.dataFreeze : [],
             })
+
         this.setState({
             isOpenModalBooking: false,
         })
@@ -194,12 +196,6 @@ class DoctorSchedule extends Component {
                     </div>
                 
                     <div className='all-available-time'>
-                            {/* <div className='text-calendar'>
-                                <span>
-                                    <i className="fas fa-calendar-alt"></i>
-                                    <FormattedMessage id="patient.detail-doctor.schedule" />
-                                </span>
-                            </div> */}
                             <div className='time-content'>
                                 {allFreezeTime && allFreezeTime.length > 0 || allAvailableTime && allAvailableTime.length > 0 ?
                                 <>
@@ -228,7 +224,6 @@ class DoctorSchedule extends Component {
                                                 <button 
                                                     className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'} 
                                                     key={index}
-                                                    // onClick={() =>this.handleClickScheduleTime(item)}
                                                 >
                                                     {timeDisplay}
                                                 </button>
