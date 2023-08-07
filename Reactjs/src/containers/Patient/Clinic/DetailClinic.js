@@ -5,15 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../../utils';
 import './DetailClinic.scss'
 import HomeHeader from '../../HomePage/HomeHeader';
-import DoctorSchedule from '../Doctor/DoctorSchedule';
-import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
-import ProfileDoctor from '../Doctor/ProfileDoctor';
 import HomeFooter from '../../HomePage/HomeFooter';
 import { getDetailClinicByIdService, getAllSpecialtyService } from '../../../services/userService';
 import _ from 'lodash';
-import Slider from 'react-slick';
-const MarkdownIt = require('markdown-it');
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class DetailClinic extends Component {
     constructor(props) {
@@ -72,7 +66,6 @@ class DetailClinic extends Component {
     render() {
         let {arrDoctorId, dataDetailClinic, dataSpecialty } = this.state
         let {language} = this.props
-        const { item } = this.props;
         return (
             <div className='detail-clinic-container'>
             <HomeHeader isShowBanner={false}/>

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-// import { emitter } from '../../../utils/emitter';
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
@@ -121,7 +119,6 @@ class ModalAddNewClinic extends Component {
     render() {
         const { toggle, language } = this.props;
         let {listProvince, selectedProvince} = this.state;
-        console.log(this.state);
         return (
           <Modal
             isOpen={this.props.isOpenModal}

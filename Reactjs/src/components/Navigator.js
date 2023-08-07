@@ -37,9 +37,6 @@ class Menu extends Component {
                             aria-expanded={"false"}
                         >
                             <FormattedMessage id={name} />
-                            {/* <div className="icon-right">
-                                <i className="fas fa-angle-right"></i>
-                            </div> */}
                         </span>
                         <div>
                             <ul className="sub-menu-list list-unstyled">

@@ -5,8 +5,6 @@ import './MedicalRecordModal.scss'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import _ from 'lodash';
 import moment from 'moment';
-import {getAllCodeService, getMedicalRecord} from '../../../services/userService';
-import {CommonUtils, LANGUAGES} from '../../../utils'
 import './Prescription.scss';
 
 class MedicalRecordModal extends Component {

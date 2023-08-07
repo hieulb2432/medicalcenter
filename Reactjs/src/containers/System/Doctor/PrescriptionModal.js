@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
@@ -141,7 +140,6 @@ class PrescriptionModal extends Component {
     render() {
         let {isOpenModal, closePrescriptionModal, dataPrescriptionModal, language} = this.props;
         let { data, listDrug } = this.state;
-        console.log('this.state', this.state)
         let formattedDate = moment.unix(+dataPrescriptionModal.date / 1000).format('DD/MM/YYYY')
         return (
             <Modal 

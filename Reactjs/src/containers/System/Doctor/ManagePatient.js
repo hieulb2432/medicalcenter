@@ -214,7 +214,6 @@ class ManagePatient extends Component {
         } = this.state
         let {currentDate} = this.state
         let {language} = this.props
-        console.log("language", dataPrescriptionModal)
         return (
             <div className='col-10'>
             <LoadingOverlay

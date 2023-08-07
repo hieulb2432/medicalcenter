@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
 import TableManageUser from './TableManageUser';
 import ModalAddNewUser from './ModalAddNewUser';
 import ModalEditUser from './ModalEditUser';
-import '../../System/UserManage.scss';
-import { toast } from 'react-toastify';
+import './UserManage.scss';
 
 class UserRedux extends Component {
 

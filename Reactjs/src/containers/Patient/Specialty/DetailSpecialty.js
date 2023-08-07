@@ -5,7 +5,6 @@ import { LANGUAGES } from '../../../utils';
 import './DetailSpecialty.scss'
 import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
-// import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import HomeFooter from '../../HomePage/HomeFooter';
 import { getDetailSpecialtyByIdService, getAllCodeService } from '../../../services/userService';
@@ -104,11 +103,6 @@ class DetailSpecialty extends Component {
                                                 doctorIdFromParent={item}
                                         />
                                     </div>
-                                    {/* <div className="doctor-extra-infor">
-                                        <DoctorExtraInfor 
-                                                doctorIdFromParent={item} 
-                                        />
-                                    </div> */}
                                 </div>  
                             </div>
                         )

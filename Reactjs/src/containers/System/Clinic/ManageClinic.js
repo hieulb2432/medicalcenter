@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import * as actions from '../../../store/actions';
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { toast } from 'react-toastify';
-import {CommonUtils} from '../../../utils'
 import './ManageClinic.scss';
 import ModalAddNewClinic from './ModalAddNewClinic';
 import ModalEditClinic from './ModalEditClinic';
-
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageClinic extends Component {
     constructor(props) {
@@ -91,7 +85,6 @@ class ManageClinic extends Component {
     render() {
         let {dataClinic, startIndex, endIndex} = this.state
         let {language} = this.props
-        console.log(dataClinic)
         return (
             <div>
                 <div className="clinic-top mr-3 ml-3" style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -106,7 +99,6 @@ class ManageClinic extends Component {
                 <ModalAddNewClinic
                     isOpenModal = {this.state.isOpenNewClinic}
                     toggle = {this.toggleClinicModal}
-                    // handleSaveUser = {this.handleSaveClinic}
                 />
                 }
 

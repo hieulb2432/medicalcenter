@@ -180,6 +180,13 @@ class SearchHistory extends Component {
         let res = await getBookingCancelForPatient(item.id)
         if (res && res.errCode === 0) {
           toast.success('Hủy lịch khám thành công!');
+          let resHistory = await getAllHistorySchedule(this.state.email, this.state.dataHistoryCode);
+          let data = resHistory.data;
+          data.patientData = data.patientData.sort((a, b) => +a.date - +b.date).reverse()
+            this.setState({
+              dataHistory: data,
+              isOpenHistory: true
+            });
         } else {
           toast.error('Lỗi')
         }
@@ -280,7 +287,6 @@ class SearchHistory extends Component {
                                           <th>Bác sĩ</th>
                                           <th>Chuyên khoa</th>
                                           <th>Cở sở y tế</th>
-                                          <th>Trạng thái lịch</th>
                                           <th>Thao tác</th>
                                       </tr>
                                       {dataHistory.patientData && dataHistory.patientData.length > 0? 
@@ -294,7 +300,6 @@ class SearchHistory extends Component {
                                           <td>{item.doctorDataUser.lastName} {item.doctorDataUser.firstName}</td>
                                           <td>{item.doctorDataUser.Doctor_Infor.specialtyData.name}</td>
                                           <td>{item.doctorDataUser.Doctor_Infor.clinicData.name}</td>
-                                          <td>{item.statusIdData.valueVi}</td>
                                           {item.statusId === 'S1' || item.statusId === 'S2' ? (
                                             <td style={{ textAlign: 'center' }}>
                                               <Button onClick={() => this.handleCancel(item)}>Hủy lịch</Button>

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
-// import './TestModal.scss'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import _ from 'lodash';
 import moment from 'moment';
-import {getAllCodeService, getMedicalRecord} from '../../../services/userService';
-import {CommonUtils, LANGUAGES} from '../../../utils'
 
 class TestModal extends Component {
     constructor(props) {

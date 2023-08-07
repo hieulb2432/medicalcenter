@@ -84,7 +84,6 @@ class ProfileDoctor extends Component {
         let {language, isShowDescriptionDoctor, 
             dataTime, isShowLinkDetail, isShowPrice,
             doctorId} = this.props
-            console.log(dataProfile)
         let nameVi, nameEn
         if(dataProfile && dataProfile.positionData) {
             nameVi = `${dataProfile.positionData?.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;

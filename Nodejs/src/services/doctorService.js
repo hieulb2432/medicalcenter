@@ -59,35 +59,6 @@ let getAllDoctors = () => {
   })
 }
 
-let getOneDoctor = (inputId) => {
-  return new Promise (async(resolve, reject) => {
-    try {
-      if(!inputId){
-        resolve({
-          errCode: 1,
-          errMessage: 'id is null'
-        })
-      } else {
-        let doctor = await db.User.findOne({
-          where: {
-            roleId: 'R2',
-            id: inputId
-          },
-          attributes: {
-            exclude: ['password', 'image'],
-          },
-        })
-        resolve({
-          errCode: 0,
-          data: doctor
-        })
-      }
-    } catch (e) {
-        reject(e);
-    }
-  })
-}
-
 let checkRequiredFields = (inputData) => {
   let arr = [
     'doctorId',
@@ -1021,7 +992,6 @@ let getTestResult = (bookingId) => {
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
-    getOneDoctor: getOneDoctor,
     saveDetailInforDoctor: saveDetailInforDoctor,
     getDetailDoctorById: getDetailDoctorById,
     bulkCreateSchedule: bulkCreateSchedule,

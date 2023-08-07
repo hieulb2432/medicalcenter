@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { getTest } from '../../../services/userService';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import LoadingOverlay from 'react-loading-overlay'
 import DatePicker from '../../../components/Input/DatePicker';
 import './ManageTest.scss'
 import Select from 'react-select';

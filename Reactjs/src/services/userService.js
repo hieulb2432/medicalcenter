@@ -40,10 +40,6 @@ export const getAllDoctorsService = () => {
   return axios.get(`/api/get-all-doctors`);
 };
 
-export const getOneDoctorService = (id) => {
-  return axios.get(`/api/get-one-doctor?id=${id}`);
-};
-
 export const saveDetailDoctorService = (data) => {
   return axios.post('/api/save-infor-doctor', data);
 };
