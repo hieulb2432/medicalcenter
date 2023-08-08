@@ -3,7 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
   isLoggedIn: false,
   userInfo: null,
-  clinicId: 0
+  clinicId: null
 };
 
 const userReducer = (state = initialState, action) => {

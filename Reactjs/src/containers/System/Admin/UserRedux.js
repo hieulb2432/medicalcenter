@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import 'react-image-lightbox/style.css';
-import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils'
 import * as actions from '../../../store/actions'
 import TableManageUser from './TableManageUser';
 import ModalAddNewUser from './ModalAddNewUser';

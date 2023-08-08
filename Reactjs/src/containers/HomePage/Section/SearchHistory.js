@@ -176,7 +176,7 @@ class SearchHistory extends Component {
       const currentTime = currentTimeDate.valueOf();
       const differenceInMinutes = (timestamp - currentTime) / (1000 * 60);
     
-      if (differenceInMinutes > 15) {
+      if (differenceInMinutes > 30) {
         let res = await getBookingCancelForPatient(item.id)
         if (res && res.errCode === 0) {
           toast.success('Hủy lịch khám thành công!');

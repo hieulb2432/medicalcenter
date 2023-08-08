@@ -87,7 +87,11 @@ class Login extends Component {
                     navigate(`${redirectPath}`)
                 }
                 if(role === USER_ROLE.DOCTOR) {
-                    redirectPath = '/system/manage-schedule';
+                    redirectPath = '/doctor/manage-schedule';
+                    navigate(`${redirectPath}`)
+                }
+                if(role === USER_ROLE.TESTSTAFF) {
+                    redirectPath = '/teststaff/manage-test';
                     navigate(`${redirectPath}`)
                 }
             } 

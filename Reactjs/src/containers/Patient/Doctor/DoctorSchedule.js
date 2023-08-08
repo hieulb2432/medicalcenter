@@ -162,6 +162,7 @@ class DoctorSchedule extends Component {
     }
 
     closeBookingModal = async () => {
+        console.log(this.state.currentDay)
         let res = await getScheduleDoctorByDateService(this.props.doctorIdFromParent, this.state.currentDay)
             this.setState({
                 allAvailableTime: res.dataAvailable,

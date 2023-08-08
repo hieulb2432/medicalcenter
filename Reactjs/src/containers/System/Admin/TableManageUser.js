@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './TableManageUser.scss';
-import {LANGUAGES, CRUD_ACTION, CommonUtils} from '../../../utils';
+import {LANGUAGES} from '../../../utils';
 import {getFilterUser, getAllCodeService} from '../../../services/userService'
 import _ from 'lodash';
 
