@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import DatePicker from '../../../components/Input/DatePicker'
-import {getAllSuccessPatientService} from '../../../services/userService'
+import {getAllSuccessPatientService, getMedicalRecord} from '../../../services/userService'
 import './ManageSuccessPatient.scss'
 import moment from 'moment';
+import MedicalRecordModal from './MedicalRecordModal';
 import { LANGUAGES } from '../../../utils';
 
 class ManageSuccessPatient extends Component {
@@ -12,7 +13,9 @@ class ManageSuccessPatient extends Component {
         super(props);
         this.state = {
             currentDate: moment(new Date()).startOf('day').valueOf(),
-            dataPatient: []
+            dataPatient: [],
+            dataMedicalRecord: {},
+            isOpenMedicalRecord: false,
         }
     }
 
@@ -48,9 +51,23 @@ class ManageSuccessPatient extends Component {
         })
     }
 
+    handelBtnMedical = async (item) => {
+        let dataMedicalRecord = await getMedicalRecord(item.patientId)
+        this.setState({
+            isOpenMedicalRecord: true,
+            dataMedicalRecord: dataMedicalRecord
+        })
+    }
+
+    closeMedicalRecord = () => {
+        this.setState({
+            isOpenMedicalRecord: false,
+        })
+    }
 
     render() {
-        let {dataPatient} = this.state
+        let {dataPatient, isOpenMedicalRecord, dataMedicalRecord} = this.state
+        console.log(dataPatient)
         let {currentDate} = this.state
         let {language} = this.props
         return (
@@ -80,6 +97,7 @@ class ManageSuccessPatient extends Component {
                                     <th><label><FormattedMessage id="manage-schedule.email"/></label></th>
                                     <th><label><FormattedMessage id="manage-schedule.phone"/></label></th>
                                     <th><label><FormattedMessage id="manage-schedule.address"/></label></th>
+                                    <th>Thao tác</th>
                                 </tr>
                                 {dataPatient && dataPatient.length > 0 ? 
                                     dataPatient.map((item, index) => {
@@ -93,6 +111,11 @@ class ManageSuccessPatient extends Component {
                                         <td>{item.patientData.email}</td>
                                         <td>{item.patientData.phoneNumber}</td>
                                         <td>{item.patientData.address}</td>
+                                        <td><button className='btn btn-primary mr-3'
+                                                onClick={() => this.handelBtnMedical(item)}
+                                            >Xem hồ sơ bệnh án
+                                            </button>
+                                        </td>
                                     </tr>
                                     )
                                 })
@@ -110,6 +133,11 @@ class ManageSuccessPatient extends Component {
                     </div>
                     </div>
                 </div>                
+                <MedicalRecordModal
+                    isOpenModal= {isOpenMedicalRecord}
+                    dataMedicalRecord={dataMedicalRecord}
+                    closeMedicalRecord={this.closeMedicalRecord}
+                />
             </div>
         );
     }

@@ -17,7 +17,7 @@ class DoctorSchedule extends Component {
             allFreezeTime: [],
             isOpenModalBooking: false,
             dataScheduleTimeModal: {},
-            currentDay: ''
+            currentDay: '',
         }
     }
 

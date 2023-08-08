@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Doctor_Infor.belongsTo(models.User, {foreignKey: 'doctorId'});
       Doctor_Infor.belongsTo(models.Allcode, {foreignKey: 'priceId', targetKey: 'keyMap', as: 'priceTypeData'});
-      Doctor_Infor.belongsTo(models.Allcode, {foreignKey: 'provinceId', targetKey: 'keyMap', as: 'provinceTypeData'});
+      // Doctor_Infor.belongsTo(models.Allcode, {foreignKey: 'provinceId', targetKey: 'keyMap', as: 'provinceTypeData'});
       Doctor_Infor.belongsTo(models.Clinic, {foreignKey: 'clinicId', targetKey: 'id', as: 'clinicData'});
       Doctor_Infor.belongsTo(models.Specialty, {foreignKey: 'specialtyId', targetKey: 'id', as: 'specialtyData'});
     }
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     clinicId: DataTypes.INTEGER,
     doctorId: DataTypes.INTEGER,
     priceId: DataTypes.STRING,
-    provinceId: DataTypes.STRING,
+    // provinceId: DataTypes.STRING,
     contentHTML: DataTypes.TEXT('long'),
     contentMarkdown: DataTypes.TEXT('long'),
     description: DataTypes.TEXT('long'),
