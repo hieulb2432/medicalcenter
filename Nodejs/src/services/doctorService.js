@@ -3,6 +3,7 @@ require('dotenv').config();
 import _ from 'lodash';
 import emailService from '../services/emailService'
 const { Op } = require("sequelize");
+import moment from 'moment';
 
 let getTopDoctorHome = () => {
     return new Promise(async (resolve, reject) => {
@@ -539,8 +540,38 @@ let getScheduleCancel = (doctorId, date, timeType) => {
           raw: false,
         });
 
-        if(userBookingInfor1.statusId === 'S1' || userBookingInfor1.statusId === 'S2') {
-          userBookingInfor1.statusId = 'S5';
+        const timeTypeToHourMap = {
+          T1: 8,
+          T2: 9,
+          T3: 10,
+          T4: 11,
+          T5: 13,
+          T6: 14,
+          T7: 15,
+          T8: 16,
+        };
+        const startTimeHour = timeTypeToHourMap[timeType];
+        const timezoneOffset = 7 * 60;
+        const dateConvert = moment.unix(+date/1000).utcOffset(timezoneOffset);
+        const currentDay = dateConvert.date(); 
+        const currentMonth = dateConvert.month() + 1;
+        const currentYear = dateConvert.year(); 
+        
+  
+        // Chuỗi định dạng giờ mới
+        const startTime = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}T${startTimeHour}:00`;
+        const timezone = 'Asia/Bangkok';
+        const startTimeObject = moment.tz(startTime, 'YYYY-MM-DDTHH:mm', timezone);
+        const timestamp = startTimeObject.valueOf();
+
+        const currentTimeDate = moment();
+        const currentTime = currentTimeDate.valueOf();
+        const differenceInMinutes = (timestamp - currentTime) / (1000 * 60);
+        console.log(differenceInMinutes)
+
+
+        if((differenceInMinutes>60 && userBookingInfor1.statusId === 'S1') ||(differenceInMinutes>60 &&  userBookingInfor1.statusId === 'S2')) {
+          // userBookingInfor1.statusId = 'S5';
           await userBookingInfor1.save();
           let userEmail = await db.User.findOne({
             where: {
@@ -549,11 +580,18 @@ let getScheduleCancel = (doctorId, date, timeType) => {
             raw: true
           })
           await emailService.sendCancelEmail(userBookingInfor1, userEmail.email)
-        } 
-        resolve({
-          errCode: 0,
-          data1: userBookingInfor1,
-        })
+          resolve({
+            errCode: 0,
+          });
+        } else {
+          resolve({
+            errCode: 2,
+          });
+        }
+        // resolve({
+        //   errCode: 0,
+        //   errCode: 2,
+        // })
       }
     } catch (e) {
       reject(e)

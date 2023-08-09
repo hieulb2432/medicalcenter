@@ -24,7 +24,6 @@ class TestModalForStaff extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            let objectUrl = URL.createObjectURL(file);
             this.setState({
                 testImage: base64,
           });
