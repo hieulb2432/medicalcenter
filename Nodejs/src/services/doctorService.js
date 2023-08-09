@@ -335,7 +335,6 @@ let getProfileDoctorById = (doctorId) => {
               }, 
               include: [
                 {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
-                // {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
               ]
             },
           ],
@@ -529,24 +528,12 @@ let getScheduleCancel = (doctorId, date, timeType) => {
           errMessage: 'Missing required parameters'
         })
       } else {
-        // const quaterHour = 15 * 60 * 1000
         let userBookingInfor1 = await db.Booking.findOne({
           where: {
             doctorId: doctorId,
             date: date,
             timeType: timeType,
-            statusId: ['S2','S3','S1'],
-          },
-          order: [['createdAt', 'DESC']],
-          raw: false,
-        });
-
-        let userBookingInfor2 = await db.Booking.findOne({
-          where: {
-            doctorId: doctorId,
-            date: date,
-            timeType: timeType,
-            statusId: ['S4'],
+            statusId: ['S2','S1'],
           },
           order: [['createdAt', 'DESC']],
           raw: false,
@@ -562,14 +549,10 @@ let getScheduleCancel = (doctorId, date, timeType) => {
             raw: true
           })
           await emailService.sendCancelEmail(userBookingInfor1, userEmail.email)
-        } else if (userBookingInfor2.statusId === 'S4') {
-          userBookingInfor2.statusId = 'S5';
-          await userBookingInfor2.save();
         } 
         resolve({
           errCode: 0,
           data1: userBookingInfor1,
-          data2: userBookingInfor2,
         })
       }
     } catch (e) {
